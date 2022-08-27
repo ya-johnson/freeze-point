@@ -1,0 +1,434 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  /* Global */
+
+  body {
+    @apply scroll-smooth font-ubuntu 
+         bg-grey-light text-black 
+         dark:bg-black dark:text-grey;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply capitalize font-bold;
+  }
+
+  h1 {
+    @apply text-5xl;
+  }
+
+  h2 {
+    @apply text-4xl;
+  }
+
+  h3 {
+    @apply text-3xl;
+  }
+
+  h4 {
+    @apply text-xl;
+  }
+
+  input {
+    outline: none;
+    @apply border-none;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  .btn {
+    @apply py-2 px-4 border-solid border
+           transition-all duration-500;
+  }
+
+  .icon {
+    @apply cursor-pointer h-10 w-10 p-2
+           rounded-full fill-grey-dark hover:fill-black
+           dark:hover:fill-grey
+           transition-all duration-500;
+  }
+
+  /* Buttons */
+
+  .btn {
+    @apply py-2 px-4 border-solid border
+           transition-all duration-500;
+  }
+
+  .neutral-btn {
+    @apply border-grey-dark bg-grey-light text-grey-dark
+           dark:border-grey-dark dark:bg-black
+           hover:text-black hover:bg-white hover:border-black
+           dark:hover:text-grey-light dark:hover:border-grey-light;
+  }
+
+  .green-btn {
+    @apply border-black bg-black text-grey-light 
+           dark:border-grey-dark dark:bg-black-dark
+           hover:text-black hover:bg-green
+           dark:hover:text-black dark:hover:bg-green dark:hover:border-black-dark;
+  }
+
+  .pink-btn {
+    @apply border-black bg-black text-grey-light 
+           dark:border-grey-dark dark:bg-black-dark
+           hover:text-black hover:bg-pink
+           dark:hover:text-black dark:hover:bg-pink dark:hover:border-black-dark;
+  }
+
+
+  /* Dropdown */
+
+  .dd-wrapper {
+    @apply relative cursor-pointer dark:bg-black dark:border-grey-dark;
+  }
+
+  .dd-close > .dd-list {
+    @apply hidden;
+  }
+
+  .dd-title {
+    @apply flex justify-between items-center space-x-2;
+  }
+
+  .dd-list {
+    @apply absolute top-full left-0 w-full space-y-2 dark:bg-black dark:border-grey-dark;
+  }
+
+  .dd-selected-item {
+    @apply flex items-center px-1;
+  }
+
+  .dd-selected-item-remove {
+    @apply h-6 w-6 ml-1 px-1;
+  }
+
+
+  /* Nav */
+
+  nav {
+    @apply sticky top-0 w-screen bg-grey
+         border-black border-b z-50
+         dark:bg-black-dark dark:border-grey-dark;
+  }
+
+  nav > .container {
+    @apply flex justify-between items-center py-5;
+  }
+
+  .logo {
+    @apply flex items-center space-x-2 
+           mr-10 hover:text-pink
+           transition-all duration-500;
+  }
+
+  .logo > svg {
+    @apply h-10 w-10;
+  }
+
+  .logo > h1 {
+    @apply text-2xl font-medium lowercase;
+  }
+
+  .nav-right{
+    @apply flex items-center space-x-8;
+  }
+
+  .auth-btn {
+    @apply border-black bg-black text-grey-light 
+           dark:border-grey-dark dark:bg-black-dark
+           hover:text-black hover:bg-green
+           dark:hover:text-black dark:hover:bg-green dark:hover:border-black-dark;
+  }
+
+  .logout-btn {
+    @apply text-red;
+  }
+
+
+
+  /* Signin / Register */
+
+  .sign {
+    @apply flex flex-col items-center fixed p-14 mx-0 z-10
+           top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2
+           border-solid border border-black bg-white 
+           dark:border-grey-dark dark:bg-black-dark;
+  }
+  
+  .sign > p {
+    @apply text-base text-grey-dark;
+  }
+  
+  .change-sign {
+    @apply ml-2 text-black dark:text-grey-light;
+  }
+  
+  .sign-close {
+    @apply absolute top-0 right-0 cursor-pointer 
+           h-10 w-10 m-2 
+           hover:fill-red fill-grey-dark
+           dark:hover:fill-red
+           transition-all duration-500;
+  }
+  
+  .register > h2,
+  .login > h2 {
+    @apply text-2xl capitalize mb-10;
+  }
+  
+  .form {
+    @apply w-80 flex flex-col items-center space-y-6 mb-6;
+  }
+  
+  .form > input {
+    @apply bg-grey-light border-grey-dark focus:border-black
+           dark:bg-black dark:border-grey-dark dark:focus:border-grey;
+  }
+  
+  .form > .submit {
+    @apply cursor-pointer capitalize w-min
+           border-black bg-black text-grey-light 
+           dark:border-grey-dark dark:bg-black-dark
+           hover:text-black hover:bg-green
+           dark:hover:text-black dark:hover:bg-green dark:hover:border-black-dark;
+         
+  }
+  
+  .form-err-name > .name {
+    @apply border-red;
+  }
+  
+  .form-err-email > .email {
+    @apply border-red;
+  }
+  
+  .form-err-password > .password {
+    @apply border-red;
+  }
+  
+  .form-err-name-email > .name,
+  .form-err-name-email > .email {
+    @apply border-red;
+  }
+  
+  .form-err-name-password > .name,
+  .form-err-name-password > .password {
+    @apply border-red;
+  }
+  
+  .form-err-email-password > .email, 
+  .form-err-email-password > .password {
+    @apply border-red;
+  }
+  
+  .form-err-name-email-password > .name,
+  .form-err-name-email-password > .email,
+  .form-err-name-email-password > .password {
+    @apply border-red;
+  }
+
+
+  /* Hero */
+
+  .hero {
+    @apply h-[80vh] w-full relative;
+  }
+
+  .hero-content {
+    @apply absolute text-center space-y-2 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2;
+  }
+
+  /* Feed */
+
+  .feed {
+    @apply flex justify-between py-28;
+  }
+
+  .feed-main {
+    @apply grow pr-8
+           border-r border-solid border-black dark:border-grey-dark;
+  }
+
+  .feed-header {
+    @apply flex items-center justify-between pb-8
+           border-solid border-b border-black dark:border-grey-dark;
+  }
+
+  .feed-right {
+    @apply max-w-xs pl-8 py-2 h-96;
+  }
+
+  .feed-right-header {
+    @apply flex items-end justify-between pb-8;
+  }
+
+  .feed-right-header-title {
+    @apply flex items-center space-x-2 text-lg;
+  }
+
+  .feed-right-header-title > svg {
+    @apply h-6 w-6;
+  }
+
+  .feed-main-posts {
+    @apply grid grid-cols-2 gap-10 my-10;
+  }
+
+  .feed-topcics-clear-btn {
+    @apply text-sm;
+  }
+
+  .feed-right-topics {
+    @apply flex flex-wrap gap-4;
+  }
+
+  .feed-right-topics > .btn {
+    @apply py-1 px-2 text-sm;
+  }
+
+
+  /* Dashboard */
+
+  .dashboard {
+    @apply py-20;
+  }
+
+
+  /* Post Card */
+
+  .post-card {
+    @apply flex w-full
+           border border-solid border-black dark:border-grey-dark;
+  }
+
+  .post-card-img {
+    @apply w-36 h-36;
+  }
+
+  .post-card-content {
+    @apply flex flex-col justify-between p-4 w-full
+           border-l border-solid border-black dark:border-grey-dark;
+  }
+
+  .post-card-content-text {
+    @apply h-40 w-full overflow-auto;
+  }
+
+  .post-card-info {
+    @apply flex items-center justify-between;
+  }
+
+  .post-notes {
+    @apply flex items-center space-x-2;
+  }
+
+  .post-notes > div {
+    @apply flex items-center space-x-1 text-grey-dark;
+  }
+
+
+  /* Post */
+
+  .post {
+    @apply my-20 px-28;
+  }
+
+  .post-content {
+    @apply my-8;
+  }
+
+
+  /* Edit Post */
+
+  .post-edit {
+    @apply my-28 py-8 px-6 space-y-8
+           border-solid border border-black dark:border-grey-dark;
+  }
+
+  .post-editor-header {
+    @apply flex justify-between items-center;
+  }
+
+  .post-editor-save-btn {
+    @apply border-black bg-black text-grey-light 
+           dark:border-grey-dark dark:bg-black-dark
+           hover:text-black hover:bg-pink
+           dark:hover:text-black dark:hover:bg-pink dark:hover:border-black-dark;
+  }
+
+  .post-editor-options {
+    @apply flex justify-between items-center space-x-8;
+  }
+
+  .post-editor-title {
+    @apply w-full bg-white border-grey-dark focus:border-black
+          dark:bg-black-dark dark:border-grey-dark dark:focus:border-grey;
+  }
+
+  .rdw-editor-toolbar.post-editor-toolbar {
+    @apply p-4 m-0 dark:bg-black-dark
+           border-solid border border-black dark:border-grey-dark;
+  }
+
+  .rdw-editor-toolbar.post-editor-toolbar .rdw-option-wrapper {
+    @apply h-8 px-4;
+  }
+
+  .rdw-editor-toolbar.post-editor-toolbar .rdw-dropdown-wrapper {
+    @apply h-8 w-28;
+  }
+
+  .rdw-option-wrapper.post-editor-toolbar-icon {
+    @apply  border-solid border border-grey-dark;
+  }
+
+  .post-editor-block {
+    @apply p-4 min-h-[400px]
+           border-solid border-b border-x border-black dark:border-grey-dark;
+  }
+
+
+  /* Footer */
+
+  .footer {
+    @apply py-14 bg-grey border-solid border-t border-black
+         dark:bg-black-dark dark:border-grey-dark;
+  }
+
+  .footer > .container {
+    @apply flex justify-between
+  }
+
+  .footer .logo {
+    @apply space-x-2
+  }
+
+  .footer .logo > h1 {
+    @apply text-lg;
+  }
+
+  .footer .logo > svg {
+    @apply h-8 w-8;
+  }
+
+  .footer-go-top {
+    @apply cursor-pointer flex flex-col p-4 justify-center
+           w-28 h-28 text-lg font-medium
+         bg-black text-grey-light dark:bg-white dark:text-black;
+  }
+
+
+}
