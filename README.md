@@ -49,21 +49,21 @@ NodeJs
    DB=YOUR_MONGODB_KEY
    ```
 
-Note: At the time of develpoment [Vite.js proxy didnt work](https://github.com/vitejs/vite/issues/6102)
+Note: At the time of develpoment [Vite.js proxy didnt work](https://github.com/vitejs/vite/issues/6102). <br/>
       In order to work locally and avoiding CORS you'll need to setup proxy in Node js
       
-      1. Install 'express-http-proxy' in the server directory
-      ```sh
-      $ ~/path_to_project_folder/freeze-point/server
-      $ npm i express-http-proxy
-      ```
+ 1. Install 'express-http-proxy' in the server directory
+   ```sh
+   $ ~/path_to_project_folder/freeze-point/server
+   $ npm i express-http-proxy
+   ```
 
-      2. Setup proxy in server.js (make sure to put as first middleware)
-      ```
-      const proxy = require('express-http-proxy')
+2. Setup proxy in server.js (make sure to put as first middleware)
+   ```
+   const proxy = require('express-http-proxy')
 
-      app.use('/api', proxy('http://localhost:5173'))
-      ```
+   app.use('/api', proxy('http://localhost:5173'))
+   ```
 
 ## Todo
 
