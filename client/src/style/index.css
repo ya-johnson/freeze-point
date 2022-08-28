@@ -44,7 +44,8 @@
     @apply border-none;
   }
 
-  input:focus {
+  input:focus, 
+  textarea:focus {
     outline: none;
   }
 
@@ -340,7 +341,7 @@
   }
 
   .post-notes > div {
-    @apply flex items-center space-x-1 text-grey-dark;
+    @apply flex items-center text-grey-dark;
   }
 
 
@@ -351,8 +352,38 @@
   }
 
   .post-content {
-    @apply my-8;
+    @apply mt-4 mb-14 pb-20 
+           border-b border-solid border-black dark:border-grey-dark;
   }
+
+  .post-inters {
+    @apply space-x-0;
+  }
+
+  .post-notes-wrapper {
+    @apply h-24 flex flex-col justify-between;
+  }
+
+  .post-notes-wrapper > .post-notes {
+    @apply h-full w-full flex items-center justify-center
+           border-solid border-t border-r border-l border-black dark:border-grey-dark;
+  }
+
+  .post-notes-wrapper > .pink-btn {
+    @apply w-40 hover:border-grey-dark dark:border-black;
+  }
+
+  .post-comment {
+    @apply resize-none h-24 w-full p-4 border-solid border-b border-t border-l
+         bg-grey-light border-black dark:bg-black dark:border-grey-dark 
+           transition-all duration-500;
+  }
+
+  .post-comments {
+    @apply grow w-full;
+  }
+
+
 
 
   /* Edit Post */

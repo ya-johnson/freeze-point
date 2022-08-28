@@ -65,26 +65,31 @@ const Post = ({ postId }) => {
         
         <div className="post-content" dangerouslySetInnerHTML={postContent}></div>
 
-        <div className="post-notes">
-          <div className="comments grow">
-            <textarea classname="comment w-full" 
+        <div className="post-notes post-inters">
+          <textarea className="post-comment" 
                       maxLength="200" 
                       onChange={(e => setComment(e.target.value))}
-                      value={comment}
-                      disabled>
-            </textarea>
+                      placeholder="Your comment goes here ...">
+          </textarea>
+
+          <div className="post-notes-wrapper">
+            <div className="post-notes">
+              <div className="post-notes-header-comments">
+                <span>{ post.comments.length }</span>
+                <BiCommentDetail className="icon" onClick={likePost}/>
+              </div>
+              <div className="post-notes-header-likes">
+                <span>{ post.likes.length }</span>
+                <BiUpvote className="icon" onClick={addComment} />
+              </div>
+            </div>
+            <button className="btn pink-btn">Add comment</button>
           </div>
 
-          <div className="post-notes">
-            <div className="post-notes-header-comments">
-              <span>{ post.comments.length }</span>
-              <BiCommentDetail className="icon" onClick={likePost}/>
-            </div>
-            <div className="post-notes-header-likes">
-              <span>{ post.likes.length }</span>
-              <BiUpvote className="icon" onClick={addComment} />
-            </div>
-          </div>
+        </div>
+
+        <div className="post-comments">
+
         </div>
 
       </div> }
