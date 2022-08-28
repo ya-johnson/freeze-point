@@ -161,26 +161,30 @@
 
   /* Signin / Register */
 
-  .sign {
-    @apply flex flex-col items-center fixed p-14 mx-0 z-10
+  .auth {
+    @apply h-full w-full fixed bg-black-dark bg-opacity-50 z-20;
+  }
+
+  .auth-modal {
+    @apply flex flex-col items-center fixed p-14 mx-0 z-40
            top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2
            border-solid border border-black bg-white 
-           dark:border-grey-dark dark:bg-black-dark;
+         dark:border-grey-dark dark:bg-black-dark;
   }
   
-  .sign > p {
+  .auth-modal > p {
     @apply text-base text-grey-dark;
   }
   
-  .change-sign {
+  .change-auth {
     @apply ml-2 text-black dark:text-grey-light;
   }
   
-  .sign-close {
-    @apply absolute top-0 right-0 cursor-pointer 
-           h-10 w-10 m-2 
-           hover:fill-red fill-grey-dark
-           dark:hover:fill-red
+  .auth-close {
+    @apply absolute top-0 right-0 cursor-pointer
+           h-10 w-10 p-2
+         hover:fill-red fill-grey-dark
+         dark:hover:fill-red
            transition-all duration-500;
   }
   

@@ -5,17 +5,14 @@ import { notify } from '../utils'
 
 
 const toggleAuthModal = (e) => {
-  const sign = document.querySelector('.sign').classList
-  sign.contains('hidden') ? sign.remove('hidden') : sign.add('hidden')
-}
+  const target = e.target.classList
+  const auth = document.querySelector('.auth').classList
 
-const exitAuthModal = () => {
-  const root = document.getElementById('root')
-  root.addEventListener('click', e => {
-    if (!e.target.classList.contains('sign')) {
-      document.querySelector('.sign').classList.add('hidden')
-    }
-  })
+  if (auth.contains('hidden')) {
+    auth.remove('hidden')
+  } else if (target.contains('auth-close') || target.contains('auth')) {
+    auth.add('hidden')
+  }
 }
 
 const setAuthHeader = (token) => {
@@ -60,7 +57,6 @@ const login = async (data) => {
 
 export {
   toggleAuthModal,
-  exitAuthModal,
   setAuthHeader,
   register,
   login

@@ -8,40 +8,43 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 const AuthModal = () => {
 
   const user = useUserStore(state => state.user)
-  const [signType, setSignType] = useState('login')
+  const [authType, setAuthType] = useState('login')
 
-  const changeSign = () => {
-    signType === 'login' ? setSignType('register') : setSignType('login')
+  const changeAuth = () => {
+    authType === 'login' ? setAuthType('register') : setAuthType('login')
   }
 
 
   return (
-    <div className={`sign hidden`}>
+    <div className="auth hidden" onClick={e => authService.toggleAuthModal(e)}>
+      <div className={`auth-modal`}>
 
-      <AiOutlineCloseCircle className="icon sign-close" 
-                            onClick={authService.toggleAuthModal} />
+        <AiOutlineCloseCircle className="auth-close" />
+        
 
-      { signType === 'login' ?
-        <>
-          <Login />
-          <p>Dont have an account? 
-            <button className="change-sign" 
-                    onClick={changeSign}>Register
-            </button>
-          </p>
-        </>
-        : 
-        <>
-          <Register />
-          <p>Already have an account? 
-            <button className="change-sign" 
-                    onClick={changeSign}>Sign In
-            </button>
-          </p>
-        </>
-      }
+        { authType === 'login' ?
+          <>
+            <Login />
+            <p>Dont have an account? 
+              <button className="change-auth" 
+                      onClick={changeAuth}>Register
+              </button>
+            </p>
+          </>
+          : 
+          <>
+            <Register />
+            <p>Already have an account? 
+              <button className="change-auth" 
+                      onClick={changeAuth}>Sign In
+              </button>
+            </p>
+          </>
+        }
 
+      </div>
     </div>
+
   )
 }
 

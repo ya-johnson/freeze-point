@@ -39,9 +39,9 @@ const Feed = () => {
     setPostsByTopic(null)
   }
 
-  const createPost = () => {
+  const createPost = (e) => {
     if (!user) {
-      authService.toggleAuthModal()
+      authService.toggleAuthModal(e)
       return
     }
 
@@ -66,7 +66,7 @@ const Feed = () => {
 
               <div className="feed-header-right">
                 <button className="btn pink-btn"
-                        onClick={createPost}>Create Post
+                        onClick={e => createPost(e)}>Create Post
                 </button>
               </div>
 
