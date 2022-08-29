@@ -8,8 +8,12 @@
 
   /* Global */
 
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
-    @apply scroll-smooth font-ubuntu 
+    @apply font-ubuntu 
          bg-grey-light text-black 
          dark:bg-black dark:text-grey;
   }
@@ -344,6 +348,10 @@
     @apply flex items-center text-grey-dark;
   }
 
+  .post-card .post-notes > div {
+    @apply space-x-1;
+  }
+
 
   /* Post */
 
@@ -370,7 +378,7 @@
   }
 
   .post-notes-wrapper > .pink-btn {
-    @apply w-40 hover:border-grey-dark dark:border-black;
+    @apply w-40 dark:border-grey-dark;
   }
 
   .post-comment {
@@ -381,6 +389,15 @@
 
   .post-comments {
     @apply grow w-full;
+  }
+
+  .post-suggestions {
+    @apply py-12 mt-20
+           border-t border-solid border-black dark:border-grey-dark;
+  }
+
+  .post-sugg-wrapper {
+    @apply grid grid-cols-2 gap-10 my-10;
   }
 
 

@@ -20,6 +20,12 @@ const getUserPosts = asyncHandler( async (req, res) => {
   res.status(200).json(userPosts)
 })
 
+const getTopicPosts = asyncHandler( async (req, res) => {
+  const { topic } = req.params
+  const topicPosts = await postService.getTopicPosts(topic)
+  res.status(200).json(topicPosts)
+})
+
 const createPost = asyncHandler( async (req, res) => {
   console.log(req.body)
   const post = await postService.createPost(req.body)
@@ -51,6 +57,7 @@ module.exports = {
   getPosts,
   getPost,
   getUserPosts,
+  getTopicPosts,
   createPost,
   updatePost,
   deletePost,

@@ -20,6 +20,11 @@ const getUserPosts = async (userId) => {
   return userPosts
 }
 
+const getTopicPosts = async (topic) => {
+  const topicPosts = await Post.find({ topic })
+  return topicPosts
+}
+
 const createPost = async (data) => {
   const { userId, title, content, topic } = data
 
@@ -80,6 +85,7 @@ module.exports = {
   getPosts,
   getPostById,
   getUserPosts,
+  getTopicPosts,
   createPost,
   updatePost,
   deletePost,

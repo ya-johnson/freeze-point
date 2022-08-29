@@ -41,6 +41,18 @@ const getUserPosts = async (userId) => {
   }
 }
 
+const getTopicPosts = async (topic) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/posts/topic/${topic}`)
+    const topicPosts = await response.data
+    return topicPosts
+  }
+  catch (err) {
+    console.log(err)
+    toast.error(err.response.data.error, notify.settings)
+  }
+}
+
 const createPost = async (token, data) => {
   console.log( token, data)
   try {
@@ -112,6 +124,7 @@ export {
   getPosts,
   getPost,
   getUserPosts,
+  getTopicPosts,
   createPost,
   updatePost,
   deletePost,

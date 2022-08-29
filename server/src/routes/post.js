@@ -20,6 +20,10 @@ router
   .get(postController.getUserPosts)
 
 router
+  .route('/topic/:topic')
+  .get(postController.getTopicPosts)
+
+router
   .route('/:post')
   .put(requireAuth, postController.updatePost)
   .put(requireAuth, postController.likePost)
