@@ -12,23 +12,27 @@ router
   .post(requireAuth, postController.createPost)
 
 router
-  .route('/post/:postId')
-  .get(postController.getPost)
-
-router
   .route('/:userId')
   .get(postController.getUserPosts)
+
+router
+  .route('/post/:postId')
+  .get(postController.getPost)
+  .put(requireAuth, postController.updatePost)
+  .delete(requireAuth, postController.deletePost)
 
 router
   .route('/topic/:topic')
   .get(postController.getTopicPosts)
 
 router
-  .route('/:post')
-  .put(requireAuth, postController.updatePost)
+  .route('/:postId/likes')
   .put(requireAuth, postController.likePost)
+
+router
+  .route('/:postId/comments')
   .put(requireAuth, postController.commentPost)
-  .delete(requireAuth, postController.deletePost)
+  
 
 
 module.exports = router

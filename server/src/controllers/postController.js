@@ -9,7 +9,6 @@ const getPosts = asyncHandler( async (req, res) => {
 
 const getPost = asyncHandler( async (req, res) => {
   const { postId } = req.params
-  console.log(postId)
   const post = await postService.getPostById(postId)
   res.status(200).json(post)
 })
@@ -27,7 +26,6 @@ const getTopicPosts = asyncHandler( async (req, res) => {
 })
 
 const createPost = asyncHandler( async (req, res) => {
-  console.log(req.body)
   const post = await postService.createPost(req.body)
   res.status(200).json(post)
 })
@@ -43,13 +41,14 @@ const deletePost = asyncHandler( async (req, res) => {
 })
 
 const likePost = asyncHandler( async (req, res) => {
-  const post = await postService.likePost(req.body)
-  res.status(200).json(post)
+  const likes = await postService.likePost(req.body.postId, req.body.userId)
+  res.status(200).json(likes)
 })
 
 const commentPost = asyncHandler( async (req, res) => {
-  const post = await postService.commentPost(req.body.postId, req.body.userId, req.body.comment)
-  res.status(200).json(post)
+  const { postId, userId, username, body } = req.body
+  const comments = await postService.commentPost(postId, userId, username, body)
+  res.status(200).json(comments)
 })
 
 

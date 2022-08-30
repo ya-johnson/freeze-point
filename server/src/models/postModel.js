@@ -2,28 +2,15 @@ const mongoose = require('mongoose')
 const schema = mongoose.Schema
 
 
-const likeSchema = new schema({
-  userId: {
-    type: String
-  }
-})
-
-
-const commentSchema = new schema({
-  userId: {
-    type: String
-  },
-  body: {
-    type: String
-  }
-}, { timestamps: true })
-
-
 const postSchema = new schema({
   
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+    required: true
+  },
+  username: {
+    type: String,
     required: true
   },
   title: {
@@ -38,8 +25,8 @@ const postSchema = new schema({
     type: String,
     required: true
   },
-  likes: [ likeSchema ],
-  comments: [ commentSchema ]
+  likes: [],
+  comments: []
 
 }, { timestamps: true })
 

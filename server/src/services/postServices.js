@@ -26,12 +26,12 @@ const getTopicPosts = async (topic) => {
 }
 
 const createPost = async (data) => {
-  const { userId, title, content, topic } = data
+  const { userId, username, title, content, topic } = data
 
   if (!title || !content) {
     throw Error('All fields must be filled')
   }
-  const post = Post.create({userId, title, content, topic})
+  const post = Post.create({userId, username, title, content, topic})
   return post
 }
 
@@ -55,29 +55,30 @@ const deletePost = async postId => {
 
 const likePost = async (postId, userId) => {
   const post = await getPostById(postId)
-  const like = post.likes.find( like => like === userId )
+  console.log(post.likes)
+  const like = post.likes.find(like => like === userId)
 
   if (like) {
     post.likes.pull(userId)
     await post.save()
-    return post
+    return post.likes
   }
 
   post.likes.push(userId)
   await post.save()
-  return post
+  return post.likes
 }
 
-const commentPost = async (postId, userId, body) => {
+const commentPost = async (postId, userId, username, body) => {
   const post = await getPostById(postId)
 
   if (!body) {
     throw Error('Comment must have content')
   }
 
-  post.comments.push({ userId, body, date: new Date() })
+  post.comments.push({ userId, username, body, date: new Date() })
   await post.save()
-  return post
+  return post.comments
 }
 
 

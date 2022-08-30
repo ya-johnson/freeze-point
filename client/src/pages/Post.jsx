@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'wouter'
+import { toast } from 'react-toastify'
+import { notify } from '../utils'
 import { useUserStore } from '../store'
 import { authService ,postService } from '../services'
 import { createHtml } from '../utils'
@@ -7,22 +9,25 @@ import { Loader, PostCard } from '../componets'
 import { BiUpvote, BiCommentDetail } from 'react-icons/bi'
 
 
-
 const Post = ({ postId }) => {
 
   const user = useUserStore(state => state.user)
+  const [loading, setLoading] = useState(true)
   const [post, setPost] = useState()
   const [postContent, setPostContent] = useState()
   const [comment, setComment] = useState()
+  const [likes, setLikes] = useState()
+  const [comments, setComments] = useState()
   const [userPosts, setUserPosts] = useState()
   const [topicPosts, setTopicPosts] = useState()
-  const [loading, setLoading] = useState(true)
 
   
   const initPage = async () => {
     const post = await postService.getPost(postId)
     setPost(post)
     setPostContent(createHtml(post.content))
+    setLikes(post.likes)
+    setComments(post.comments)
 
     const userPostsData = await postService.getUserPosts(post.userId)
     const userPosts = userPostsData
@@ -39,15 +44,21 @@ const Post = ({ postId }) => {
     setLoading(false)
   }
 
-  const addComment = async (e) => {
+  const commentPost = async (e) => {
     if (!user) {
       authService.toggleAuthModal(e)
       return
     }
 
-    const postRaw = await postService.commentPost(user.token, post._id, {userId: user.id, comment})
-    const post = createHtml(postRaw)
-    setPost(post)
+    if (comment.length < 5) {
+      toast.error('Comment must be at least 5 chracters', notify.settings)
+      return
+    }
+
+    console.log(comment)
+
+    const comments = await postService.commentPost(user.token, post._id, user.id, user.name, comment)
+    setComments(comments)
   }
 
   const likePost = async (e) => {
@@ -56,15 +67,17 @@ const Post = ({ postId }) => {
       return
     }
 
-    const postRaw = await postService.likePost(user.token, post._id)
-    const post = createHtml(postRaw)
-    setPost(post)
+    const likes = await postService.likePost(user.token, post._id, user.id)
+    setLikes(likes)
   }
 
 
   useEffect(() => {
+    
+    setLoading(true)
     initPage()
     window.scrollTo({top: 0})
+    
   }, [postId])
 
 
@@ -92,23 +105,36 @@ const Post = ({ postId }) => {
           <div className="post-notes-wrapper">
             <div className="post-notes">
               <div className="post-notes-header-comments">
-                <span>{ post.comments.length }</span>
+                <span>{ comments.length }</span>
                 <BiCommentDetail className="icon" />
               </div>
               <div className="post-notes-header-likes">
-                <span>{ post.likes.length }</span>
+                <span>{ likes.length }</span>
                 <BiUpvote className="icon" onClick={e => likePost(e)} />
               </div>
             </div>
             <button className="btn pink-btn"
-                    onClick={e => addComment(e)}>Add comment
+                    onClick={e => commentPost(e)}>Add comment
             </button>
           </div>
         </div>
 
-          { post.comments.length > 0 && 
+          { comments.length > 0 && 
           <div className="post-comments">
-
+            {comments.map(comment => {
+              return (
+                <div className="post-comment-card">
+                  <p>{comment.body}</p>
+                  <div className="post-comment-info">
+                    <Link href={`/users/${comment.userId}`}>
+                      <a>{comment.username}</a>
+                    </Link>
+                    <span>{comment.date}</span>
+                  </div>
+                </div>
+              )
+            })}
+ 
           </div>}
       </div> 
       

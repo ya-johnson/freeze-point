@@ -96,9 +96,9 @@ const deletePost = async (token, postId) => {
 const likePost = async (token, postId, userId) => {
   try {
     const header = setAuthHeader(token)
-    const response = await axios.put(`${BASE_URL}/posts/${postId}`, userId, header)
-    const post = await response.data
-    return post
+    const response = await axios.put(`${BASE_URL}/posts/${postId}/likes`, {postId, userId}, header)
+    const likes = await response.data
+    return likes
   }
   catch (err) {
     console.log(err)
@@ -106,12 +106,14 @@ const likePost = async (token, postId, userId) => {
   }
 }
 
-const commentPost = async (token, postId, data) => {
+const commentPost = async (token, postId, userId, username, body) => {
   try {
     const header = setAuthHeader(token)
-    const response = await axios.put(`${BASE_URL}/posts/${postId}`, {postId, ...data}, header)
-    const post = await response.data
-    return post
+    const data = { postId, userId, username, body}
+    console.log(data)
+    const response = await axios.put(`${BASE_URL}/posts/${postId}/comments`, {postId, userId, username, body}, header)
+    const comments = await response.data
+    return comments
   } 
   catch (err) {
     console.log(err)
