@@ -9,6 +9,7 @@ const AuthModal = () => {
 
   const user = useUserStore(state => state.user)
   const [authType, setAuthType] = useState('login')
+  const [visible, setVisible] = useState('hidden')
 
   const changeAuth = () => {
     authType === 'login' ? setAuthType('register') : setAuthType('login')
@@ -16,7 +17,8 @@ const AuthModal = () => {
 
 
   return (
-    <div className="auth hidden" onClick={e => authService.toggleAuthModal(e)}>
+    <div className={`auth ${visible}`} 
+         onClick={e => authService.toggleAuthModal(e)}>
       <div className={`auth-modal`}>
 
         <AiOutlineCloseCircle className="auth-close" />
@@ -24,7 +26,7 @@ const AuthModal = () => {
 
         { authType === 'login' ?
           <>
-            <Login />
+            <Login setVisible={setVisible} />
             <p>Dont have an account? 
               <button className="change-auth" 
                       onClick={changeAuth}>Register
@@ -33,7 +35,7 @@ const AuthModal = () => {
           </>
           : 
           <>
-            <Register />
+            <Register setVisible={setVisible} />
             <p>Already have an account? 
               <button className="change-auth" 
                       onClick={changeAuth}>Sign In

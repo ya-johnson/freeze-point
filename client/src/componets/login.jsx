@@ -5,7 +5,7 @@ import { authService } from '../services'
 import { validate } from '../utils'
 
 
-const Login = () => {
+const Login = ({ setVisible }) => {
 
   const setUser = useUserStore(state => state.setUser)
 
@@ -27,7 +27,7 @@ const Login = () => {
     
     const user = await authService.login(form)
     setUser(user)
-    authService.toggleAuthModal()
+    setVisible('hidden')
     setLocation('/')
   }
 
