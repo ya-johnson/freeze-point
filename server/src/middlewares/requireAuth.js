@@ -4,8 +4,6 @@ const requireAuth = async (req, res, next) => {
   const { authorization } = req.headers
   const token = authorization.split(' ')[1]
 
-  console.log(typeof authorization)
-
   try {
     const payload = await authService.verifyToken(token)
     next()
