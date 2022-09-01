@@ -9,7 +9,7 @@ const AuthModal = () => {
 
   const user = useUserStore(state => state.user)
   const [authType, setAuthType] = useState('login')
-  const [visible, setVisible] = useState('hidden')
+  const [visible, setVisible] = useState()
 
   const changeAuth = () => {
     authType === 'login' ? setAuthType('register') : setAuthType('login')
@@ -17,7 +17,7 @@ const AuthModal = () => {
 
 
   return (
-    <div className={`auth ${visible}`} 
+    <div className={`auth hidden ${visible}`} 
          onClick={e => authService.toggleAuthModal(e)}>
       <div className={`auth-modal`}>
 
