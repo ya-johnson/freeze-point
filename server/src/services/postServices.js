@@ -1,4 +1,5 @@
 const { Post } = require('../models')
+const imageService = require('./ImageServices')
 
 
 const getPosts = async () => {
@@ -26,12 +27,20 @@ const getTopicPosts = async (topic) => {
 }
 
 const createPost = async (data) => {
-  const { userId, username, title, content, topic } = data
+  const { userId, username, image, title, content, topic } = data
 
-  if (!title || !content) {
+  if (!title || !content || !topic) {
     throw Error('All fields must be filled')
   }
-  const post = Post.create({userId, username, title, content, topic})
+
+  const post = Post.create({ userId, username, title, content, topic })
+  
+  if ( image ) {
+    const img = await imageService.uploadImg(image, post._id)
+    post.image = img.secure_url
+    await post.save()
+  }
+
   return post
 }
 

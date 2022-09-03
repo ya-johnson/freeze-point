@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt')
 const { User } = require('../models')
+const { updateMany } = require('../models/postModel')
+const imageService = require('./ImageServices')
 
 
 const checkDuplicateEmail = async email => {
@@ -50,11 +52,18 @@ const createUser = async userBody => {
   return user
 }
 
-const updateUser = async (userId, updateBody) => {
-  const user = await getUserById(userId)
+const updateUser = async (updateBody) => {
+  const user = await getUserById(updateBody.userId)
+
   if (updateBody.email) {
     await checkDuplicateEmail(updateBody.email)
   }
+
+  if (updateBody.image) {
+    const img = await imageService.uploadImg(updateBody.image ,user._id)
+    updateBody.image = img.secure_url
+  }
+
   Object.assign(user, updateBody)
   await user.save()
   return user
