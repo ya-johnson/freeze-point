@@ -13,6 +13,9 @@ const postSchema = new schema({
     type: String,
     required: true
   },
+  image: {
+    type: Object
+  },
   title: {
     type: String,
     required: true 

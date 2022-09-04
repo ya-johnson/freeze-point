@@ -18,6 +18,12 @@ const userSchema = new schema({
     type: String,
     required: true
   },
+  image: {
+    type: Object
+  },
+  description: {
+    type: String
+  },
   following: {
     users: [],
     topics: []

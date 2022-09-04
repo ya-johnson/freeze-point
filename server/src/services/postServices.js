@@ -1,5 +1,5 @@
 const { Post } = require('../models')
-const imageService = require('./ImageServices')
+const imageService = require('./imageServices')
 
 
 const getPosts = async () => {
@@ -28,16 +28,19 @@ const getTopicPosts = async (topic) => {
 
 const createPost = async (data) => {
   const { userId, username, image, title, content, topic } = data
+  console.log(data)
 
   if (!title || !content || !topic) {
     throw Error('All fields must be filled')
   }
 
-  const post = Post.create({ userId, username, title, content, topic })
+  const post = await Post.create({ userId, username, title, content, topic })
+  console.log(post)
   
   if ( image ) {
     const img = await imageService.uploadImg(image, post._id)
-    post.image = img.secure_url
+    console.log(img.public_id, img.url)
+    post.image = { id: img.public_id, url: img.secure_url }
     await post.save()
   }
 
@@ -58,6 +61,7 @@ const updatePost = async (userId, postId, updatedPost) => {
 
 const deletePost = async postId => {
   const post = await getPostById(postId)
+  await imageService.removeImg(post.image.id)
   await post.remove()
   return post
 }
