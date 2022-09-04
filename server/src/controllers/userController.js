@@ -1,6 +1,6 @@
 const { asyncHandler } = require('../utils')
 const { userService } = require('../services')
-const validate = require('../validations')
+const validate = require('../validations/validate')
 
 
 const getUsers = asyncHandler( async (req, res) => {
