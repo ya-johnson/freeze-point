@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link } from 'wouter'
 import { useUserStore } from '../store'
 import { authService, userService ,postService } from '../services'
-import { Loader } from '../componets'
+import { Loader, PostCard } from '../componets'
 
-// A@a123456W@a
 
 const Dashboard = ({ userId }) => {
 
@@ -23,9 +22,12 @@ const Dashboard = ({ userId }) => {
     const currentUser = await userService.getUser(userId)
     const userPosts = await postService.getUserPosts(userId)
     setCurrentUser(currentUser)
-    console.log(userPosts)
     setUserPosts(userPosts)
     setLoading(false)
+  }
+
+  const updateUserPosts = (postId) => {
+    setUserPosts(userPosts.filter(post => post._id !== postId))
   }
 
   const updateUser = async () => {
@@ -55,6 +57,16 @@ const Dashboard = ({ userId }) => {
     { loading ? <Loader /> :
       <div className="dashboard container">
          <h1>{currentUser.name}</h1>
+         <div className="dashboard-posts">
+         { userPosts.map(post => {
+          return (
+            <PostCard post={post} 
+                      token={user.id === currentUser.id && user.token} 
+                      update={updateUserPosts}/>
+          )
+         })}
+         </div>
+  
       </div>
     
     }

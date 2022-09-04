@@ -54,7 +54,7 @@ const getTopicPosts = async (topic) => {
 }
 
 const createPost = async (token, data) => {
-  console.log( token, data)
+  console.log(data)
   try {
     const header = setAuthHeader(token)
     const response = await axios.post(`${BASE_URL}/posts`, data, header)
@@ -83,8 +83,10 @@ const updatePost = async (token, postId, data) => {
 const deletePost = async (token, postId) => {
   try {
     const header = setAuthHeader(token)
-    const response = await axios.delete(`${BASE_URL}/posts/${postId}`, header)
+    console.log(header)
+    const response = await axios.delete(`${BASE_URL}/posts/post/${postId}`, { data: { postId } , headers: header.headers})
     const confirm = await response.data
+    toast.dark('Post deleted', notify.settings)
     return confirm
   }
   catch (err) {

@@ -36,7 +36,7 @@ const updatePost = asyncHandler( async (req, res) => {
 })
 
 const deletePost = asyncHandler( async (req, res) => {
-  const post = await postService.deletePost(req.body)
+  const post = await postService.deletePost(req.body.postId)
   res.status(200).json('Post Deleted:')
 })
 

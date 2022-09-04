@@ -32,11 +32,11 @@
   }
 
   h2 {
-    @apply text-4xl;
+    @apply text-3xl;
   }
 
   h3 {
-    @apply text-3xl;
+    @apply text-2xl;
   }
 
   h4 {
@@ -97,19 +97,35 @@
   /* Dropdown */
 
   .dd-wrapper {
-    @apply relative cursor-pointer dark:bg-black dark:border-grey-dark;
+    @apply relative cursor-pointer 
+         bg-white dark:bg-black dark:border-grey-dark;
   }
 
   .dd-close > .dd-list {
-    @apply hidden;
+    @apply opacity-0 invisible;
+  }
+
+  .dd-close > .dd-title > svg {
+    @apply rotate-0;
   }
 
   .dd-title {
-    @apply flex justify-between items-center space-x-2;
+    @apply flex justify-between items-center space-x-2 capitalize;
+  }
+
+  .dd-title > svg {
+    @apply h-6 w-6 rotate-180 transition-all duration-300;
   }
 
   .dd-list {
-    @apply absolute top-full left-0 w-full space-y-2 dark:bg-black dark:border-grey-dark;
+    @apply absolute top-full left-0 -translate-x-[1px]
+           w-[calc(100%+2px)] space-y-2 duration-300
+           border-solid border bg-white
+           dark:bg-black dark:border-grey-dark z-50;
+  }
+
+  .dd-item {
+    @apply transition-all duration-500;
   }
 
   .dd-selected-item {
@@ -167,7 +183,7 @@
   /* Signin / Register */
 
   .auth {
-    @apply h-full w-full fixed bg-black-dark bg-opacity-50 z-20;
+    @apply h-full w-full fixed cursor-pointer bg-black-dark bg-opacity-50 z-20;
   }
 
   .auth-modal {
@@ -312,19 +328,32 @@
   /* Dashboard */
 
   .dashboard {
-    @apply py-20;
+    @apply min-h-screen py-20;
   }
+
+  .dashboard-posts {
+    @apply grid grid-cols-3 gap-10 my-10;
+  }
+
 
 
   /* Post Card */
 
   .post-card {
-    @apply flex w-full
+    @apply relative flex w-full
            border border-solid border-black dark:border-grey-dark;
   }
 
+  .post-card-delete {
+    @apply absolute top-0 right-0 cursor-pointer
+           h-10 w-10 p-2
+         hover:fill-red fill-grey-dark
+         dark:hover:fill-red
+           transition-all duration-500;
+  }
+
   .post-card-img {
-    @apply w-36 h-36;
+    @apply w-52 min-h-[120px] h-full;
   }
 
   .post-card-content {
@@ -356,13 +385,43 @@
   /* Post */
 
   .post {
-    @apply my-20 px-28;
+    @apply my-20;
+  }
+
+  .post-main {
+    @apply px-52;
+  }
+
+  .post-header {
+    @apply space-y-2;
+  }
+
+  .post-header-title {
+    @apply space-y-2 pb-1;
+  }
+
+  .post-header-info {
+    @apply flex items-end justify-between pb-4;
+  }
+
+  .post-img {
+    @apply mb-8 rounded-lg w-full;
+  }
+
+  .post-user-link {
+    @apply capitalize text-lg;
   }
 
   .post-content {
     @apply mt-4 mb-14 pb-20 
            border-b border-solid border-black dark:border-grey-dark;
   }
+
+  .post-content > h2,
+  .post-content > h3 {
+    @apply mt-8 mb-4;
+  }
+  
 
   .post-inters {
     @apply space-x-0;
@@ -388,11 +447,24 @@
   }
 
   .post-comments {
-    @apply grow w-full;
+    @apply w-full my-8 space-y-2
+           border-solid border border-black dark:border-grey-dark;
+  }
+
+  .post-comment-card {
+    @apply flex flex-col justify-between p-4 space-y-1;
+  }
+
+  .post-comment-card:not(:last-child) {
+    @apply border-solid border-b border-black dark:border-grey-dark;
+  }
+
+  .post-comment-info {
+    @apply flex justify-between items-center space-x-8 capitalize text-grey-dark;
   }
 
   .post-suggestions {
-    @apply py-12 mt-20
+    @apply py-12 mx-28 mt-20
            border-t border-solid border-black dark:border-grey-dark;
   }
 
@@ -401,17 +473,32 @@
   }
 
 
-
-
   /* Edit Post */
 
   .post-edit {
-    @apply my-28 py-8 px-6 space-y-8
+    @apply w-2/3 my-20 py-8 px-6 space-y-8
            border-solid border border-black dark:border-grey-dark;
   }
 
+  .post-edit-img {
+    @apply h-auto w-full;
+  }
+
   .post-editor-header {
-    @apply flex justify-between items-center;
+    @apply flex justify-between items-center space-x-4;
+  }
+
+  .post-editor-header-img {
+    @apply w-1/2 text-center
+           border-solid border border-black dark:border-grey-dark;
+  }
+
+  .post-editor-header-right {
+    @apply w-1/2 h-60 flex flex-col justify-between p-4;
+  }
+
+  .post-editor-header-title {
+    @apply space-y-4;
   }
 
   .post-editor-save-btn {
@@ -431,7 +518,7 @@
   }
 
   .rdw-editor-toolbar.post-editor-toolbar {
-    @apply p-4 m-0 dark:bg-black-dark
+    @apply p-4 m-0 bg-white dark:bg-black-dark
            border-solid border border-black dark:border-grey-dark;
   }
 

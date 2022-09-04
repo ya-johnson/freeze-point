@@ -1,17 +1,27 @@
 import { Link } from 'wouter'
-import { BiUpvote, BiCommentDetail } from 'react-icons/bi'
+import { postService } from '../services'
+import { BiUpvote, BiCommentDetail, BiTrash } from 'react-icons/bi'
 
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, token, update }) => {
+
+  const deletePost = () => {
+    postService.deletePost(token, post._id)
+    update(post._id)
+  }
 
 
   return (
 
-    <div className="post-card">\
+    <div className="post-card">
+
+      { token && <BiTrash className="post-card-delete" 
+                         onClick={deletePost}/>
+      }
 
       <Link href={`/posts/${post._id}`}>
         <a>
-          <img src="#" alt="img" className="post-card-img" />
+        { post.image && <img className="post-card-img" src={post.image.url}></img> }
         </a>
       </Link>
 
@@ -24,19 +34,19 @@ const PostCard = ({ post }) => {
         </Link>
 
         <div className="post-card-info">
-          <div className="post-card-about">
+          <div className="post-card-about space-x-2">
             <Link href={`/users/${post.userId}`}>
-              <a className="text-pink">username{post.username}</a>
+              <a className="hover:text-pink capitalize">{post.username}</a>
             </Link>
-            <span>{post.createAt}</span>
+            <span className="text-sm text-grey-dark">{new Date(post.createdAt).toLocaleDateString()}</span>
           </div>
 
           <div className="post-notes">
-            <div className="post-comments">
+            <div className="post-card-comments">
               <span>{ post.comments.length }</span>
               <BiCommentDetail className="post-card-icon"/>
             </div>
-            <div className="post-likes">
+            <div className="post-card-likes">
               <span>{ post.likes.length }</span>
               <BiUpvote className="post-card-icon"/>
             </div>

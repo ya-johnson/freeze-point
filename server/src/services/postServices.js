@@ -3,7 +3,7 @@ const imageService = require('./imageServices')
 
 
 const getPosts = async () => {
-  const posts = await Post.find().sort({created: -1})
+  const posts = await Post.find().sort({ createdAt: -1 })
   return posts
 }
 
@@ -13,16 +13,17 @@ const getPostById = async postId => {
   if (!post) {
     throw Error('No such post')
   }
+
   return post
 }
 
 const getUserPosts = async (userId) => {
-  const userPosts = await Post.find({ userId })
+  const userPosts = await Post.find({ userId }).sort({ createdAt: -1 })
   return userPosts
 }
 
 const getTopicPosts = async (topic) => {
-  const topicPosts = await Post.find({ topic })
+  const topicPosts = await Post.find({ topic }).sort({ createdAt: -1 })
   return topicPosts
 }
 
@@ -61,7 +62,10 @@ const updatePost = async (userId, postId, updatedPost) => {
 
 const deletePost = async postId => {
   const post = await getPostById(postId)
-  await imageService.removeImg(post.image.id)
+
+  if (post.image) {
+    await imageService.removeImg(post.image.id)
+  }
   await post.remove()
   return post
 }
