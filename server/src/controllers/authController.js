@@ -1,10 +1,10 @@
-const asyncHandler = require('../utils/asyncHandler')
+const { asyncHandler } = require('../utils')
 const { userService, authService } = require('../services')
-const validateUser = require('../validations/validateUser')
+const validate = require('../validations/validate')
 
 
 const register = asyncHandler( async (req, res) => {
-  validateUser(req.body)
+  validate.register(req.body)
   const user = await userService.createUser(req.body)
   const token = await authService.generateToken(user._id)
   const response = { user, token }
@@ -12,6 +12,7 @@ const register = asyncHandler( async (req, res) => {
 })
 
 const login = asyncHandler( async (req, res) => {
+  validate.login(req.body)
   const user = await authService.login(req.body.email, req.body.password)
   const token = await authService.generateToken(user._id)
   const response = { user, token }

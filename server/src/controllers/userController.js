@@ -1,6 +1,6 @@
-const asyncHandler = require('../utils/asyncHandler')
+const { asyncHandler } = require('../utils')
 const { userService } = require('../services')
-const validateUser = require('../validations/validateUser')
+const validate = require('../validations')
 
 
 const getUsers = asyncHandler( async (req, res) => {
@@ -15,13 +15,13 @@ const getUser = asyncHandler( async (req, res) => {
 })
 
 const createUser = asyncHandler( async (req, res) => {
-  validateUser(req.body)
+  validate.register(req.body)
   const user = await userService.createUser(req.body)
   res.status(200).json(user)
 })
 
 const updateUser = asyncHandler( async (req, res) => {
-  const user = await userService.updateUser(req.userId, req.body)
+  const user = await userService.updateUser(req.body)
   res.status(200).json(user)
 })
 
