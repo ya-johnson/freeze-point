@@ -1,14 +1,17 @@
 import { Link } from 'wouter'
 import { GiFrozenArrow } from 'react-icons/gi'
 import { useTopicsStore } from '../store'
+import { algs } from '../utils'
 
 const Footer = () => {
 
   const topics = useTopicsStore(state => state.topics)
+  const topicsChunks = algs.spliceToChunks(topics, 4)
 
   const backToTop = () => {
     window.scrollTo({top: 0})
   }
+
 
   return (
     <div className="footer">
@@ -26,13 +29,19 @@ const Footer = () => {
         </div>
 
         <div className="footer-topics">
-          { topics.map(topic => {
+          { topicsChunks.map(topics => {
             return (
-              <Link href={`/topics/${topic}`} >
-                <a className="footer-topic-link">{topic}</a>
-              </Link>
-            )
-          })}
+            <div> 
+              {topics.map(topic => {
+                return (
+                  <Link href={`/topics/${topic}`} >
+                    <a className="footer-topic-link">{topic}</a>
+                  </Link>
+                )
+              })}
+            </div>)
+          })
+          }
         </div>
 
         <div className="footer-go-top"
