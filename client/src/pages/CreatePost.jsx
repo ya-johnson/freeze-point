@@ -4,7 +4,9 @@ import { useUserStore, useTopicsStore } from '../store'
 import { postService } from '../services'
 import { EditorState, convertToRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
-import { Dropdown } from '../componets'
+import { Dropdown, AddImage } from '../componets'
+import { draft } from '../utils'
+
 
 
 const CreatePost = () => {
@@ -16,8 +18,8 @@ const CreatePost = () => {
   const [titleState, setTitleState] = useState()
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
   const [convertedJson, setConvertedJson] = useState()
+  const [imageData, setImageData] = useState()
   const [topic, setTopic] = useState()
-
 
   const onEditorChange = (state) => {
     setEditorState(state)
@@ -28,6 +30,7 @@ const CreatePost = () => {
     const createdPost = {
       userId: user.id,
       username: user.name,
+      image: imageData,
       title: titleState,
       content: convertedJson,
       topic: topic,
@@ -37,81 +40,58 @@ const CreatePost = () => {
     setLocation(`/posts/${post._id}`)
   }
 
-  const toolbarOptions = {
-    options: ['inline', 'blockType', 'list', 'link', 'emoji', 'history'],
-    inline: {
-      inDropdown: false,
-      className: 'post-editor-toolbar-inline',
-      options: ['bold', 'italic', 'underline', 'strikethrough']
-    },
-    blockType: {
-      inDropdown: true,
-      options: ['Normal', 'H2', 'H3', 'Blockquote'],
-      dropdownClassName: 'post-editor-toolbar-dropdown',
-    },
-    list: {
-      inDropdown: false,
-      className: undefined,
-      options: ['unordered', 'ordered']
-    },
-    link: {
-      inDropdown: false,
-      className: 'post-editor-toolbar-item',
-      popupClassName: undefined,
-      dropdownClassName: undefined,
-      showOpenOptionOnHover: true,
-      defaultTargetOption: '_blank',
-      options: ['link', 'unlink']
-    },
-    emoji: {
-      className: 'post-editor-toolbar-item',
-      popupClassName: undefined,
-    },
-    history: {
-      className: 'post-editor-toolbar-item',
-      options: ['undo', 'redo']
-    },
-  }
 
   useEffect(() => {
     if (!user) {
       setLocation('/')
     }
-  }, [])
+  }, [user])
 
           
   return (
-
-    <div className="post-edit container">
-
-      <div className="post-editor-header">
-        <h2>Create Post</h2>
-        <button className="btn post-editor-save-btn" 
-                onClick={savePost}>Publish
-        </button>
-      </div>
-      
-      <div className="post-editor-options">
-        <input type="text" 
-              className="btn post-editor-title"
-              placeholder="Title"
-              value={titleState}
-              onChange={(e => setTitleState(e.target.value))} />
-
-        <Dropdown type={'select'}
-                  title='Topic' 
-                  list={topics} 
-                  setItem={setTopic} />
-      </div>
     
+    <div className="container flex flex-col items-center">
+      <div className="post-edit">
 
-      <Editor editorState={editorState}
-              onEditorStateChange={onEditorChange}
-              toolbar={toolbarOptions}
-              editorClassName="post-editor-block"
-              wrapperClassName="post-editor-wrapper"
-              toolbarClassName="post-editor-toolbar" />
+        <div className="post-editor-header">
+
+          <AddImage setImageData={setImageData} />
+
+          <div className="post-editor-header-right">
+            <div className="post-editor-header-title">
+              <h2>{titleState ? titleState : 'Title'}</h2>
+              <input type="text" 
+                    className="btn post-editor-title"
+                    placeholder="Title"
+                    value={titleState}
+                    onChange={(e => setTitleState(e.target.value))} />
+            </div>
+
+            <div className="post-editor-options">
+              
+
+
+              <Dropdown type={'select'}
+                        title='Topic' 
+                        list={topics} 
+                        setItem={setTopic} />
+
+              <button className="btn post-editor-save-btn" 
+                      onClick={savePost}>Publish
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <Editor editorState={editorState}
+                onEditorStateChange={onEditorChange}
+                toolbar={draft.toolbarOptions}
+                editorClassName="post-editor-block"
+                wrapperClassName="post-editor-wrapper"
+                toolbarClassName="post-editor-toolbar" />
+      </div>
     </div>
+    
   )
 }
 

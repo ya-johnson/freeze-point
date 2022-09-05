@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'wouter'
 import { useUserStore } from '../store'
 import { authService, userService ,postService } from '../services'
-import { Loader, PostCard } from '../componets'
+import { AddImage, Loader, PostCard } from '../componets'
+import { FaUser } from 'react-icons/fa'
 
 
 const Dashboard = ({ userId }) => {
@@ -11,11 +11,13 @@ const Dashboard = ({ userId }) => {
   const setUser = useUserStore(state => state.setUser)
 
   const [loading, setLoading] = useState(true)
+  const [imageData, setImageData] = useState()
   const [userInfo, setUserInfo] = useState()
-
+  
   const [currentUser, setCurrentUser] = useState()
   const [userPosts, setUserPosts] = useState()
   const [following, setFollowing] = useState(/*user.following.find(user => user === userId)*/)
+  const [isUser, setIsUser] = useState(user !== null && user.id === currentUser.id)
   
 
   const getUserAndPosts =  async () => {
@@ -56,12 +58,26 @@ const Dashboard = ({ userId }) => {
     <>
     { loading ? <Loader /> :
       <div className="dashboard container">
-         <h1>{currentUser.name}</h1>
+        <div className="dashboard-header">
+          { isUser ?
+            <AddImage defaultImage={user.image && user.image.url}
+                      setImageData={setImageData} />
+            :
+            <div className="dashboard-left">
+              <FaUser />
+            </div>
+          }
+          
+          <div className="dashboard-header-right">
+            <h1>{currentUser.name}</h1>
+          </div>
+        </div>
+         
          <div className="dashboard-posts">
          { userPosts.map(post => {
           return (
             <PostCard post={post} 
-                      token={user.id === currentUser.id && user.token} 
+                      token={ isUser && user.token} 
                       update={updateUserPosts}/>
           )
          })}
