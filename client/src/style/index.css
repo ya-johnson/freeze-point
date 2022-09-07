@@ -226,17 +226,13 @@
   }
 
   .auth-modal {
-    @apply flex flex-col items-center fixed p-14 mx-0 z-40
+    @apply fixed mx-0 z-40 cursor-default
            top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2
            border-solid border border-black bg-white 
          dark:border-grey-dark dark:bg-black-dark;
   }
   
-  .auth-modal > p {
-    @apply text-base text-grey-dark;
-  }
-  
-  .change-auth {
+  .change-auth-btn {
     @apply ml-2 text-black dark:text-grey-light;
   }
   
@@ -247,10 +243,27 @@
          dark:hover:fill-red
            transition-all duration-500;
   }
+
+  .login,
+  .register {
+    @apply flex;
+  }
   
-  .register > h2,
-  .login > h2 {
-    @apply text-2xl capitalize mb-10;
+  .login > h2,
+  .register > h2 {
+    @apply text-2xl capitalize;
+  }
+
+  .login-right,
+  .register-right {
+    @apply flex flex-col items-center space-y-6 p-14;
+  }
+
+  .login-left,
+  .register-left {
+    @apply h-auto w-[450px] bg-no-repeat bg-cover bg-center
+           border-black border-r
+           dark:bg-black-dark dark:border-grey-dark;
   }
   
   .form {
@@ -308,12 +321,19 @@
   /* Hero */
 
   .hero {
-    @apply h-[80vh] w-full relative;
+    @apply h-[80vh] w-full relative 
+           border-black border-b
+           dark:bg-black-dark dark:border-grey-dark;
+  }
+
+  .hero-bg {
+    @apply h-full w-full bg-no-repeat bg-cover bg-center;
   }
 
   .hero-content {
-    @apply absolute text-center space-y-2 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2;
+    @apply absolute text-center space-y-2 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-black;
   }
+
 
   /* Feed */
 
@@ -590,7 +610,7 @@
   /* Footer */
 
   .footer {
-    @apply py-14 bg-grey border-solid border-t border-black
+    @apply py-20 bg-grey border-solid border-t border-black
          dark:bg-black-dark dark:border-grey-dark;
   }
 
@@ -603,11 +623,11 @@
   }
 
   .footer .logo > h1 {
-    @apply text-lg;
+    @apply text-2xl;
   }
 
   .footer .logo > svg {
-    @apply h-8 w-8;
+    @apply h-10 w-10;
   }
 
   .footer-topics {

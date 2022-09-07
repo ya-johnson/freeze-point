@@ -5,7 +5,7 @@ import { authService } from '../services'
 import { validate } from '../utils'
 
 
-const Login = ({ setVisible }) => {
+const Login = ({ changeAuth }) => {
 
   const setUser = useUserStore(state => state.setUser)
 
@@ -14,7 +14,7 @@ const Login = ({ setVisible }) => {
   const [formError, setFormError] = useState()
   const [location, setLocation] = useLocation()
 
-  const login = async () => {
+  const login = async (e) => {
     setFormError(null)
 
     const form = { email, password }
@@ -27,28 +27,37 @@ const Login = ({ setVisible }) => {
     
     const user = await authService.login(form)
     setUser(user)
-    setVisible('hidden')
+    authService.toggleAuthModal(e)
     setLocation('/')
   }
 
   return (
     <div className="login">
+
+      <div className="login-left bg-login"></div>
       
-      <h2>Login</h2>
-
-      <form className={`form ${formError ?  formError : ''}`}>
-
-        <input className="btn email" 
-               type="text" name='email' placeholder='Email' 
-               onChange={(e) => setEmail(e.target.value)} />
-        
-        <input className="btn password" 
-               type="password" name='password' placeholder='Password' 
-               onChange={(e) => setPassword(e.target.value)} />
-        
-        <input type="button" value="Login" 
-               className="btn submit" onClick={login} />
-      </form>
+      <div className="login-right">
+        <h2>Login</h2>
+        <form className={`form ${formError ?  formError : ''}`}>
+          <input className="btn email form-input" 
+                type="text" name='email' placeholder='Email' 
+                onChange={(e) => setEmail(e.target.value)} />
+          
+          <input className="btn password form-input" 
+                type="password" name='password' placeholder='Password' 
+                onChange={(e) => setPassword(e.target.value)} />
+          
+          <input type="button" value="Login" 
+                className="btn submit" onClick={e => login(e)} />
+        </form>
+        <div className="change-auth">
+          <p className="text-base text-grey-dark">Dont have an account? 
+            <button className="change-auth-btn" 
+                    onClick={changeAuth}>Register
+            </button>
+          </p>
+        </div>
+      </div>
 
     </div>
   )

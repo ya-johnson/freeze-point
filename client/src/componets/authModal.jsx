@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useUserStore } from '../store'
 import { authService } from '../services'
 import { Login, Register } from './index'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
@@ -7,9 +6,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const AuthModal = () => {
 
-  const user = useUserStore(state => state.user)
   const [authType, setAuthType] = useState('login')
-  const [visible, setVisible] = useState()
 
   const changeAuth = () => {
     authType === 'login' ? setAuthType('register') : setAuthType('login')
@@ -17,33 +14,17 @@ const AuthModal = () => {
 
 
   return (
-    <div className={`auth hidden ${visible}`} 
+    <div className={`auth auth-modal-close`} 
          onClick={e => authService.toggleAuthModal(e)}>
       <div className={`auth-modal`}>
 
         <AiOutlineCloseCircle className="auth-close" />
         
-
         { authType === 'login' ?
-          <>
-            <Login setVisible={setVisible} />
-            <p>Dont have an account? 
-              <button className="change-auth" 
-                      onClick={changeAuth}>Register
-              </button>
-            </p>
-          </>
+            <Login changeAuth={changeAuth} />
           : 
-          <>
-            <Register setVisible={setVisible} />
-            <p>Already have an account? 
-              <button className="change-auth" 
-                      onClick={changeAuth}>Sign In
-              </button>
-            </p>
-          </>
+            <Register changeAuth={changeAuth} />
         }
-
       </div>
     </div>
 
