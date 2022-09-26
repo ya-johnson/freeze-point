@@ -11,7 +11,6 @@ const Nav = () => {
 
   const user = useUserStore(state => state.user)
   const setUser = useUserStore(state => state.setUser)
-
   const theme = useSettingsStore(state => state.theme)
   const setTheme = useSettingsStore(state => state.setTheme)
   const [location, setLocation] = useLocation()
@@ -41,25 +40,23 @@ const Nav = () => {
     { 
       name: 'Create Post',
       method: () => setLocation('/create-post'),
-      className: 'user-ctrl-create'
+      className: 'hover:text-blue'
     },
     {
       name: 'Dashboard',
       method: () => setLocation(`/users/${user.id}`),
-      className: 'user-ctrl-dashboard'
+      className: 'hover:text-blue'
     },
     {
       name: 'Logout',
       method: () => setUser(null),
-      className: 'user-ctrl-logout'
+      className: 'logout-btn'
     }
   ]
 
 
   useEffect(() => {
-
     initTheme()
-
   }, [])
 
 
@@ -67,7 +64,6 @@ const Nav = () => {
       
     <nav>
       <div className="container">
-
         <Link href='/'>
           <a>
             <div className="logo">
@@ -78,7 +74,6 @@ const Nav = () => {
         </Link>
 
         <div className="nav-right">
-
           { theme === 'dark' ? 
               <BsSun className="icon"
                       onClick={toggleTheme} />
@@ -86,7 +81,6 @@ const Nav = () => {
               <BsMoon className="icon"
                      onClick={toggleTheme} />
           }
-
           { !user ? 
                <button className="btn auth-btn" 
                        onClick={authService.toggleAuthModal}>Log In
@@ -97,12 +91,10 @@ const Nav = () => {
                         title={user.name} 
                         list={userCtrl} />     
           }
-
         </div>
 
       </div>
     </nav>
-   
   )
 }
 
