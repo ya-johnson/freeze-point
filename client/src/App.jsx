@@ -25,6 +25,9 @@ const App = () => {
       <Route path='/users/:user'>
         { params => <Dashboard userId={params.user} /> }
       </Route>
+      <Route path='/posts/edit-post/:post'>
+        { params => <CreatePost postId={params.post} /> }
+      </Route>
 
       <Footer />
 
