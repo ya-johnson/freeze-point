@@ -23,7 +23,14 @@ module.exports = {
     fontFamily: {
       'ubuntu': ['Ubuntu', 'sans-serif']
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'hero-dark': 'url(./src/assets/hero-dark.svg)',
+        'hero-light': 'url(./src/assets/hero-light.svg)',
+        'login': 'url(./src/assets/login.jpg)',
+        'register': 'url(./src/assets/register.jpg)',
+      }
+    },
   },
   plugins: [],
 }
