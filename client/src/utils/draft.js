@@ -1,3 +1,9 @@
+import { convertFromRaw } from 'draft-js'
+import { stateToHTML } from 'draft-js-export-html'
+import { stateToMarkdown } from 'draft-js-export-markdown'
+import DOMPurify from 'dompurify'
+
+
 const toolbarOptions = {
   options: ['inline', 'blockType', 'list', 'link', 'emoji', 'history'],
   inline: {
@@ -34,7 +40,20 @@ const toolbarOptions = {
   },
 }
 
+const createHtml = (html) => {
+  const postContent = stateToHTML(convertFromRaw(JSON.parse(html)))
+  return {  __html: DOMPurify.sanitize(postContent) }
+}
+
+const createMarkdown = (editorState) => {
+  const markdown = stateToMarkdown(convertFromRaw(JSON.parse(editorState)))
+  console.log(markdown)
+  return markdown
+}
+
 
 export {
-  toolbarOptions
+  toolbarOptions,
+  createHtml,
+  createMarkdown
 }
