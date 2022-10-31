@@ -14,44 +14,39 @@ const Footer = () => {
 
 
   return (
-    <div className="footer">
-      <div className="container flex justify-between">
-
-        <div className="footer-nav">
+    <footer className="py-20 bg-grey dark:bg-black-dark">
+      <div className="container flex items-center justify-between">
+        <div className="flex space-x-12">
           <Link href='/'>
-            <a>
-              <div className="logo">
-                <GiFrozenArrow />
-                <h1>Freeze Point</h1>
-              </div> 
-            </a>
+            <a><GiFrozenArrow className="h-10 w-10 hover:text-pink"/></a>
           </Link>
+
+          <div className="flex space-x-8">
+            { topicsChunks.map(topics => {
+              return (
+              <div className="flex flex-col space-y-1"> 
+                {topics.map(topic => {
+                  return (
+                    <Link href={`/topics/${topic}`} >
+                      <a className="footer-topic-link">{topic}</a>
+                    </Link>
+                  )
+                })}
+              </div>)
+            })
+            }
+          </div>
         </div>
 
-        <div className="footer-topics">
-          { topicsChunks.map(topics => {
-            return (
-            <div> 
-              {topics.map(topic => {
-                return (
-                  <Link href={`/topics/${topic}`} >
-                    <a className="footer-topic-link">{topic}</a>
-                  </Link>
-                )
-              })}
-            </div>)
-          })
-          }
-        </div>
-
-        <div className="footer-go-top"
-            onClick={backToTop}>
+        <div className="cursor-pointer p-4 w-28 h-28 flex flex-col  justify-center text-lg
+                      font-medium bg-black text-grey-light dark:bg-white dark:text-black"
+             onClick={backToTop}>
           <span>Back</span>
           <span>To</span>
           <span>Top</span>
         </div>
-      </div>
-    </div>
+        </div>
+    </footer>
   )
 }
 
