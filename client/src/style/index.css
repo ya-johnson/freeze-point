@@ -57,6 +57,10 @@
     outline: none;
   }
 
+  .brd {
+    @apply border-solid border-black dark:border-grey-dark;
+  }
+
   .btn {
     @apply py-2 px-4 border-solid border
            transition-all duration-500;
@@ -81,6 +85,10 @@
            dark:border-grey-dark dark:bg-black
            hover:text-black hover:bg-white hover:border-black
            dark:hover:text-grey-light dark:hover:border-grey-light;
+  }
+
+  .neutral-active {
+    @apply text-black dark:text-grey-light border-black dark:border-grey-light;
   }
 
   .green-btn {
@@ -171,36 +179,6 @@
   }
 
 
-  /* Nav */
-
-  nav {
-    @apply sticky top-0 w-screen bg-grey
-         border-black border-b z-50
-         dark:bg-black-dark dark:border-grey-dark;
-  }
-
-  nav > .container {
-    @apply flex justify-between items-center py-5;
-  }
-
-  .logo {
-    @apply flex items-center space-x-2 
-           mr-10 hover:text-pink
-           transition-all duration-500;
-  }
-
-  .logo > svg {
-    @apply h-10 w-10;
-  }
-
-  .logo > h1 {
-    @apply text-2xl font-medium lowercase;
-  }
-
-  .nav-right{
-    @apply flex items-center space-x-8;
-  }
-
   .auth-btn {
     @apply border-black bg-black text-grey-light 
            dark:border-grey-dark dark:bg-black-dark
@@ -211,8 +189,6 @@
   .logout-btn {
     @apply text-red;
   }
-
-
 
   /* Signin / Register */
 
@@ -237,11 +213,15 @@
   }
   
   .auth-close {
-    @apply absolute top-0 right-0 cursor-pointer
-           h-10 w-10 p-2
-         hover:fill-red fill-grey-dark
-         dark:hover:fill-red
-           transition-all duration-500;
+    @apply absolute top-0 right-0 cursor-pointer;
+  }
+
+  .auth-close > svg {
+    @apply h-10 w-10 p-2 fill-grey-dark transition-all duration-500;
+  }
+
+  .auth-close:hover > svg {
+    @apply fill-red dark:fill-red;
   }
 
   .login,
@@ -249,14 +229,14 @@
     @apply flex;
   }
   
-  .login > h2,
-  .register > h2 {
+  .login-right > h2,
+  .register-right > h2 {
     @apply text-2xl capitalize;
   }
 
   .login-right,
   .register-right {
-    @apply flex flex-col items-center space-y-6 p-14;
+    @apply flex flex-col items-center space-y-6 p-14 w-[450px];
   }
 
   .login-left,
@@ -321,7 +301,7 @@
   /* Hero */
 
   .hero {
-    @apply h-[80vh] w-full relative 
+    @apply h-[90vh] w-full relative 
            border-black border-b
            dark:bg-black-dark dark:border-grey-dark;
   }
@@ -335,186 +315,20 @@
   }
 
 
-  /* Feed */
-
-  .feed {
-    @apply flex justify-between py-28;
-  }
-
-  .feed-main {
-    @apply grow pr-8
-           border-r border-solid border-black dark:border-grey-dark;
-  }
-
-  .feed-header {
-    @apply flex items-center justify-between pb-8
-           border-solid border-b border-black dark:border-grey-dark;
-  }
-
-  .feed-right {
-    @apply max-w-xs pl-8 py-2;
-  }
-
-  .feed-right-header {
-    @apply flex items-end justify-between pb-8;
-  }
-
-  .feed-right-header-title {
-    @apply flex items-center space-x-2 text-lg;
-  }
-
-  .feed-right-header-title > svg {
-    @apply h-6 w-6;
-  }
-
-  .feed-main-posts {
-    @apply grid grid-cols-2 gap-10 my-10;
-  }
-
-  .feed-topcics-clear-btn {
-    @apply text-sm;
-  }
-
-  .feed-right-topics {
-    @apply flex flex-wrap gap-4;
-  }
-
-  .feed-right-topics > .btn {
-    @apply py-1 px-2 text-sm;
-  }
-
-
-  /* Dashboard */
-
-  .dashboard {
-    @apply min-h-screen py-20;
-  }
-
-  .dashboard-header {
-    @apply flex space-x-12;
-  }
-
-  .dashboard-header-right {
-    @apply w-4/5;
-  }
-
-  .dashboard-left {
-    @apply p-8
-           border border-solid border-black dark:border-grey-dark;
-  }
-
-  .dashboard-left > svg {
-    @apply h-40 w-60;
-  }
-
-  .dashboard-posts {
-    @apply grid grid-cols-3 gap-10 my-10;
-  }
-
-
-
   /* Post Card */
-
-  .post-card {
-    @apply relative flex w-full
-           border border-solid border-black dark:border-grey-dark;
-  }
-
-  .post-card-delete {
-    @apply absolute top-0 right-0 cursor-pointer
-           h-10 w-10 p-2
-         hover:fill-red fill-grey-dark
-         dark:hover:fill-red
-           transition-all duration-500;
-  }
 
   .post-card-img {
     @apply w-52 min-h-[120px] h-full;
   }
 
-  .post-card-content {
-    @apply flex flex-col justify-between p-4 w-full
-           border-l border-solid border-black dark:border-grey-dark;
-  }
-
-  .post-card-content-text {
-    @apply h-40 w-full overflow-auto;
-  }
-
-  .post-card-info {
-    @apply flex items-center justify-between;
-  }
-
-  .post-notes {
-    @apply flex items-center space-x-2;
-  }
-
-  .post-notes > div {
-    @apply flex items-center text-grey-dark;
-  }
-
-  .post-card .post-notes > div {
-    @apply space-x-1;
-  }
-
 
   /* Post */
-
-  .post {
-    @apply my-20;
-  }
-
-  .post-main {
-    @apply px-52;
-  }
-
-  .post-header {
-    @apply space-y-2;
-  }
-
-  .post-header-title {
-    @apply space-y-2 pb-1;
-  }
-
-  .post-header-info {
-    @apply flex items-end justify-between pb-4;
-  }
-
-  .post-img {
-    @apply mb-8 rounded-lg w-full;
-  }
-
-  .post-user-link {
-    @apply capitalize text-lg;
-  }
-
-  .post-content {
-    @apply mt-4 mb-14 pb-20 
-           border-b border-solid border-black dark:border-grey-dark;
-  }
 
   .post-content > h2,
   .post-content > h3 {
     @apply mt-8 mb-4;
   }
-  
 
-  .post-inters {
-    @apply space-x-0;
-  }
-
-  .post-notes-wrapper {
-    @apply h-24 flex flex-col justify-between;
-  }
-
-  .post-notes-wrapper > .post-notes {
-    @apply h-full w-full flex items-center justify-center
-           border-solid border-t border-r border-l border-black dark:border-grey-dark;
-  }
-
-  .post-notes-wrapper > .pink-btn {
-    @apply w-40 dark:border-grey-dark;
-  }
 
   .post-comment {
     @apply resize-none h-24 w-full p-4 border-solid border-b border-t border-l
@@ -539,14 +353,6 @@
     @apply flex justify-between items-center space-x-8 capitalize text-grey-dark;
   }
 
-  .post-suggestions {
-    @apply py-12 mx-28 mt-20
-           border-t border-solid border-black dark:border-grey-dark;
-  }
-
-  .post-sugg-wrapper {
-    @apply grid grid-cols-2 gap-10 my-10;
-  }
 
 
   /* Edit Post */
@@ -604,44 +410,6 @@
   .post-editor-block {
     @apply p-4 min-h-[400px]
            border-solid border-b border-x border-black dark:border-grey-dark;
-  }
-
-
-  /* Footer */
-
-  .footer {
-    @apply py-20 bg-grey border-solid border-t border-black
-         dark:bg-black-dark dark:border-grey-dark;
-  }
-
-  .footer > .container {
-    @apply flex justify-between
-  }
-
-  .footer .logo {
-    @apply space-x-2
-  }
-
-  .footer .logo > h1 {
-    @apply text-2xl;
-  }
-
-  .footer .logo > svg {
-    @apply h-10 w-10;
-  }
-
-  .footer-topics {
-    @apply flex space-x-12 pt-8;
-  }
-
-  .footer-topics > div {
-    @apply flex flex-col space-y-1;
-  }
-
-  .footer-go-top {
-    @apply cursor-pointer flex flex-col p-4 justify-center
-           w-28 h-28 text-lg font-medium
-         bg-black text-grey-light dark:bg-white dark:text-black;
   }
 
 

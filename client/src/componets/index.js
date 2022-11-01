@@ -5,7 +5,7 @@ import Register from './register'
 import Dropdown from './dropdown'
 import AddImage from './addImage'
 import Loader from './loader'
-import Feed from './feed'
+import Hero from './hero'
 import PostCard from './postCard'
 import Footer from './footer'
 
@@ -18,7 +18,7 @@ export {
   Dropdown,
   AddImage,
   Loader,
-  Feed,
+  Hero,
   PostCard,
   Footer
 }
