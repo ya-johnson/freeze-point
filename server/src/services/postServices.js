@@ -70,6 +70,12 @@ const deletePost = async postId => {
   return post
 }
 
+const deleteAllUserPosts = async userId => {
+  const userPosts = await getUserPosts(userId)
+  const deletedPosts = await Promise.all(userPosts.forEach(async post => await deletePost(post._id)))
+  return deletedPosts
+}
+
 const likePost = async (postId, userId) => {
   const post = await getPostById(postId)
   console.log(post.likes)
@@ -107,6 +113,7 @@ module.exports = {
   createPost,
   updatePost,
   deletePost,
+  deleteAllUserPosts,
   likePost,
   commentPost
 }

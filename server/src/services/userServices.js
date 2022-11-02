@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const { User } = require('../models')
 const imageService = require('./imageServices')
+const postService = require('./postServices')
 
 
 const checkDuplicateEmail = async email => {
@@ -71,6 +72,7 @@ const updateUser = async (updateBody) => {
 const deleteUser = async userId => {
   const user = await getUserById(userId)
   await imageService.removeImg(user.image.id)
+  await postService.deleteAllUserPosts(userId)
   await user.remove()
   return user
 }
