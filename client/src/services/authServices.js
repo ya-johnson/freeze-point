@@ -9,15 +9,18 @@ const toggleAuthModal = (e) => {
   const target = e.target.classList
   const auth = document.querySelector('.auth').classList
   const form = document.querySelector('.form')
+  const regProfile = document.querySelector('.reg-profile')
 
   if (auth.contains('auth-modal-close')) {
     auth.remove('auth-modal-close')
-  } else if (target.contains('auth-close') || target.contains('auth')) {
+  } 
+  else if (target.contains('auth-close') || target.contains('auth')) {
     auth.add('auth-modal-close')
     form.reset()
-  } else if (user !== null) {
+  }
+  else if (!regProfile && user) {
+    if (form) form.reset()
     auth.add('auth-modal-close')
-    form.reset()
   }
 }
 
@@ -35,6 +38,8 @@ const register = async (data) => {
     return {
       id: user._id,
       name: user.name,
+      description: user.description,
+      image: user.image,
       token
     }    
   } 
@@ -53,6 +58,8 @@ const login = async (data) => {
     return {
       id: user._id,
       name: user.name,
+      description: user.description,
+      image: user.image,
       token
     }
   }

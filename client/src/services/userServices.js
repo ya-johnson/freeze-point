@@ -21,11 +21,7 @@ const getUser = async (userId) => {
   try {
     const response = await axios.get(`${BASE_URL}/users/${userId}`)
     const user = await response.data
-
-    return {
-      id: user._id,
-      name: user.name
-    }
+    return user
   }
   catch (err) {
     console.log(err)
@@ -36,13 +32,14 @@ const getUser = async (userId) => {
 const updateUser = async (authToken, userId, data) => {
   try {
     const header = setAuthHeader(authToken)
-    const response = await axios.put(`${BASE_URL}/users/${userId}`, data, header)
-    const { user, token } = await response.data
+    const response = await axios.put(`${BASE_URL}/users/${userId}`, {userId, ...data}, header)
+    const user = await response.data
+    toast.dark(`Your profile updated successfully`, notify.settings)
 
     return {
-      Id: user._id,
-      name: user.name,
-      token
+      id: user._id,
+      token: authToken,
+      ...user
     }
   }
   catch (err) {
