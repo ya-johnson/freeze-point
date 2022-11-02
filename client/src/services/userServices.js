@@ -2,7 +2,7 @@ import axios from 'axios'
 import { BASE_URL } from './index'
 import { setAuthHeader } from './authServices'
 import { toast } from 'react-toastify'
-import { notify } from '../utils'
+import { toastify } from '../utils'
 
 
 const getUsers = async () => {
@@ -13,7 +13,7 @@ const getUsers = async () => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -25,7 +25,7 @@ const getUser = async (userId) => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -34,7 +34,7 @@ const updateUser = async (authToken, userId, data) => {
     const header = setAuthHeader(authToken)
     const response = await axios.put(`${BASE_URL}/users/${userId}`, {userId, ...data}, header)
     const user = await response.data
-    toast.dark(`Your profile updated successfully`, notify.settings)
+    toast.dark(`Your profile updated successfully`, toastify.autoClose)
 
     return {
       id: user._id,
@@ -44,7 +44,7 @@ const updateUser = async (authToken, userId, data) => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -53,11 +53,12 @@ const deleteUser = async (token, userId) => {
     const header = setAuthHeader(token)
     const response = await axios.delete(`${BASE_URL}/users/${userId}`, header)
     const confirm = await response.data
+    toast.dark('Sad to see you go', toastify.autoClose)
     return confirm
   } 
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 

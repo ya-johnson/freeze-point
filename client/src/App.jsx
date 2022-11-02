@@ -1,19 +1,21 @@
 import { Router, Route } from 'wouter'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, Slide } from 'react-toastify'
+import { Nav, AuthModal, Footer } from './componets'
+import { Home, Dashboard, Post, CreatePost } from './pages'
 import '../src/style/index.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import { Nav, AuthModal, Footer } from './componets'
-import { Home, Dashboard, Post, CreatePost } from './pages'
 
 
 const App = () => {
 
   return (
-
     <Router>
-
-      <ToastContainer theme="colored"/>
+      <ToastContainer position='top-center'
+                      theme='colored' 
+                      transition={Slide} 
+                      draggable={true}
+                      closeOnClick={true} />
       <AuthModal />
       <Nav />
 
@@ -30,10 +32,9 @@ const App = () => {
       </Route>
 
       <Footer />
-
     </Router>
-
   )
 }
+
 
 export default App

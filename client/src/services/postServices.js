@@ -2,7 +2,7 @@ import axios from 'axios'
 import { BASE_URL } from './index'
 import { setAuthHeader } from './authServices'
 import { toast } from 'react-toastify'
-import { notify } from '../utils'
+import { toastify } from '../utils'
 
 
 const getPosts = async () => {
@@ -13,7 +13,7 @@ const getPosts = async () => {
   } 
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -25,7 +25,7 @@ const getPost = async (postId) => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -37,7 +37,7 @@ const getUserPosts = async (userId) => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -49,7 +49,7 @@ const getTopicPosts = async (topic) => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -63,7 +63,7 @@ const createPost = async (token, data) => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -76,7 +76,7 @@ const updatePost = async (token, postId, data) => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -86,12 +86,12 @@ const deletePost = async (token, postId) => {
     console.log(header)
     const response = await axios.delete(`${BASE_URL}/posts/post/${postId}`, { data: { postId } , headers: header.headers})
     const confirm = await response.data
-    toast.dark('Post deleted', notify.settings)
+    toast.dark('Post deleted', toastify.autoClose)
     return confirm
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -104,7 +104,7 @@ const likePost = async (token, postId, userId) => {
   }
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 
@@ -119,7 +119,7 @@ const commentPost = async (token, postId, userId, username, body) => {
   } 
   catch (err) {
     console.log(err)
-    toast.error(err.response.data.error, notify.settings)
+    toast.error(err.response.data.error, toastify.autoClose)
   }
 }
 

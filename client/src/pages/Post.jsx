@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'wouter'
 import { toast } from 'react-toastify'
-import { notify } from '../utils'
+import { draft, toastify } from '../utils'
 import { useUserStore } from '../store'
 import { authService ,postService } from '../services'
-import { createHtml } from '../utils'
 import { Loader, PostCard } from '../componets'
 import { BiUpvote, BiCommentDetail } from 'react-icons/bi'
 
@@ -25,7 +24,7 @@ const Post = ({ postId }) => {
   const initPage = async () => {
     const post = await postService.getPost(postId)
     setPost(post)
-    setPostContent(createHtml(post.content))
+    setPostContent(draft.createHtml(post.content))
     setLikes(post.likes)
     setComments(post.comments)
 
@@ -51,11 +50,9 @@ const Post = ({ postId }) => {
     }
 
     if (comment.length < 5) {
-      toast.error('Comment must be at least 5 chracters', notify.settings)
+      toast.error('Comment must be at least 5 chracters', toastify.autoClose)
       return
     }
-
-    console.log(comment)
 
     const comments = await postService.commentPost(user.token, post._id, user.id, user.name, comment)
     setComments(comments)
@@ -73,100 +70,105 @@ const Post = ({ postId }) => {
 
 
   useEffect(() => {
-    
+
     setLoading(true)
     initPage()
     window.scrollTo({top: 0})
-    
+
   }, [postId])
 
 
   return (
     <> 
     { loading ? <Loader /> :
-    <div className="post container">
-      <div className="post-main">
+    <main>
+      <div className="container my-20 max-w-[1000px]">
+        <div className="mx-auto">
 
-        <span className="text-blue">{post.topic}</span>
-        <h1>{post.title}</h1>
-        <Link href={`/users/${post.username}`}>
-          <a className="post-user-link">post.username</a>
-        </Link>
-        
-        <div className="post-content" dangerouslySetInnerHTML={postContent}></div>
+          <div className="space-y-2">
+            <div className="space-y-2 pb-1">
+              <span className="text-blue">{post.topic}</span>
+              <h1>{post.title}</h1>
+            </div>
+            <div className="flex items-end justify-between pb-4">
+              <Link href={`/users/${post.userId}`}>
+                  <a className="capitalize text-lg">{post.username}</a>
+              </Link>
+              <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+            </div>
 
-        <div className="post-notes post-inters">
-          <textarea className="post-comment" 
+          { post.image && <img className="w-full rounded-xl" src={post.image.url}></img> }
+          </div>
+
+          <div className="flex items-center justify-center mb-20 pt-6 pb-14 brd border-b">
+            <div className="post-content" dangerouslySetInnerHTML={postContent}></div>
+          </div>
+
+          <div className="flex items-center">
+            <textarea className="post-comment" 
                       maxLength="200" 
                       onChange={(e => setComment(e.target.value))}
                       placeholder="Your comment goes here ...">
-          </textarea>
+            </textarea>
 
-          <div className="post-notes-wrapper">
-            <div className="post-notes">
-              <div className="post-notes-header-comments">
-                <span>{ comments.length }</span>
-                <BiCommentDetail className="icon" />
+            <div className="h-24 flex flex-col justify-between">
+              <div className="h-full w-full flex items-center justify-center 
+                              space-x-2 brd border-t border-r border-l">
+                <div className="flex items-center space-x-1 text-grey-dark">
+                  <span>{ comments.length }</span>
+                  <BiCommentDetail className="icon" />
+                </div>
+                <div className="flex items-center space-x-1 text-grey-dark">
+                  <span>{ likes.length }</span>
+                  <BiUpvote className="icon" onClick={e => likePost(e)} />
+                </div>
               </div>
-              <div className="post-notes-header-likes">
-                <span>{ likes.length }</span>
-                <BiUpvote className="icon" onClick={e => likePost(e)} />
-              </div>
+              <button className="btn pink-btn w-40"
+                      onClick={e => commentPost(e)}>Add comment
+              </button>
             </div>
-            <button className="btn pink-btn"
-                    onClick={e => commentPost(e)}>Add comment
-            </button>
           </div>
+
+            { comments.length > 0 && 
+            <div className="post-comments">
+              {comments.map(comment => {
+                return (
+                  <div className="post-comment-card">
+                    <p>{comment.body}</p>
+
+                    <div className="post-comment-info">
+                      <Link href={`/users/${comment.userId}`}>
+                        <a>{comment.username}</a>
+                      </Link>
+                      <span>{new Date(comment.date).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>}
+        </div> 
+        
+        <div className="mt-20">
+          { userPosts.length > 0 &&
+          <div>
+            <h3>{`More posts from ${post.username}`}</h3>
+            <div className="grid grid-cols-3 gap-10 my-10">
+              { userPosts.map(post => <PostCard post={post} />)}
+            </div>
+          </div>}
+          
+          { topicPosts.length > 0 &&
+          <div>
+            <h3>{`More posts from ${post.topic}`}</h3>
+            <div className="grid grid-cols-3 gap-10 my-10">
+              {  topicPosts.map(post => <PostCard post={post} />)}
+            </div>
+          </div>}
         </div>
 
-          { comments.length > 0 && 
-          <div className="post-comments">
-            {comments.map(comment => {
-              return (
-                <div className="post-comment-card">
-                  <p>{comment.body}</p>
-                  <div className="post-comment-info">
-                    <Link href={`/users/${comment.userId}`}>
-                      <a>{comment.username}</a>
-                    </Link>
-                    <span>{comment.date}</span>
-                  </div>
-                </div>
-              )
-            })}
- 
-          </div>}
-      </div> 
-      
-      
-      <div className="post-suggestions">
-        { userPosts.length > 0 &&
-        <div className="post-sugg-user">
-          <h3>More posts from username</h3>
-          <div className="post-sugg-wrapper">
-            { userPosts && userPosts.map(post => {
-              return (
-                <PostCard post={post} />
-              )
-            })}
-          </div>
-        </div>}
-        
-        { topicPosts.length > 0 &&
-        <div className="post-sugg-topic">
-          <h3>{`More posts from ${post.topic}`}</h3>
-          <div className="post-sugg-wrapper">
-            {  topicPosts.map(post => {
-              return (
-                <PostCard post={post} />
-              )
-            })}
-          </div>
-        </div>}
       </div>
-
-    </div>}
-
+    </main>
+    }
     </>
   )
 }

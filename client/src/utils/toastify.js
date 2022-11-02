@@ -1,15 +1,17 @@
+const open = {
+  autoClose: false,
+  progress: undefined
+}
 
-const settings = {
-  position: 'top-center',
+const autoClose = {
   autoClose: 5000,
   hideProgressBar: false,
-  closeOnClick: true,
   pauseOnHover: true,
-  draggable: true,
   progress: undefined,
 }
 
 
 export {
-  settings
+  open,
+  autoClose
 }
