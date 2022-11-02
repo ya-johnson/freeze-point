@@ -11,7 +11,7 @@ const app = express()
 
 app.use('/api', proxy('http://localhost:5173'))
 app.use(cors())
-app.use(express.json({ limit: '800kb' }))
+app.use(express.json({ limit: '8000kb' }))
 
 app.use('/v1', routes)
 
