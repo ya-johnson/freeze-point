@@ -37,9 +37,13 @@ const Home = ({ topicName }) => {
     setLocation('/create-post')
   }
 
+  useEffect(() => {
+    setTopic(topicName)
+  }, [topicName])
 
   useEffect(() => {
     !topic ? setTopicPosts(null) : getTopicPosts()
+    window.scrollTo({top: 0})
   }, [topic])
 
   useEffect(() => {
@@ -61,7 +65,7 @@ const Home = ({ topicName }) => {
 
           <div className="grid grid-cols-3 gap-10 my-10">
           { topicPosts ? topicPosts.map(post => <PostCard post={post} />)
-                                            : posts.map(post => <PostCard post={post} />) }
+                       : posts.map(post => <PostCard post={post} />) }
           </div>
         </div>
 
