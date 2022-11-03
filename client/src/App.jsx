@@ -14,12 +14,14 @@ const App = () => {
       <ToastContainer position='top-center'
                       theme='colored' 
                       transition={Slide} 
-                      draggable={true}
-                      closeOnClick={true} />
+                      closeOnClick={false} />
       <AuthModal />
       <Nav />
 
       <Route path='/' component={Home} />
+      <Route path='/topics/:topic'>
+        { params => <Home topicName={params.topic} />}
+      </Route>
       <Route path='/create-post' component={CreatePost} />
       <Route path='/posts/:post'>
         { params => <Post postId={params.post} /> }

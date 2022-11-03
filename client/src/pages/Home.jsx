@@ -6,12 +6,12 @@ import { PostCard, Loader } from '../componets'
 import { GiPentarrowsTornado } from 'react-icons/gi'
 
 
-const Home = () => {
+const Home = ({ topicName }) => {
 
   const user = useUserStore(state => state.user)
   const topics = useTopicsStore(state => state.topics)
   const [posts, setPosts] = useState()
-  const [topic, setTopic] = useState()
+  const [topic, setTopic] = useState(topicName)
   const [topicPosts, setTopicPosts] = useState()
   const [loading, setLoading] = useState(true)
   const [location, setLocation] = useLocation()
@@ -22,18 +22,10 @@ const Home = () => {
     setLoading(false)
   }
 
-  const getTopicPosts = async (topicItem) => {
-    if (topicItem === topic) {
-      setTopic(null)
-      setTopicPosts(null)
-    } 
-    else {
-      setLoading(true)
-      setTopic(topicItem)
-      const topicPosts = await postService.getTopicPosts(topicItem)
-      setTopicPosts(topicPosts)
-      setLoading(false)
-    }
+  const getTopicPosts = async () => {
+    const topicPosts = await postService.getTopicPosts(topic)
+    setTopicPosts(topicPosts)
+    setLoading(false)
   }
 
   const createPost = (e) => {
@@ -45,6 +37,10 @@ const Home = () => {
     setLocation('/create-post')
   }
 
+
+  useEffect(() => {
+    !topic ? setTopicPosts(null) : getTopicPosts()
+  }, [topic])
 
   useEffect(() => {
     getPosts()
@@ -65,8 +61,7 @@ const Home = () => {
 
           <div className="grid grid-cols-3 gap-10 my-10">
           { topicPosts ? topicPosts.map(post => <PostCard post={post} />)
-                       : posts.map(post => <PostCard post={post} />)
-          }
+                                            : posts.map(post => <PostCard post={post} />) }
           </div>
         </div>
 
@@ -77,7 +72,7 @@ const Home = () => {
               <span>Topics</span>
             </div>
             <button className="text-sm"
-                    onClick={() => getTopicPosts(topic)}>Clear
+                    onClick={() => setTopic(null)}>Clear
             </button>
           </div>
 
@@ -86,7 +81,7 @@ const Home = () => {
               return (
                 <button className={`btn neutral-btn py-1 px-2 text-sm 
                                     ${topicItem === topic && 'neutral-active'}`}
-                        onClick={() => getTopicPosts(topicItem)}>{topicItem}
+                        onClick={() => topicItem === topic ? setTopic(null) : setTopic(topicItem)}>{topicItem}
                 </button>
               )
             })}
