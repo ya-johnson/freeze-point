@@ -40,9 +40,10 @@ const getUsers = async () => {
   return users
 }
 
-const getUser = async (userId) => {
+const getUser = async userId => {
   const user = await getUserById(userId)
-  return user
+  const followers = await User.find({ following: { users: userId }})
+  return { user, followers }
 }
 
 const createUser = async userBody => {
@@ -85,5 +86,5 @@ module.exports = {
   getUser,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
 }
