@@ -87,7 +87,9 @@ const Post = ({ postId }) => {
 
           <div className="space-y-2">
             <div className="space-y-2 pb-1">
-              <span className="text-blue">{post.topic}</span>
+              <Link href={`/topics/${post.topic}`}>
+                <a className="text-blue">{post.topic}</a>
+              </Link>
               <h1>{post.title}</h1>
             </div>
             <div className="flex items-end justify-between pb-4">
