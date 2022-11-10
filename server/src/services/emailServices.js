@@ -11,5 +11,5 @@ const sendEmail = async (to, subject, text) => {
 
 
 module.exports = {
-  sendEmail
+  sendEmail,
 }

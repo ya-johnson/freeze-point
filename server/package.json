@@ -18,7 +18,6 @@
     "express-http-proxy": "^1.6.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.5",
-    "nodemailer": "^6.8.0",
     "nodemon": "^2.0.19",
     "validator": "^13.7.0"
   }

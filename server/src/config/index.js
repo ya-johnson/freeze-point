@@ -7,7 +7,7 @@ const config = {
   secret: process.env.SECRET,
   email: {
     smtp: process.env.EMAIL_SMTP,
-    from: process.env.EMAIL_FROM
+    from: process.env.EMAIL_FROM,
   },
   cloudinary: {
     apiKey: process.env.CLOUDINARY_API_KEY,

@@ -5,7 +5,7 @@ const postService = require('./postServices')
 const imageService = require('./imageServices')
 
 
-module.exports = { 
+module.exports = {
   authService,
   emailService,
   userService,
