@@ -1,16 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { IoMdArrowDropdown, IoMdCloseCircleOutline } from 'react-icons/io'
 
 
-const Dropdown = ({ type, className, title, list, setItem }) => {
+const Dropdown = ({ type,
+                    className,
+                    title,
+                    list,
+                    defaultItem,
+                    setItem }) => {
 
-  const [isMenu, setIsMenu] = useState('dd-close')
-  const [selected, setSelected] = useState()
-  
-
-  const toggleDropdown = () => {
-    isMenu === 'dd-close' ? setIsMenu('dd-open') : setIsMenu('dd-close')
-  }
+  const [selected, setSelected] = useState(defaultItem && defaultItem)
 
   const onItemClick = (item) => {
     if (type === 'action') {
@@ -24,28 +23,51 @@ const Dropdown = ({ type, className, title, list, setItem }) => {
     }
   }
 
+  const removeItem = () => {
+    setItem(null)
+    setSelected(null)
+  }
+
+
+  useEffect(() => {
+    window.addEventListener('click', e => {
+      const target = e.target.classList
+      const dd = document.querySelector('.dd-wrapper')
+
+      if (target.contains('dd') && dd.classList.contains('dd-close')) {
+        dd.classList.remove('dd-close')
+        dd.classList.add('dd-open')
+      } 
+      else if (dd.classList.contains('dd-open')) {
+        dd.classList.remove('dd-open')
+        dd.classList.add('dd-close')
+      }
+    })
+  }, [])
+
 
   return (
-    <div className={`btn dd-wrapper ${className} ${isMenu}`}
-         onClick={toggleDropdown}>
+    <div className={`dd dd-wrapper cursor-pointer btn relative bg-white dark:bg-black-dark 
+                    dark:border-grey-dark min-w-[130px] dd-close ${className}`}>
 
-      <div className="dd-title">
-        <span>{title}</span>
+      <div className="dd dd-title flex justify-between items-center space-x-2 capitalize">
+        <span className="dd">{title}</span>
         { selected && 
-          <div className="dd-selected-item">{selected}
-            <IoMdCloseCircleOutline className="dd-selected-item-remove" 
-                                    onClick={() => setSelected(null)}/>      
+          <div className="flex items-center px-1 text-black bg-blue rounded-md">{selected}
+            <IoMdCloseCircleOutline className=" h-6 w-6 ml-1 px-1"  onClick={removeItem}/>      
           </div>}
-        <IoMdArrowDropdown className="dd-icon"/>
+        <IoMdArrowDropdown className="dd h-6 w-6 rotate-180"/>
       </div>
 
-      <div className="btn dd-list">
-        { list.map( item => {
+      <div className="btn dd-list absolute top-full left-0 -translate-x-[1px] overflow-scroll
+                      w-[calc(100%+2px)] max-h-[calc(100%*4+8px)] space-y-2 bg-white
+                      dark:bg-black-dark dark:border-grey-dark duration-300 z-50">
+        { list.map((item, index) => {
           return (
-            <div key={type === 'select' ? item : item.name} 
-              className="dd-item" 
-              onClick={() => onItemClick(item)}>
-              {type === 'select' ? item : item.name}
+            <div key={index} 
+                 className={`dd-item ${type === 'action' && item.className}`}
+                 onClick={() => onItemClick(item)}>
+                 {type === 'select' ? item : item.name}
             </div>
           )
         })}
