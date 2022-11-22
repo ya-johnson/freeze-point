@@ -4,26 +4,6 @@ import { toast } from 'react-toastify'
 import { toastify } from '../utils'
 
 
-const toggleAuthModal = (e) => {
-  const user = JSON.parse(localStorage.getItem('user')).state.user
-  const target = e.target.classList
-  const auth = document.querySelector('.auth').classList
-  const form = document.querySelector('.form')
-  const regProfile = document.querySelector('.reg-profile')
-
-  if (auth.contains('auth-modal-close')) {
-    auth.remove('auth-modal-close')
-  } 
-  else if (target.contains('auth-close') || target.contains('auth')) {
-    auth.add('auth-modal-close')
-    form.reset()
-  }
-  else if (!regProfile && user) {
-    if (form) form.reset()
-    auth.add('auth-modal-close')
-  }
-}
-
 const setAuthHeader = (token) => {
   const header = { headers: {'Authorization': `Token ${token}`} }
   return header
@@ -71,7 +51,6 @@ const login = async (data) => {
 
 
 export {
-  toggleAuthModal,
   setAuthHeader,
   register,
   login

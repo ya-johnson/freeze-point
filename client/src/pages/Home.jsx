@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'wouter'
+import { useAuthModal } from '../hooks'
 import { useUserStore, useTopicsStore } from '../store'
-import { authService, postService } from '../services'
-import { PostCard, Loader } from '../componets'
+import { postService } from '../services'
+import { PostCard, Loader, Dropdown } from '../componets'
 import { GiPentarrowsTornado } from 'react-icons/gi'
 
 
@@ -15,6 +16,7 @@ const Home = ({ topicName }) => {
   const [topicPosts, setTopicPosts] = useState()
   const [loading, setLoading] = useState(true)
   const [location, setLocation] = useLocation()
+  const { toggleAuthModal } = useAuthModal()
 
   const getPosts = async () => {
     const posts = await postService.getPosts()
@@ -30,7 +32,7 @@ const Home = ({ topicName }) => {
 
   const createPost = (e) => {
     if (!user) {
-      authService.toggleAuthModal(e)
+      toggleAuthModal(e)
       return
     }
 
@@ -54,22 +56,27 @@ const Home = ({ topicName }) => {
   return (
     <main>
     { loading ? <Loader /> : 
-      <div className="container flex justify-between py-8 min-h-screen">
-        <div className="grow pr-8 border-r border-solid border-black dark:border-grey-dark">
+      <div className="container flex justify-between min-h-screen">
+        <div className="grow brd lg:pr-8 lg:border-r">
           <div className="flex items-center justify-between pb-8 brd border-b">
             <h2>Latest Posts</h2>
-            <button className="btn pink-btn"
+            <button className="hidden btn pink-btn lg:block"
                     onClick={e => createPost(e)}>Create Post
             </button>
+            <Dropdown type={'select'}
+                      className={'lg:hidden'}
+                      title={'Topic:'}
+                      list={topics}
+                      setItem={setTopic} />
           </div>
 
-          <div className="grid grid-cols-3 gap-10 my-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 my-10">
           { topicPosts ? topicPosts.map(post => <PostCard post={post} />)
                        : posts.map(post => <PostCard post={post} />) }
           </div>
         </div>
 
-        <div className=" max-w-xs pl-8 py-2">
+        <div className="hidden lg:block lg:max-w-[200px] xl:max-w-xs pl-8 py-2">
           <div className="flex items-end justify-between pb-8">
             <div className="flex items-center space-x-2 text-lg">
               <GiPentarrowsTornado className="h-6 w-6"/>

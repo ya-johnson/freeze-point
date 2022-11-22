@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'wouter'
+import { useAuthModal } from '../hooks'
+import { useUserStore } from '../store'
+import { postService } from '../services'
+import { Loader, PostCard } from '../componets'
 import { toast } from 'react-toastify'
 import { draft, toastify } from '../utils'
-import { useUserStore } from '../store'
-import { authService ,postService } from '../services'
-import { Loader, PostCard } from '../componets'
 import { BiUpvote, BiCommentDetail } from 'react-icons/bi'
 
 
@@ -19,7 +20,7 @@ const Post = ({ postId }) => {
   const [comments, setComments] = useState()
   const [userPosts, setUserPosts] = useState()
   const [topicPosts, setTopicPosts] = useState()
-
+  const { toggleAuthModal } = useAuthModal()
   
   const initPage = async () => {
     const post = await postService.getPost(postId)
@@ -45,7 +46,7 @@ const Post = ({ postId }) => {
 
   const commentPost = async (e) => {
     if (!user) {
-      authService.toggleAuthModal(e)
+      toggleAuthModal(e)
       return
     }
 
@@ -60,7 +61,7 @@ const Post = ({ postId }) => {
 
   const likePost = async (e) => {
     if (!user) {
-      authService.toggleAuthModal(e)
+      toggleAuthModal(e)
       return
     }
 
@@ -70,11 +71,9 @@ const Post = ({ postId }) => {
 
 
   useEffect(() => {
-
     setLoading(true)
     initPage()
     window.scrollTo({top: 0})
-
   }, [postId])
 
 
@@ -82,7 +81,7 @@ const Post = ({ postId }) => {
     <> 
     { loading ? <Loader /> :
     <main>
-      <div className="container my-20 max-w-[1000px]">
+      <div className="container max-w-[1000px]">
         <div className="mx-auto">
 
           <div className="space-y-2">
@@ -102,30 +101,30 @@ const Post = ({ postId }) => {
           { post.image && <img className="w-full rounded-xl" src={post.image.url}></img> }
           </div>
 
-          <div className="flex items-center justify-center mb-20 pt-6 pb-14 brd border-b">
+          <div className="flex items-center justify-center mb-28 pt-6">
             <div className="post-content" dangerouslySetInnerHTML={postContent}></div>
           </div>
 
-          <div className="flex items-center">
-            <textarea className="post-comment" 
+          <div className="flex items-center space-x-10">
+            <textarea className="resize-none h-24 w-full p-4 bg-white dark:bg-black-dark" 
                       maxLength="200" 
                       onChange={(e => setComment(e.target.value))}
                       placeholder="Your comment goes here ...">
             </textarea>
 
-            <div className="h-24 flex flex-col justify-between">
+            <div className="h-24 flex flex-col justify-between bg-white dark:bg-black-dark">
               <div className="h-full w-full flex items-center justify-center 
-                              space-x-2 brd border-t border-r border-l">
+                              space-x-2">
                 <div className="flex items-center space-x-1 text-grey-dark">
                   <span>{ comments.length }</span>
                   <BiCommentDetail className="icon" />
                 </div>
                 <div className="flex items-center space-x-1 text-grey-dark">
                   <span>{ likes.length }</span>
-                  <BiUpvote className="icon" onClick={e => likePost(e)} />
+                  <BiUpvote className="icon hover:text-blue" onClick={e => likePost(e)} />
                 </div>
               </div>
-              <button className="btn pink-btn w-40"
+              <button className="btn blue-btn w-40"
                       onClick={e => commentPost(e)}>Add comment
               </button>
             </div>
@@ -154,7 +153,7 @@ const Post = ({ postId }) => {
           { userPosts.length > 0 &&
           <div>
             <h3>{`More posts from ${post.username}`}</h3>
-            <div className="grid grid-cols-3 gap-10 my-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 my-10">
               { userPosts.map(post => <PostCard post={post} />)}
             </div>
           </div>}
@@ -162,7 +161,7 @@ const Post = ({ postId }) => {
           { topicPosts.length > 0 &&
           <div>
             <h3>{`More posts from ${post.topic}`}</h3>
-            <div className="grid grid-cols-3 gap-10 my-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 my-10">
               {  topicPosts.map(post => <PostCard post={post} />)}
             </div>
           </div>}
