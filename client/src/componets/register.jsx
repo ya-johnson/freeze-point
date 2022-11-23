@@ -20,6 +20,7 @@ const Register = ({ changeAuth }) => {
   const { toggleAuthModal } = useAuthModal()
 
   const register = async () => {
+    e.preventDefault()
     setFormError(null)
     
     const form = { name, email, password }
@@ -42,7 +43,7 @@ const Register = ({ changeAuth }) => {
   const updateUser = async (e) => {
     const userPro = await userService.updateUser(user.token, user.id, {description, image})
     setUser(userPro)
-    closeProfile(e)
+    toggleAuthModal(e)
   }
 
 

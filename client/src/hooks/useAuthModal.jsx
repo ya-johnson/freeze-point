@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import { useUserStore } from '../store'
 
 
 const useAuthModal = () => {
 
-  const user = useUserStore(state => state.user)
   const [authType, setAuthType] = useState('login')
   const changeAuth = () => authType === 'login' ? setAuthType('register') : setAuthType('login')
 
@@ -13,6 +11,7 @@ const useAuthModal = () => {
     const auth = document.querySelector('.auth').classList
     const form = document.querySelector('.form')
     const regProfile = document.querySelector('.reg-profile')
+    const user = JSON.parse(localStorage.getItem('user')).state.user
     
     if (auth.contains('auth-modal-close')) {
       auth.remove('auth-modal-close')

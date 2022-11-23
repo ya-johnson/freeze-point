@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useLocation } from 'wouter'
 import { useAuthModal } from '../hooks'
 import { useUserStore } from '../store'
 import { authService } from '../services'
@@ -12,10 +11,10 @@ const Login = ({ changeAuth }) => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [formError, setFormError] = useState()
-  const [location, setLocation] = useLocation()
   const { toggleAuthModal } = useAuthModal()
 
   const login = async (e) => {
+    e.preventDefault()
     setFormError(null)
 
     const form = { email, password }
@@ -29,7 +28,6 @@ const Login = ({ changeAuth }) => {
     const user = await authService.login(form)
     setUser(user)
     toggleAuthModal(e)
-    setLocation('/')
   }
 
   return (
