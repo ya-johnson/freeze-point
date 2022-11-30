@@ -13,7 +13,7 @@ const register = async (data) => {
   try {
     const response = await axios.post(`${BASE_URL}/auth/register`, data)
     const { user, token } = await response.data
-    toast.dark(`Hello ${user.name}, Welocome to Freeze Point`, toastify.autoClose)
+    toast(`Hello ${user.name}, Welocome to Freeze Point`, toastify.autoClose)
 
     return {
       id: user._id,
