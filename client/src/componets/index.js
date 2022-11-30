@@ -4,8 +4,8 @@ import Login from './login'
 import Register from './register'
 import Dropdown from './dropdown'
 import AddImage from './addImage'
+import SearchBox from './searchBox'
 import Loader from './loader'
-import Hero from './hero'
 import PostCard from './postCard'
 import Footer from './footer'
 
@@ -17,8 +17,8 @@ export {
   Register,
   Dropdown,
   AddImage,
+  SearchBox,
   Loader,
-  Hero,
   PostCard,
   Footer
 }
