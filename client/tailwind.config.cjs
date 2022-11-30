@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     container: {
       center: true,
+      padding: '1rem'
     },
     colors: {
       'black-dark': '#0D0D0D',
@@ -15,22 +16,23 @@ module.exports = {
       'grey': '#D9D9D9',
       'grey-light': '#ECECEC',
       'white': '#FFFFFF',
-      'pink': '#FB6F92',
+      'pink': '#FA4E79',
+      'pink-light': '#FB6F92',
+      'dim-pink': '#FB6F9260',
       'blue': '#00BBF9',
-      'green': '#7DDF64',
-      'red': '#E63946'
+      'blue-light': '#4FD3FF',
+      'dim-blue': '#4FD3FF60',
+      'green': '#4ED32C',
+      'green-light': '#7DDF64',
+      'dim-green': '#7DDF6460',
+      'red': '#E63946',
+      'red-light': '#EA5762',
+      'dim-red': '#EA576260'
     },
     fontFamily: {
       'ubuntu': ['Ubuntu', 'sans-serif']
     },
-    extend: {
-      backgroundImage: {
-        'hero-dark': 'url(./src/assets/hero-dark.svg)',
-        'hero-light': 'url(./src/assets/hero-light.svg)',
-        'login': 'url(./src/assets/login.jpg)',
-        'register': 'url(./src/assets/register.jpg)',
-      }
-    },
+    extend: {},
   },
   plugins: [],
 }

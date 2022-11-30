@@ -22,6 +22,10 @@
          dark:bg-black dark:text-grey;
   }
 
+  main {
+    @apply min-h-[80vh] my-14;
+  }
+
   h1,
   h2,
   h3,
@@ -62,23 +66,20 @@
   }
 
   .btn {
-    @apply py-2 px-4 border-solid border
-           transition-all duration-500;
+    @apply py-2 px-4 border-solid border;
+  }
+
+  .input {
+    @apply bg-grey-light dark:bg-black;
   }
 
   .icon {
     @apply cursor-pointer h-10 w-10 p-2
            rounded-full fill-grey-dark hover:fill-black
-           dark:hover:fill-grey
-           transition-all duration-500;
+           dark:hover:fill-grey;
   }
 
   /* Buttons */
-
-  .btn {
-    @apply py-2 px-4 border-solid border
-           transition-all duration-500;
-  }
 
   .neutral-btn {
     @apply border-grey-dark bg-grey-light text-grey-dark
@@ -88,30 +89,90 @@
   }
 
   .neutral-active {
-    @apply text-black dark:text-grey-light border-black dark:border-grey-light;
+    @apply bg-white text-blue border-blue 
+           dark:bg-black-dark dark:text-blue dark:border-blue;
   }
 
   .green-btn {
-    @apply border-black bg-black text-grey-light 
-           dark:border-grey-dark dark:bg-black-dark
-           hover:text-black hover:bg-green
-           dark:hover:text-black dark:hover:bg-green dark:hover:border-black-dark;
+    @apply border-green-light bg-green-light text-black-dark hover:bg-green;
   }
 
   .pink-btn {
-    @apply border-black bg-black text-grey-light 
-           dark:border-grey-dark dark:bg-black-dark
-           hover:text-black hover:bg-pink
-           dark:hover:text-black dark:hover:bg-pink dark:hover:border-black-dark;
+    @apply border-pink-light bg-pink-light text-black-dark hover:bg-pink;
+  }
+
+  .blue-btn {
+    @apply border-blue-light bg-blue-light text-black-dark hover:bg-blue;
+  }
+
+  .red-btn {
+    @apply border-red-light text-red-light bg-dim-red 
+           hover:border-red-light hover:text-black hover:bg-red-light;
+  }
+
+  .dim-pink-btn {
+    @apply bg-dim-pink text-pink-light border-pink-light
+           hover:bg-pink hover:text-black hover:border-pink;
+  }
+
+  .dim-green-btn {
+    @apply bg-dim-green text-green-light border-green-light
+           hover:bg-green hover:text-black hover:border-green;
+  }
+
+  .dim-blue-btn {
+    @apply bg-dim-blue text-blue-light border-blue-light
+           hover:bg-blue hover:text-black hover:border-blue;
+  }
+
+  .dim-red-btn {
+    @apply bg-dim-red text-red-light border-red-light
+           hover:bg-red hover:text-black hover:border-red;
+  }
+
+  .logout-btn {
+    @apply text-red;
   }
 
 
+  /* Toast */
+
+  .toast-container {
+    @apply bg-white dark:bg-black-dark;
+  }
+
+  .Toastify__toast {
+    @apply bg-white dark:bg-black-dark;
+  }
+
+  .toast-body {
+    @apply bg-white dark:bg-black-dark;
+  }
+
+  .Toastify__toast-theme--colored.Toastify__toast--default {
+    @apply p-4;
+  }
+
+  .Toastify__toast-theme--colored.Toastify__toast--success {
+    @apply bg-red-light;
+  }
+
+  .Toastify__toast-theme--colored.Toastify__toast--error {
+    @apply bg-green-light;
+  }
+
+  .Toastify__progress-bar {
+    @apply bg-pink-light;
+  }
+
+  .Toastify__progress-bar--success {
+    @apply bg-green;
+  }
+
+  .Toastify__progress-bar--error {
+    @apply bg-red;
+  }
   /* Dropdown */
-
-  .dd-wrapper {
-    @apply relative cursor-pointer 
-         bg-white dark:bg-black dark:border-grey-dark;
-  }
 
   .dd-close > .dd-list {
     @apply opacity-0 invisible;
@@ -119,75 +180,6 @@
 
   .dd-close > .dd-title > svg {
     @apply rotate-0;
-  }
-
-  .dd-title {
-    @apply flex justify-between items-center space-x-2 capitalize;
-  }
-
-  .dd-title > svg {
-    @apply h-6 w-6 rotate-180 transition-all duration-300;
-  }
-
-  .dd-list {
-    @apply absolute top-full left-0 -translate-x-[1px] overflow-scroll
-           w-[calc(100%+2px)] max-h-[calc(100%*4+8px)] space-y-2 duration-300
-           border-solid border bg-white
-           dark:bg-black dark:border-grey-dark z-50;
-  }
-
-  .dd-item {
-    @apply transition-all duration-500;
-  }
-
-  .dd-selected-item {
-    @apply flex items-center px-1 text-black bg-blue rounded-md;
-  }
-
-  .dd-selected-item-remove {
-    @apply h-6 w-6 ml-1 px-1;
-  }
-
-
-  /* Add Image */
-
-  .add-img {
-    @apply relative w-[400px]
-           border-solid border border-black dark:border-grey-dark;
-  }
-
-  .add-img-img {
-    @apply h-auto w-full;
-  }
-
-  .add-img-btn {
-    @apply flex space-x-4 items-center justify-center min-h-[220px]
-           cursor-pointer text-xl hover:text-blue
-           border-solid border border-black dark:border-grey-dark;
-  }
-
-  .add-img-btn > input {
-    @apply hidden;
-  }
-
-  .add-img-btn > svg {
-    @apply h-8 w-8;
-  }
-
-  .add-img-selected {
-    @apply absolute bottom-0 right-0 min-h-0 space-x-0 p-4 border-none;
-  }
-
-
-  .auth-btn {
-    @apply border-black bg-black text-grey-light 
-           dark:border-grey-dark dark:bg-black-dark
-           hover:text-black hover:bg-green
-           dark:hover:text-black dark:hover:bg-green dark:hover:border-black-dark;
-  }
-
-  .logout-btn {
-    @apply text-red;
   }
 
   /* Signin / Register */
@@ -223,31 +215,9 @@
   .auth-close:hover > svg {
     @apply fill-red dark:fill-red;
   }
-
-  .login,
-  .register {
-    @apply flex;
-  }
-  
-  .login-right > h2,
-  .register-right > h2 {
-    @apply text-2xl capitalize;
-  }
-
-  .login-right,
-  .register-right {
-    @apply flex flex-col items-center space-y-6 p-14 w-[450px];
-  }
-
-  .login-left,
-  .register-left {
-    @apply h-auto w-[450px] bg-no-repeat bg-cover bg-center
-           border-black border-r
-           dark:bg-black-dark dark:border-grey-dark;
-  }
   
   .form {
-    @apply w-80 flex flex-col items-center space-y-6 mb-6;
+    @apply w-full flex flex-col items-center space-y-6 mb-6;
   }
   
   .form > input {
@@ -296,24 +266,6 @@
   .form-err-name-email-password > .password {
     @apply border-red;
   }
-
-
-  /* Hero */
-
-  .hero {
-    @apply h-[90vh] w-full relative 
-           border-black border-b
-           dark:bg-black-dark dark:border-grey-dark;
-  }
-
-  .hero-bg {
-    @apply h-full w-full bg-no-repeat bg-cover bg-center;
-  }
-
-  .hero-content {
-    @apply absolute text-center space-y-2 top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 text-black;
-  }
-
 
   /* Post Card */
 
@@ -408,7 +360,7 @@
   }
 
   .post-editor-block {
-    @apply p-4 min-h-[400px]
+    @apply py-4 px-8 min-h-[400px]
            border-solid border-b border-x border-black dark:border-grey-dark;
   }
 
