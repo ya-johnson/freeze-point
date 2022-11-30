@@ -2,16 +2,35 @@
 
 ## About
 
-### Build With
+Freeze Point is a Rich-text Blogging platform.
 
-NodeJS Express MongoDB Mongoose JWT
-Vite React Wouter Zustand Tailwind
+#### Summery:
+* Users: 
+    * Create/Read/Update/Delete
+    * Follow Users and Topics
+* Posts: Create/Read/Update/Delete
+    * Like and Comment
 
-- [Auto-Animate](https://auto-animate.formkit.com)
+#### Build With
 
-## Getting started
+* NodeJS 
+* Express
+* MongoDB 
+* Mongoose
+* JWT
+* Cloudinary
 
-### Prerequisites
+
+* Vite 
+* React 
+* Wouter
+* Zustand
+* Tailwind
+
+
+### Getting started
+
+#### Prerequisites
 
 NodeJs
 * Check if NodeJs already installed on your machine
@@ -25,7 +44,7 @@ NodeJs
   $ sudo pacman -S node-js
   ```
 
-### Installation
+#### Installation
 
 1. Clone the repo
    ```sh
@@ -33,6 +52,7 @@ NodeJs
    ```
 2. Install NPM packages
    ```sh
+   $ cd ~/path_to_project_folder/freeze-point
    $ cd client
    $ npm i
    $ cd ../server
@@ -40,6 +60,7 @@ NodeJs
    ```
 3. Create .env file in the server directory
    ```sh
+   $ cd ~/path_to_project_folder/freeze-point/server
    $ touch .env
    ```
 4. Set env variables
@@ -47,14 +68,20 @@ NodeJs
    PORT=YOUR_PORT
    SECRET=YOUR_JWT_SECRET
    DB=YOUR_MONGODB_KEY
+   CLOUDINARY_API_KEY=YOUR_CLOUDINARY_API_KEY
+   CLOUDINARY_API_SECRET=YOUR_CLOUDINARY_API_SECRET
+   CLOUDINARY_NAME=YOUR_CLOUDINARY_NAME
+   EMAIL_SMTP=YOUR_EMAIL_SMTP_SERVER
+   EMAIL_FROM_YOUT_EMAIL_DOMAIN
    ```
 
-Note: At the time of develpoment [Vite.js proxy didnt work](https://github.com/vitejs/vite/issues/6102). <br/>
-      In order to work locally and avoiding CORS you'll need to setup proxy in Node js
+##### Note:
+At the time of develpoment [Vite.js proxy didnt work](https://github.com/vitejs/vite/issues/6102). <br/>
+In order to work locally and avoiding CORS you'll need to setup a reversed proxy in Node js.
       
- 1. Install 'express-http-proxy' in the server directory
+1. Install 'express-http-proxy' in the server directory
    ```sh
-   $ ~/path_to_project_folder/freeze-point/server
+   $ cd ~/path_to_project_folder/freeze-point/server
    $ npm i express-http-proxy
    ```
 
@@ -65,8 +92,29 @@ Note: At the time of develpoment [Vite.js proxy didnt work](https://github.com/v
    app.use('/api', proxy('http://localhost:5173'))
    ```
 
+### Run
+
+* server
+    ```sh
+    $ cd ~/path_to_project_folder/freeze-point/server
+    $ npm run dev
+    ```   
+* client
+    ```sh
+    $ cd ~/path_to_project_folder/freeze-point/client
+    $ npm run dev
+    ```
+
+---
+
 ## Todo
 
+- [ ] Migrate to TypeScript
+- [ ] Add User History - Posts, Likes, Comments
+- [ ] Add Pagination
+- [ ] Add Search
+- [ ] Add user Post collections
+- [ ] Fix JWT - Coockie HTTP only
 - [ ] Add Email service
-  - [ ] Add Rest password to Auth services
-
+  - [ ] Add Reset password to Auth services
+- [ ] Add Chat service - WebSoket
