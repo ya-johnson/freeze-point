@@ -42,7 +42,7 @@ const getUsers = async () => {
 
 const getUser = async userId => {
   const user = await getUserById(userId)
-  const followers = await User.find({ following: { users: userId }})
+  const followers = await User.find({ following: userId })
   return { user, followers }
 }
 

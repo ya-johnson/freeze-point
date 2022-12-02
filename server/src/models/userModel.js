@@ -24,10 +24,7 @@ const userSchema = new schema({
   description: {
     type: String
   },
-  following: {
-    users: [],
-    topics: []
-  }
+  following: []
   
 }, { timestamps: true })
 
