@@ -2,62 +2,77 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'wouter'
 import { useUserStore, useTopicsStore } from '../store'
 import { postService } from '../services'
-import { EditorState, convertToRaw } from 'draft-js'
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 import { Dropdown, AddImage } from '../componets'
 import { draft } from '../utils'
 
 
-
-const CreatePost = () => {
+const PostEditor = ({ postId }) => {
 
   const user = useUserStore(state => state.user)
   const topics = useTopicsStore(state => state.topics)
-  const [location, setLocation] = useLocation()
-
+  const [editPost, setEditPost] = useState()
   const [titleState, setTitleState] = useState()
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty())
+  const [editorState, setEditorState] = useState(!postId ? () => EditorState.createEmpty() : null)
   const [convertedJson, setConvertedJson] = useState()
   const [imageData, setImageData] = useState()
   const [topic, setTopic] = useState()
+  const [location, setLocation] = useLocation()
 
   const onEditorChange = (state) => {
     setEditorState(state)
     setConvertedJson(JSON.stringify(convertToRaw(editorState.getCurrentContent())))
   }
 
+  const getPost = async () => {
+    const post = await postService.getPost(postId)
+    setEditPost(post)
+    setTitleState(post.title)
+    setTopic(post.topic)
+    setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(post.content))))
+  }
+
   const savePost = async () => {
     const createdPost = {
       userId: user.id,
       username: user.name,
-      image: imageData,
+      image: imageData || editPost.image,
       title: titleState,
       content: convertedJson,
       topic: topic,
     }
 
-    const post = await postService.createPost(user.token, createdPost)           
-    setLocation(`/posts/${post._id}`)
+    if (editPost) {
+      console.log(createdPost.image)
+      const post = await postService.updatePost(user.token, postId, createdPost)
+      setLocation(`/posts/${post._id}`)
+    } else {
+      const post = await postService.PostEditor(user.token, createdPost)           
+      setLocation(`/posts/${post._id}`)
+    }
   }
 
 
   useEffect(() => {
     if (!user) {
       setLocation('/')
+      return
     }
-  }, [user])
+    if (postId) {
+      getPost()
+    }
+  }, [])
 
           
   return (
     
-    <div className="container flex flex-col items-center">
-      <div className="post-edit">
+    <main className="container flex items-center justify-center">
+      <div className="max-w-[1000px] w-full">
+        <div className="mb-10">
+          <AddImage defaultImage={editPost && editPost.image.url} setImageData={setImageData} />
 
-        <div className="post-editor-header">
-
-          <AddImage setImageData={setImageData} />
-
-          <div className="post-editor-header-right">
+          <div className="flex flex-col justify-between space-y-6 my-8">
             <div className="post-editor-header-title">
               <h2>{titleState ? titleState : 'Title'}</h2>
               <input type="text" 
@@ -66,20 +81,19 @@ const CreatePost = () => {
                     value={titleState}
                     onChange={(e => setTitleState(e.target.value))} />
             </div>
-
+            
             <div className="post-editor-options">
-              
-
-
               <Dropdown type={'select'}
                         title='Topic' 
                         list={topics} 
+                        defaultItem={editPost && topic}
                         setItem={setTopic} />
 
-              <button className="btn post-editor-save-btn" 
-                      onClick={savePost}>Publish
+              <button className="btn dim-green-btn" 
+                      onClick={savePost}>Save
               </button>
             </div>
+            
           </div>
         </div>
 
@@ -90,10 +104,9 @@ const CreatePost = () => {
                 wrapperClassName="post-editor-wrapper"
                 toolbarClassName="post-editor-toolbar" />
       </div>
-    </div>
-    
+    </main>
   )
 }
 
 
-export default CreatePost
+export default PostEditor
