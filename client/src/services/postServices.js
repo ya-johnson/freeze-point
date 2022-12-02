@@ -70,8 +70,9 @@ const createPost = async (token, data) => {
 const updatePost = async (token, postId, data) => {
   try {
     const header = setAuthHeader(token)
-    const response = await axios.put(`${BASE_URL}/posts/${postId}`, data, header)
+    const response = await axios.put(`${BASE_URL}/posts/post/${postId}`, data, header)
     const post = await response.data
+    console.log(post)
     return post
   }
   catch (err) {

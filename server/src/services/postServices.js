@@ -51,7 +51,7 @@ const createPost = async (data) => {
 const updatePost = async (userId, postId, updatedPost) => {
   const post = await getPostById(postId)
 
-  if (userId !== post.userId) {
+  if (userId !== post.userId.toString()) {
     throw Error('Unauthoriazed action')
   }
 

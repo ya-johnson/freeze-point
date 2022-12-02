@@ -31,7 +31,8 @@ const createPost = asyncHandler( async (req, res) => {
 })
 
 const updatePost = asyncHandler( async (req, res) => {
-  const post = await postService.updatePost(req.userId, req.body.postId, req.body.post)
+  const { postId } = req.params
+  const post = await postService.updatePost(req.userId, postId, req.body)
   res.status(200).json(post)
 })
 
