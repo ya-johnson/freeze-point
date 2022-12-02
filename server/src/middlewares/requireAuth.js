@@ -6,6 +6,7 @@ const requireAuth = async (req, res, next) => {
 
   try {
     const payload = await authService.verifyToken(token)
+    req.userId = payload.userId
     next()
   } 
   catch(err) {
