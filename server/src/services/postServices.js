@@ -29,22 +29,15 @@ const getTopicPosts = async (topic) => {
 
 const createPost = async (data) => {
   const { userId, username, image, title, content, topic } = data
-  console.log(data)
 
-  if (!title || !content || !topic) {
+  if (!title || !content || !topic || !image) {
     throw Error('All fields must be filled')
   }
 
   const post = await Post.create({ userId, username, title, content, topic })
-  console.log(post)
-  
-  if ( image ) {
-    const img = await imageService.uploadImg(image, post._id)
-    console.log(img.public_id, img.url)
-    post.image = { id: img.public_id, url: img.secure_url }
-    await post.save()
-  }
-
+  const img = await imageService.uploadImg(image, post._id)
+  post.image = { id: img.public_id, url: img.secure_url }
+  await post.save()
   return post
 }
 
@@ -53,6 +46,12 @@ const updatePost = async (userId, postId, updatedPost) => {
 
   if (userId !== post.userId.toString()) {
     throw Error('Unauthoriazed action')
+  }
+
+  if (!updatedPost.image.id) {
+    await imageService.removeImg(post.image.id)
+    const img = await imageService.uploadImg(updatedPost.image, post._id)
+    updatedPost.image = { id: img.public_id, url: img.secure_url }
   }
 
   Object.assign(post, updatedPost)
