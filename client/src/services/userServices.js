@@ -35,8 +35,8 @@ const updateUser = async (authToken, userId, data) => {
     const response = await axios.put(`${BASE_URL}/users/${userId}`, {userId, ...data}, header)
     const user = await response.data
     toast(`Your profile updated successfully`, toastify.autoClose)
-
-    return { ...user, token: authToken }
+    console.log(data)
+    return { id: user._id, token: authToken, ...user }
   }
   catch (err) {
     console.log(err)

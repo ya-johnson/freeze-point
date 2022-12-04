@@ -60,7 +60,12 @@ const updateUser = async (updateBody) => {
     await checkDuplicateEmail(updateBody.email)
   }
 
-  if (updateBody.image) {
+  if (updateBody.image && !user.image.id) {
+    const img = await imageService.uploadImg(updateBody.image ,user._id)
+    updateBody.image = { id: img.public_id, url: img.secure_url }
+  } 
+  else if (updateBody.image && user.image.id) {
+    await imageService.removeImg(user.image.id)
     const img = await imageService.uploadImg(updateBody.image ,user._id)
     updateBody.image = { id: img.public_id, url: img.secure_url }
   }
