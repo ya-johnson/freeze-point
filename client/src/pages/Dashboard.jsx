@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'wouter'
-import { useDelete, useAuthModal } from '../hooks'
+import { useDelete, useAuthModal, useEditUser } from '../hooks'
 import { useUserStore } from '../store'
 import { userService ,postService } from '../services'
 import { AddImage, Loader, PostCard } from '../componets'
-import { FaUser } from 'react-icons/fa'
+import { FaUser, FaUsers } from 'react-icons/fa'
+import { BiCommentDetail, BiDetail } from 'react-icons/bi'
 
 
 const Dashboard = ({ userId }) => {
@@ -16,17 +17,17 @@ const Dashboard = ({ userId }) => {
   const [isUser, setIsUser] = useState()
   const [following, setFollowing] = useState()
   const [edit, setEdit] = useState(false)
-  const [imageData, setImageData] = useState()
-  const [userInfo, setUserInfo] = useState()
   const [loading, setLoading] = useState(true)
   const [location, setLocation] = useLocation()
+  const { setDesc, setImage, updateUser } = useEditUser(() => setEdit(false))
   const { toggleAuthModal } = useAuthModal()
+
   
   const getUserAndPosts =  async () => {
     const currentUser = await userService.getUser(userId)
     const userPosts = await postService.getUserPosts(userId)
-    const isUser = user !== null && user?.id === currentUser.user._id
-    const following = user !== null && user.id !== currentUser.user._id && user.following?.find(user => user === currentUser.user._id)
+    const isUser = user?.id === currentUser.user._id
+    const following = user?.id !== currentUser.user._id && user?.following.find(user => user === currentUser.user._id)
 
     setCurrentUser(currentUser)
     setUserPosts(userPosts)
@@ -35,14 +36,7 @@ const Dashboard = ({ userId }) => {
     setLoading(false)
   }
 
-  const updateUserPostsList = (postId) => {
-    setUserPosts(userPosts.filter(post => post._id !== postId))
-  }
-
-  const updateUser = async () => {
-    const user = await userService.updateUser(user.token, user.id, userInfo)
-    setUser(user)
-  }
+  const updateUserPostsList = postId => setUserPosts(userPosts.filter(post => post._id !== postId))
 
   const follow = async (e) => {
     if (!user) {
@@ -63,12 +57,11 @@ const Dashboard = ({ userId }) => {
   const displayDelete = useDelete(user?.name, deleteUser)
 
 
-
   useEffect(() => {
     setLoading(true)
     getUserAndPosts()
     window.scrollTo({top: 0})
-  }, [userId])
+  }, [userId, user])
 
 
   return (
@@ -76,32 +69,54 @@ const Dashboard = ({ userId }) => {
     { loading ? <Loader /> :
       <main>
         <div className="container max-w-[1000px] min-h-screen">
-          <div className="w-full flex flex-col sm:flex-row items-center sm:space-x-4 space-y-8
+          <div className="w-full flex flex-col sm:flex-row items-center sm:space-x-8 space-y-8
                           p-8 mb-12 bg-white dark:bg-black-dark">
-            { isUser && <AddImage size={'small'}
-                                  defaultImage={user.image?.url}
-                                  setImageData={setImageData} /> }
-            {(!isUser && !currentUser.user.image) ? <FaUser className="h-40 w-60"/>
-                                                  : <img url={currentUser.user.image?.url}/> }
-            
-            <div className="w-full sm:w-4/5 flex flex-col items-center justify-between space-y-8">
-              <div>
-                <h1 className="mb-2">{currentUser.user.name}</h1>
-                {currentUser.user.description ? <p>{currentUser.user.description}</p> : <p>No description</p>}
+          { edit ? <AddImage size={'small'}
+                             defaultImage={user.image?.url}
+                             setImageData={setImage} /> 
+                 : <> {!currentUser.user.image ? <FaUser className="h-20 w-20 sm:h-40 sm:w-40"/>
+                                               : <img className="max-w-[350px]" src={currentUser.user.image?.url}/> } </>
+          }
+
+            <div className="w-full sm:w-4/5 flex flex-col items-center justify-between space-y-8 sm:items-start">
+              <div className="w-full">
+                <h1 className="mb-4">{currentUser.user.name}</h1>
+                { edit ? <textarea className="resize-none w-full h-44 sm:h-24 
+                                              p-4 bg-grey-light dark:bg-black" 
+                                   maxLength="200"
+                                   placeholder={user.description ? user.description : 'No Description'}
+                                   onChange={e => setDesc(e.target.value)} />
+                       : <> {currentUser.user.description ? <p>{currentUser.user.description}</p> 
+                                                          : <p>No description</p>}</>
+                }
               </div>
 
-              <div className="w-full flex items-end justify-between">
-                <div className="flex flex-col space-y-1">
-                  <span>{`Posts: ${userPosts.length}`}</span>
-                  <span>{`Comments: 0`}</span>
-                  <span>{`Followers: ${currentUser.followers.length}`}</span>
+              <div className="w-full flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-1">
+                    <FaUsers className="h-5 w-5" />
+                    <p>{currentUser.followers.length}</p>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <BiDetail className="h-5 w-5" />
+                    <p>{userPosts.length}</p>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <BiCommentDetail className="h-5 w-5" />
+                    <p>{userPosts.length}</p>
+                  </div>
                 </div>
                 <div>
                 { isUser ? <div className="flex space-x-6">
-                             <button className="btn red-btn" onClick={displayDelete}>Delete</button>
-                             <button className="btn green-btn" onClick={updateUser}>Save</button>
+                  { !edit ? <button className="btn dim-blue-btn" onClick={() => setEdit(true)}>Edit</button> 
+                          : <>
+                              <button className="btn dim-red-btn" onClick={displayDelete}>Delete</button>
+                              <button className="btn neutral-btn" onClick={() => setEdit(false)}>Discard</button>
+                              <button className="btn dim-green-btn" onClick={updateUser}>Save</button>
+                            </>
+                  }
                            </div>
-                         : <button className="btn pink-btn" onClick={e => follow(e)}>Follow</button>
+                         : <button className="btn dim-pink-btn" onClick={e => follow(e)}>Follow</button>
                 }
                 </div>
               </div>
@@ -113,7 +128,7 @@ const Dashboard = ({ userId }) => {
               <p className="text-2xl">wow such empty ...</p>
             </div>
             :
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 my-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
               {userPosts.map(post => {
               return (
                 <PostCard post={post} 

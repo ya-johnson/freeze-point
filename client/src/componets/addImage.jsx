@@ -19,9 +19,9 @@ const AddImage = ({ size, defaultImage ,setImageData }) => {
 
 
   return (
-    <div className={`relative flex items-center justify-center brd border min-h-[250px] 
-                     ${size === 'small' ? 'w-[380px]' : 'w-full}'}`}>
-      <img className={`h-auto w-full ${!defaultImage && 'hidden'}`} src={image || defaultImage} />
+    <div className={`relative flex items-center justify-center brd border
+                     ${size === 'small' ? 'max-w-[350px]' : 'w-full min-h-[250px]'}`}>
+      <img className={`h-full w-full ${!image && !defaultImage ? 'hidden' : ''}`} src={image || defaultImage} />
       <div className="h-max">
         <label className={`flex space-x-4 items-center cursor-pointer text-xl hover:text-blue
                            ${(defaultImage || image) && 'absolute bottom-0 right-0 space-x-0 p-4 border-none'}`}>

@@ -34,13 +34,9 @@ const updateUser = async (authToken, userId, data) => {
     const header = setAuthHeader(authToken)
     const response = await axios.put(`${BASE_URL}/users/${userId}`, {userId, ...data}, header)
     const user = await response.data
-    toast.dark(`Your profile updated successfully`, toastify.autoClose)
+    toast(`Your profile updated successfully`, toastify.autoClose)
 
-    return {
-      id: user._id,
-      token: authToken,
-      ...user
-    }
+    return { ...user, token: authToken }
   }
   catch (err) {
     console.log(err)
@@ -53,7 +49,7 @@ const deleteUser = async (token, userId) => {
     const header = setAuthHeader(token)
     const response = await axios.delete(`${BASE_URL}/users/${userId}`, header)
     const confirm = await response.data
-    toast.dark('Sad to see you go', toastify.autoClose)
+    toast('Sad to see you go', toastify.autoClose)
     return confirm
   } 
   catch (err) {

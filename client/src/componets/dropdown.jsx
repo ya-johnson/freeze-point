@@ -11,6 +11,7 @@ const Dropdown = ({ type,
                     setItem }) => {
   
   const [drop, setDrop] = useState('dd-close')
+  const [titleImg, setTitleImg] = useState(typeof title === 'object')
   const [selected, setSelected] = useState(defaultItem && defaultItem)
 
   const toggleDropdown = () => drop === 'dd-close' ? setDrop('dd-open') : setDrop('dd-close')
@@ -31,20 +32,22 @@ const Dropdown = ({ type,
     setItem(null)
     setSelected(null)
   }
-
+  
 
   return (
     <div className={`cursor-pointer relative py-2
                      bg-white dark:bg-black-dark 
                      dark:border-grey-dark ${drop} ${className}
-                     ${title === 'user' ? 'px-1' : 'min-w-[130px] px-2 sm:px-4'}`}
+                     ${titleImg ? 'px-0' : 'min-w-[130px] px-2 sm:px-4'}`}
          tabIndex="0" 
          onClick={toggleDropdown}
          onFocus={toggleDropdown} 
          onBlur={() => setDrop('dd-close')}>
 
       <div className={`flex justify-between items-center space-x-1 capitalize`}>
-        {title === 'user' ? <FaUser className="icon" /> : <span>{title}</span>}
+        { !titleImg && <span>{title}</span>}
+        {(titleImg && title.src) ? <img src={title.src} className="h-8 w-8 rounded-full object-center"/> 
+                                 : <FaUser className="icon" />}
         { selected && 
           <div className="flex items-center pl-1 
                           text-black bg-blue rounded-md">
@@ -57,12 +60,11 @@ const Dropdown = ({ type,
         <IoMdArrowDropdown className="h-6 w-6 rotate-180"/>
       </div>
 
-      <div className={`dd-list absolute top-full py-2 px-4 overflow-scroll
-                      ${title === 'user' ? 'min-w-[100px] right-0 text-right' 
-                                         : 'w-[calc(100%+2px)] left-0 -translate-x-[1px]'} 
-                      
-                      space-y-2 bg-white dark:bg-black-dark max-h-[calc(100%*4+8px)] 
-                      dark:border-grey-dark duration-300 z-50`}>
+      <div className={`dd-list absolute top-full py-2 px-4 overflow-scroll 
+                       space-y-2 bg-white dark:bg-black-dark max-h-[calc(100%*4+8px)] 
+                       dark:border-grey-dark duration-300 z-50
+                       ${titleImg ? 'min-w-[100px] right-0 text-right' 
+                                  : 'w-[calc(100%+2px)] left-0 -translate-x-[1px]'}`}>
         { list.map((item, index) => {
           return (
             <div key={index} 

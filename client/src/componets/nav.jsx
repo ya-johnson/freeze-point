@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { Link, useLocation } from 'wouter'
 import { useUserStore, useSettingsStore } from '../store'
-import { authService } from '../services'
-import { Dropdown } from './index'
+import { useAuthModal } from '../hooks'
+import { Dropdown, SearchBox } from './index'
 import { GiFrozenArrow } from 'react-icons/gi'
-import { BsSun, BsMoon } from 'react-icons/bs'
+import { BsSun, BsMoon, BsPlusSquare } from 'react-icons/bs'
 
 
 const Nav = () => {
@@ -14,7 +14,7 @@ const Nav = () => {
   const theme = useSettingsStore(state => state.theme)
   const setTheme = useSettingsStore(state => state.setTheme)
   const [location, setLocation] = useLocation()
-
+  const { toggleAuthModal } = useAuthModal()
 
   const toggleTheme = () => {
     if (theme === 'dark') {
@@ -37,11 +37,6 @@ const Nav = () => {
   }
 
   const userCtrl = [
-    { 
-      name: 'Create Post',
-      method: () => setLocation('/create-post'),
-      className: 'hover:text-blue'
-    },
     {
       name: 'Dashboard',
       method: () => setLocation(`/users/${user.id}`),
@@ -50,9 +45,18 @@ const Nav = () => {
     {
       name: 'Logout',
       method: () => setUser(null),
-      className: 'logout-btn'
+      className: 'text-red-light'
     }
   ]
+
+  const createPost = (e) => {
+    if (!user) {
+      toggleAuthModal(e)
+      return
+    }
+
+    setLocation('/create-post')
+  }
 
 
   useEffect(() => {
@@ -61,36 +65,21 @@ const Nav = () => {
 
 
   return (
-      
-    <nav>
-      <div className="container">
+    <nav className="sticky top-0 w-screen bg-white dark:bg-black-dark z-30">
+      <div className="container flex justify-between items-center py-4">
         <Link href='/'>
-          <a>
-            <div className="logo">
-              <GiFrozenArrow />
-              <h1>Freeze Point</h1>
-            </div> 
-          </a>
+          <a><GiFrozenArrow className="h-10 w-10 hover:text-pink"/></a>
         </Link>
 
-        <div className="nav-right">
-          { theme === 'dark' ? 
-              <BsSun className="icon"
-                      onClick={toggleTheme} />
-              : 
-              <BsMoon className="icon"
-                     onClick={toggleTheme} />
-          }
-          { !user ? 
-               <button className="btn auth-btn" 
-                       onClick={authService.toggleAuthModal}>Log In
-               </button> 
-              :
-              <Dropdown type={'action'} 
-                        className={'user-dd'}
-                        title={user.name} 
-                        list={userCtrl} />     
-          }
+        <div className="flex items-center space-x-4 sm:space-x-6">
+          <SearchBox />
+          <button onClick={e => createPost(e)}><BsPlusSquare className="icon"/></button>
+          
+          { theme === 'dark' ? <BsSun className="icon" onClick={toggleTheme} />
+                             : <BsMoon className="icon" onClick={toggleTheme} /> }
+                             
+          { !user ? <button className="btn green-btn" onClick={toggleAuthModal}>Login</button> 
+                  : <Dropdown type={'action'} title={{ type: 'image', src: user.image?.url }} list={userCtrl} /> }
         </div>
 
       </div>
