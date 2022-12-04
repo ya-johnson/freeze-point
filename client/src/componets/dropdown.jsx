@@ -45,9 +45,9 @@ const Dropdown = ({ type,
          onBlur={() => setDrop('dd-close')}>
 
       <div className={`flex justify-between items-center space-x-1 capitalize`}>
-        { !titleImg && <span>{title}</span>}
-        {(titleImg && title.src) ? <img src={title.src} className="h-8 w-8 rounded-full object-center"/> 
-                                 : <FaUser className="icon" />}
+        { !titleImg ? <span>{title}</span>
+                    : <> {(titleImg && title.src) ? <img src={title.src} className="h-8 w-8 rounded-full object-center"/> 
+                                                  : <FaUser className="icon" />} </> }
         { selected && 
           <div className="flex items-center pl-1 
                           text-black bg-blue rounded-md">
