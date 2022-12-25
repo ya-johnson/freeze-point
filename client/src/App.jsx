@@ -1,7 +1,8 @@
 import { Router, Route } from 'wouter'
-import { ToastContainer, Slide } from 'react-toastify'
+import { useUserStore } from './store'
 import { Nav, AuthModal, Footer } from './componets'
-import { Home, Dashboard, Post, CreatePost } from './pages'
+import { Home, Topic, Dashboard, Post, PostEditor, Search } from './pages'
+import { ToastContainer, Slide } from 'react-toastify'
 import '../src/style/index.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -9,28 +10,32 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 const App = () => {
 
+  const user = useUserStore(state => state.user)
+
   return (
     <Router>
       <ToastContainer position='top-center'
-                      theme='colored' 
+                      className='toast-container'
+                      toastClassName='toast-body'
                       transition={Slide} 
                       closeOnClick={false} />
-      <AuthModal />
+      
+      {!user && <AuthModal />}
       <Nav />
 
       <Route path='/' component={Home} />
-      <Route path='/topics/:topic'>
-        { params => <Home topicName={params.topic} />}
+      <Route path='/p/:topic'>
+        { params => <Topic topic={params.topic} /> }
       </Route>
-      <Route path='/create-post' component={CreatePost} />
+      <Route path='/create-post' component={PostEditor} />
       <Route path='/posts/:post'>
         { params => <Post postId={params.post} /> }
       </Route>
       <Route path='/users/:user'>
         { params => <Dashboard userId={params.user} /> }
       </Route>
-      <Route path='/posts/edit-post/:post'>
-        { params => <CreatePost postId={params.post} /> }
+      <Route path='/users/posts/edit-post/:post'>
+        { params => <PostEditor postId={params.post} /> }
       </Route>
 
       <Footer />
