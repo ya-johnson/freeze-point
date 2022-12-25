@@ -30,7 +30,8 @@ module.exports = {
       'dim-red': '#EA576260'
     },
     fontFamily: {
-      'ubuntu': ['Ubuntu', 'sans-serif']
+      'ubuntu': ['Ubuntu', 'sans-serif'],
+      'covered': ['Covered By Your Grace', 'cursive']
     },
     extend: {},
   },

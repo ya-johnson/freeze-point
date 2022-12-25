@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Covered+By+Your+Grace&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -18,8 +19,8 @@
 
   body {
     @apply font-ubuntu 
-         bg-grey-light text-black 
-         dark:bg-black dark:text-grey;
+           bg-white text-black 
+           dark:bg-black-dark dark:text-grey;
   }
 
   main {
@@ -36,7 +37,7 @@
   }
 
   h1 {
-    @apply text-5xl;
+    @apply text-4xl sm:text-5xl;
   }
 
   h2 {
@@ -66,7 +67,7 @@
   }
 
   .btn {
-    @apply py-2 px-4 border-solid border;
+    @apply py-1 px-2 border-solid border sm:py-2 sm:px-4;
   }
 
   .input {
@@ -74,9 +75,8 @@
   }
 
   .icon {
-    @apply cursor-pointer h-10 w-10 p-2
-           rounded-full fill-grey-dark hover:fill-black
-           dark:hover:fill-grey;
+    @apply cursor-pointer h-5 w-5 sm:h-6 sm:w-6 
+           text-grey-dark hover:text-black dark:hover:text-grey;
   }
 
   /* Buttons */
@@ -88,9 +88,9 @@
            dark:hover:text-grey-light dark:hover:border-grey-light;
   }
 
-  .neutral-active {
-    @apply bg-white text-blue border-blue 
-           dark:bg-black-dark dark:text-blue dark:border-blue;
+  .neutral-active-btn {
+    @apply bg-white text-black border-black 
+           dark:bg-black-dark dark:text-grey-light dark:border-grey-light;
   }
 
   .green-btn {
@@ -130,46 +130,25 @@
            hover:bg-red hover:text-black hover:border-red;
   }
 
-  .logout-btn {
-    @apply text-red;
-  }
-
-
   /* Toast */
 
-  .toast-container {
-    @apply bg-white dark:bg-black-dark;
+  .Toastify__toast.toast-body {
+    @apply bg-white dark:bg-black-dark rounded-none border border-grey-dark;
   }
 
-  .Toastify__toast {
-    @apply bg-white dark:bg-black-dark;
+  .toast-body .Toastify__close-button--light {
+    @apply text-grey-dark hover:text-red-light;
   }
 
-  .toast-body {
-    @apply bg-white dark:bg-black-dark;
-  }
-
-  .Toastify__toast-theme--colored.Toastify__toast--default {
-    @apply p-4;
-  }
-
-  .Toastify__toast-theme--colored.Toastify__toast--success {
-    @apply bg-red-light;
-  }
-
-  .Toastify__toast-theme--colored.Toastify__toast--error {
-    @apply bg-green-light;
-  }
-
-  .Toastify__progress-bar {
+  .toast-body .Toastify__progress-bar {
     @apply bg-pink-light;
   }
 
-  .Toastify__progress-bar--success {
+  .toast-body .Toastify__progress-bar--success {
     @apply bg-green;
   }
 
-  .Toastify__progress-bar--error {
+  .toast-body .Toastify__progress-bar--error {
     @apply bg-red;
   }
   /* Dropdown */
