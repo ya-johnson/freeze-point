@@ -1,31 +1,15 @@
-import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'wouter'
+import { Link } from 'wouter'
 import { useTopicsStore } from '../store'
 import { usePagination } from '../hooks'
 import { postService } from '../services'
-import { Pagination, PostCard, Dropdown, Loader } from '../componets'
+import { Pagination, PostCard, Loader } from '../componets'
 
+// user feed (latest)
 
 const Home = () => {
 
   const topics = useTopicsStore(state => state.topics)
-  const [posts, setPosts] = useState()
-  const [loading, setLoading] = useState(true)
-  const [location, setLocation] = useLocation()
-  // const newPosts = usePagination(getPosts)
-
-  const getPosts = async () => {
-    setLoading(true)
-    const posts = await postService.getPosts()
-    setPosts(posts)
-    setLoading(false)
-    // return posts
-  }
-
-  useEffect(() => {
-    getPosts()
-    window.scrollTo({top: 0})
-  },[])
+  const { page, setPage, total, pages, posts, loading } = usePagination(postService.getPosts)
 
 
   return (
@@ -40,7 +24,7 @@ const Home = () => {
         {topics.map(topic => {
             return (
               <Link href={`/p/${topic}`} >
-                <a key={`footer-${topic}`} className="p-2 brd border mb-4 hover:bg-blue-light dark:hover:text-black">{topic}</a>
+                <a key={topic} className="p-2 brd border mb-4 hover:bg-blue-light dark:hover:text-black">{topic}</a>
               </Link>
             )
           })
@@ -49,7 +33,6 @@ const Home = () => {
       </section>
 
       <section className="container min-h-screen">
-
         <div className="relative flex items-center justify-center mb-20">
           <div className="py-2 px-4 brd border z-10 bg-white dark:bg-black-dark">
             <p className="font-covered text-2xl">Latest Posts</p>
@@ -57,12 +40,13 @@ const Home = () => {
           <div className="w-1/2 h-[1px] absolute top-1/2 brd border-t-2 border-dotted"></div>
         </div>
 
-        {loading ? <Loader /> : 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10 my-10">
-            {posts &&  posts.map(post => <PostCard key={post._id} post={post} />) }
-          </div>
+        {loading ? <Loader /> :
+          <Pagination page={page} setPage={setPage} total={total} pages={pages}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10">
+              {posts &&  posts.map(post => <PostCard key={post._id} post={post} />) }
+            </div>
+          </Pagination>
         }
-
       </section>
     </main>
   )
