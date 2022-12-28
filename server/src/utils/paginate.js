@@ -3,13 +3,18 @@ const paginate = async (schema, pageNumber, find) => {
   const limit = 20
   const count = find ? await schema.find({find}).countDocuments() : await schema.countDocuments()
 
-  const docs = await schema.find(find ? {find} : {})
+  const docs = await schema.find(find ? find : {})
                            .sort({createdAt: -1})
                            .limit(limit)
                            .skip(limit * page)
                            .exec()
 
-  return { page, pages: Math.floor(count / limit), docs }
+  return {
+    page, 
+    pages: Math.floor(count / limit),
+    docs,
+    total: count 
+  }
 }
 
 
