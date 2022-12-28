@@ -5,11 +5,10 @@ import { toast } from 'react-toastify'
 import { toastify } from '../utils'
 
 
-const getPosts = async () => {
+const getPosts = async (page) => {
   try {
-    const response = await axios.get(`${BASE_URL}/posts`)
-    const posts = await response.data
-    return posts
+    const response = await axios.get(`${BASE_URL}/posts${page > 1 ? `?page=${page}` : ''}`)
+    return await response.data
   } 
   catch (err) {
     console.log(err)

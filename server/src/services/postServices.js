@@ -1,11 +1,9 @@
 const { Post } = require('../models')
 const imageService = require('./imageServices')
+const { paginate } = require('../utils')
 
 
-const getPosts = async () => {
-  const posts = await Post.find().sort({ createdAt: -1 })
-  return posts
-}
+const getPosts = async (pageNumber) => await paginate(Post, pageNumber)
 
 const getPostById = async postId => {
   const post = await Post.findById(postId)
@@ -13,17 +11,19 @@ const getPostById = async postId => {
   if (!post) {
     throw Error('No such post')
   }
-
   return post
 }
 
-const getUserPosts = async (userId) => {
+const getUserPosts = async (userId, pageNumber) => {
   const userPosts = await Post.find({ userId }).sort({ createdAt: -1 })
+  const { page, pages, docs } = await paginate(Post, pageNumber, userId)
+  console.log(page, pages, docs)
   return userPosts
 }
 
-const getTopicPosts = async (topic) => {
+const getTopicPosts = async (topic, pageNumber) => {
   const topicPosts = await Post.find({ topic }).sort({ createdAt: -1 })
+  const { page, pages, docs } = await paginate(Post, pageNumber, topic)
   return topicPosts
 }
 
