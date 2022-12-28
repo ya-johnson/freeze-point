@@ -3,25 +3,22 @@ const { postService } = require('../services')
 
 
 const getPosts = asyncHandler( async (req, res) => {
-  const posts = await postService.getPosts()
+  const posts = await postService.getPosts(req.query.page)
   res.status(200).json(posts)
 })
 
 const getPost = asyncHandler( async (req, res) => {
-  const { postId } = req.params
-  const post = await postService.getPostById(postId)
+  const post = await postService.getPostById(req.params.postId)
   res.status(200).json(post)
 })
 
 const getUserPosts = asyncHandler( async (req, res) => {
-  const { userId } = req.params
-  const userPosts = await postService.getUserPosts(userId)
+  const userPosts = await postService.getUserPosts(req.params, req.query.page)
   res.status(200).json(userPosts)
 })
 
 const getTopicPosts = asyncHandler( async (req, res) => {
-  const { topic } = req.params
-  const topicPosts = await postService.getTopicPosts(topic)
+  const topicPosts = await postService.getTopicPosts(req.params, req.query.page)
   res.status(200).json(topicPosts)
 })
 
@@ -31,8 +28,7 @@ const createPost = asyncHandler( async (req, res) => {
 })
 
 const updatePost = asyncHandler( async (req, res) => {
-  const { postId } = req.params
-  const post = await postService.updatePost(req.userId, postId, req.body)
+  const post = await postService.updatePost(req.userId, req.params.postId, req.body)
   res.status(200).json(post)
 })
 
