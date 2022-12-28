@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 
-const usePagination = (getItems) => {
+const usePagination = (getItems, arg) => {
 
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState()
@@ -19,7 +19,7 @@ const usePagination = (getItems) => {
 
   const onPageChange = async () => {
     setLoading(true)
-    const paginate = await getItems(page)
+    const paginate = await getItems(arg, page)
     setPage(paginate.page + 1)
     setPages(makePages(paginate.pages))
     setTotal(paginate.total)
