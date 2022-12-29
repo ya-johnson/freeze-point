@@ -12,7 +12,7 @@ const Pagination = ({ children, page, setPage, total, pages }) => {
         {pages.map(num => {
           return (
             <button className={`btn neutral-btn ${num === page && 'neutral-active-btn'}`} 
-                    onClick={() => setPage(num)}>{num}
+                    onClick={() => setPage(num)}>{num + 1}
             </button>
           )
         })}
