@@ -2,9 +2,9 @@ import { toast } from 'react-toastify'
 import { toastify } from '../utils'
 
 
-const asyncHandler = fn => arg => {
+const asyncHandler = fn => (...args) => {
   try {
-    return fn(arg)
+    return fn(args)
   }
   catch (err) {
     console.log(err)

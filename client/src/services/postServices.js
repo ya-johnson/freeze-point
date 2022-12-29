@@ -2,49 +2,32 @@ import axios from 'axios'
 import { BASE_URL } from './index'
 import { setAuthHeader } from './authServices'
 import { toast } from 'react-toastify'
-import { toastify } from '../utils'
+import { toastify, asyncHandler } from '../utils'
 
 
-const getPosts = async (page) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/posts${page > 1 ? `?page=${page}` : ''}`)
-    return await response.data
-  } 
-  catch (err) {
-    console.log(err)
-    toast.error(err.response.data.error, toastify.autoClose)
-  }
-}
+const getPosts = asyncHandler(async args => {
+  const [page] = args
+  const response = await axios.get(`${BASE_URL}/posts${page > 1 ? `?page=${page}` : ''}`)
+  return await response.data
+})
+
+const getUserPosts = asyncHandler(async args => {
+  const [userId, page] = args
+  const response = await axios.get(`${BASE_URL}/posts/${userId}${page > 1 ? `?page=${page}` : ''}`)
+  return await response.data
+})
+
+const getTopicPosts = asyncHandler(async args => {
+  const [topic, page] = args
+  const response = await axios.get(`${BASE_URL}/posts/topic/${topic}${page > 1 ? `?page=${page}` : ''}`)
+  return await response.data
+})
 
 const getPost = async (postId) => {
   try {
     const response = await axios.get(`${BASE_URL}/posts/post/${postId}`)
     const post = await response.data
     return post
-  }
-  catch (err) {
-    console.log(err)
-    toast.error(err.response.data.error, toastify.autoClose)
-  }
-}
-
-const getUserPosts = async (userId) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/posts/${userId}`)
-    const userPosts = await response.data
-    return userPosts
-  }
-  catch (err) {
-    console.log(err)
-    toast.error(err.response.data.error, toastify.autoClose)
-  }
-}
-
-const getTopicPosts = async (topic) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/posts/topic/${topic}`)
-    const topicPosts = await response.data
-    return topicPosts
   }
   catch (err) {
     console.log(err)
@@ -126,9 +109,9 @@ const commentPost = async (token, postId, userId, username, body) => {
 
 export {
   getPosts,
-  getPost,
   getUserPosts,
   getTopicPosts,
+  getPost,
   createPost,
   updatePost,
   deletePost,
