@@ -30,10 +30,10 @@ const usePagination = (getItems, arg) => {
 
   useEffect(() => {
     onPageChange()
-  }, [page])
+  }, [page, arg])
 
 
-  return { page, setPage, total, pages, posts, loading }
+  return { page, setPage, total, pages, posts, setPosts, loading }
 }
 
 
