@@ -4,6 +4,17 @@ const imageService = require('./imageServices')
 const postService = require('./postServices')
 
 
+const setUserObj = (user, followers) => {
+  return {
+    id: user._id,
+    name: user.name,
+    description: user.description || null,
+    image: user.image || null,
+    following: user.following || null,
+    followers
+  }
+}
+
 const checkDuplicateEmail = async email => {
   const user = await User.findOne({ email }).exec()
   if (user) {
@@ -43,7 +54,7 @@ const getUsers = async () => {
 const getUser = async userId => {
   const user = await getUserById(userId)
   const followers = await User.find({ following: userId })
-  return { user, followers }
+  return setUserObj(user, followers)
 }
 
 const createUser = async userBody => {
