@@ -1,4 +1,4 @@
-import { Link, useRoute, useLocation } from 'wouter'
+import { Link, useLocation } from 'wouter'
 import { useUserStore } from '../store'
 import { postService } from '../services'
 import { useDelete } from '../hooks'
@@ -8,11 +8,10 @@ import { BiUpvote, BiCommentDetail, BiEdit, BiTrash } from 'react-icons/bi'
 
 const PostCard = ({ post, updateList }) => {
 
-  const [match, params] = useRoute('/users/:user')
-  const [location, setLocation] = useLocation()
   const user = useUserStore(state => state.user)
-  const isUser = match && user !== null && user?.id === post.userId
+  const isUser = user !== null && user?.id === post.userId
   const content = draft.createMarkdown(post.content)
+  const [location, setLocation] = useLocation()
 
   const deletePost = () => {
     postService.deletePost(user.token, post._id)
@@ -23,7 +22,7 @@ const PostCard = ({ post, updateList }) => {
 
   return (
 
-    <div className="relative w-full bg-white dark:bg-black-dark">
+    <div className="relative w-full bg-white dark:bg-black-dark brd border">
       { isUser && 
       <div className="absolute top-0 right-0 flex space-x-2 p-2 bg-white dark:bg-black-dark">
         <BiEdit className="cursor-pointer h-5 w-5 text-grey-dark hover:text-black dark:hover:text-white"
@@ -33,19 +32,22 @@ const PostCard = ({ post, updateList }) => {
       </div> }
 
       <Link href={`/posts/${post._id}`}>
-        <a>{ post.image && <img className="w-full min-h-[250px]" src={post.image.url} /> }</a>
+        <a>{ post.image && <img className="w-full h-[250px]" src={post.image.url} /> }</a>
       </Link>
 
-      <div className="p-4 w-full">
-        <span className="text-blue text-sm">{post.topic}</span>
-        <Link href={`/posts/${post._id}`}>
-          <a><h4>{post.title}</h4></a>
-        </Link>
-
-        <textarea className="w-full h-[100px] my-2 
-                            bg-white dark:bg-black-dark text-grey-dark 
-                             resize-none overflow-hidden" 
-                  disabled value={content} />
+      <div className="w-full flex flex-col justify-between p-4 brd border-t">
+        <div className="h-[275px] flex flex-col">
+          <Link href={`/p/${post.topic}`} >
+            <a className="text-blue text-sm">{post.topic}</a>
+          </Link>
+          <Link href={`/posts/${post._id}`}>
+            <a><h4>{post.title}</h4></a>
+          </Link>
+          <textarea className="w-full h-full my-2 
+                               bg-white dark:bg-black-dark text-grey-dark 
+                               resize-none overflow-hidden" 
+                    disabled value={content} />
+        </div>
 
         <div className="flex items-center justify-between">
           <div className="space-x-2">
