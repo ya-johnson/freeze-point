@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useLocation, useRoute } from 'wouter'
+import { useLocation } from 'wouter'
 import { useUserStore, useTopicsStore } from '../store'
 import { postService } from '../services'
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
@@ -20,7 +20,6 @@ const PostEditor = ({ postId }) => {
   const [topic, setTopic] = useState()
   const [loading, setLoading] = useState(false)
   const [location, setLocation] = useLocation()
-  const [match, params] = useRoute(postId ? '/users/posts/edit-post/:post' : '/create-post')
 
   const onEditorChange = (state) => {
     setEditorState(state)
@@ -51,7 +50,7 @@ const PostEditor = ({ postId }) => {
       const post = await postService.updatePost(user.token, postId, createdPost)
       setLocation(`/posts/${post._id}`)
     } else {
-      const post = await postService.PostEditor(user.token, createdPost)           
+      const post = await postService.createPost(user.token, createdPost)           
       setLocation(`/posts/${post._id}`)
     }
   }
@@ -84,6 +83,7 @@ const PostEditor = ({ postId }) => {
                      className="btn post-editor-title"
                      placeholder="Title"
                      value={titleState}
+                     maxLength="100"
                      onChange={(e => setTitleState(e.target.value))} />
             </div>
               
