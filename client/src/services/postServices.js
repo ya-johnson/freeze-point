@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { BASE_URL } from './index'
-import { setAuthHeader } from './authServices'
+import { authService } from './'
 import { toast } from 'react-toastify'
 import { toastify, asyncHandler } from '../utils'
 
@@ -31,21 +31,21 @@ const getPost = asyncHandler( async args => {
 
 const createPost = asyncHandler( async args => {
   const [token, data] = args
-  const header = setAuthHeader(token)
+  const header = authService.setAuthHeader(token)
   const response = await axios.post(`${BASE_URL}/posts`, data, header)
   return await response.data
 })
 
 const updatePost = asyncHandler( async args => {
   const [token, postId, data] = args
-  const header = setAuthHeader(token)
+  const header = authService.setAuthHeader(token)
   const response = await axios.put(`${BASE_URL}/posts/post/${postId}`, data, header)
   return await response.data
 })
 
 const deletePost = asyncHandler( async args => {
   const [token, postId] = args
-  const header = setAuthHeader(token)
+  const header = authService.setAuthHeader(token)
   const response = await axios.delete(`${BASE_URL}/posts/post/${postId}`, { data: { postId } , headers: header.headers})
   toast.dark('Post deleted', toastify.autoClose)
   return await response.data
@@ -53,14 +53,14 @@ const deletePost = asyncHandler( async args => {
 
 const likePost = asyncHandler( async args => {
   const [token, postId, userId] = args
-  const header = setAuthHeader(token)
+  const header = authService.setAuthHeader(token)
   const response = await axios.put(`${BASE_URL}/posts/${postId}/likes`, {postId, userId}, header)
   return await response.data
 })
 
 const commentPost = asyncHandler( async args => {
   const [token, postId, userId, username, body] = args
-  const header = setAuthHeader(token)
+  const header = authService.setAuthHeader(token)
   const response = await axios.put(`${BASE_URL}/posts/${postId}/comments`, {postId, userId, username, body}, header)
   return await response.data
 })

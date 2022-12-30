@@ -1,62 +1,36 @@
 import axios from 'axios'
 import { BASE_URL } from './index'
-import { setAuthHeader } from './authServices'
+import { authService } from './'
 import { toast } from 'react-toastify'
-import { toastify } from '../utils'
+import { toastify, asyncHandler } from '../utils'
 
 
-const getUsers = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/users`)
-    const users = await response.data
-    return users
-  }
-  catch (err) {
-    console.log(err)
-    toast.error(err.response.data.error, toastify.autoClose)
-  }
-}
+const getUsers = asyncHandler( async args => {
+  const response = await axios.get(`${BASE_URL}/users`)
+  return await response.data
+})
 
-const getUser = async (userId) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/users/${userId}`)
-    const user = await response.data
-    return user
-  }
-  catch (err) {
-    console.log(err)
-    toast.error(err.response.data.error, toastify.autoClose)
-  }
-}
+const getUser = asyncHandler( async args => {
+  const [userId] = args
+  const response = await axios.get(`${BASE_URL}/users/${userId}`)
+  return await response.data
+})
 
-const updateUser = async (authToken, userId, data) => {
-  try {
-    const header = setAuthHeader(authToken)
-    const response = await axios.put(`${BASE_URL}/users/${userId}`, {userId, ...data}, header)
-    const user = await response.data
-    toast(`Your profile updated successfully`, toastify.autoClose)
-    console.log(data)
-    return { id: user._id, token: authToken, ...user }
-  }
-  catch (err) {
-    console.log(err)
-    toast.error(err.response.data.error, toastify.autoClose)
-  }
-}
+const updateUser = asyncHandler( async args => {
+  const [authToken, userId, data] = args
+  const header = authService.setAuthHeader(authToken)
+  const response = await axios.put(`${BASE_URL}/users/${userId}`, {userId, ...data}, header)
+  const user = await response.data
+  toast(`Your profile updated successfully`, toastify.autoClose)
+  return authService.setUserObj(authToken, user)
+})
 
-const deleteUser = async (token, userId) => {
-  try {
-    const header = setAuthHeader(token)
-    const response = await axios.delete(`${BASE_URL}/users/${userId}`, header)
-    const confirm = await response.data
-    toast('Sad to see you go', toastify.autoClose)
-    return confirm
-  } 
-  catch (err) {
-    console.log(err)
-    toast.error(err.response.data.error, toastify.autoClose)
-  }
-}
+const deleteUser = asyncHandler( async args => {
+  const [token, userId] = args
+  const header = authService.setAuthHeader(token)
+  const response = await axios.delete(`${BASE_URL}/users/${userId}`, header)
+  toast('Sad to see you go', toastify.autoClose)
+})
 
 
 export {
