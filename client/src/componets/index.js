@@ -8,6 +8,7 @@ import MenuBox from './menuBox'
 import SearchBox from './searchBox'
 import Pagination from './pagination'
 import Loader from './loader'
+import Latest from './latest'
 import PostCard from './postCard'
 import Footer from './footer'
 
@@ -23,6 +24,7 @@ export {
   SearchBox,
   Pagination,
   Loader,
+  Latest,
   PostCard,
   Footer
 }

@@ -2,7 +2,7 @@ import { Link } from 'wouter'
 import { useTopicsStore } from '../store'
 import { usePagination } from '../hooks'
 import { postService } from '../services'
-import { Pagination, PostCard, Loader } from '../componets'
+import { Pagination, PostCard, Loader, Latest } from '../componets'
 
 // user feed (latest)
 
@@ -33,12 +33,7 @@ const Home = () => {
       </section>
 
       <section className="container min-h-screen">
-        <div className="relative flex items-center justify-center mb-20">
-          <div className="py-2 px-4 brd border z-10 bg-white dark:bg-black-dark">
-            <p className="font-covered text-2xl">Latest Posts</p>
-          </div>
-          <div className="w-1/2 h-[1px] absolute top-1/2 brd border-t-2 border-dotted"></div>
-        </div>
+        <Latest />
 
         {loading ? <Loader /> :
           <Pagination page={page} setPage={setPage} total={total} pages={pages}>
