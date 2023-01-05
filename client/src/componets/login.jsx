@@ -1,17 +1,18 @@
-import { useState } from 'react'
 import { useAuthModal } from '../hooks'
-import { useUserStore } from '../store'
 import { authService } from '../services'
 import { validate } from '../utils'
 
 
 const Login = ({ changeAuth }) => {
 
-  const setUser = useUserStore(state => state.setUser)
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [formError, setFormError] = useState()
-  const { toggleAuthModal } = useAuthModal()
+  const { setUser,
+          email,
+          setEmail,
+          password,
+          setPassword,
+          formError,
+          setFormError,
+          toggleAuthModal } = useAuthModal()
 
   const login = async (e) => {
     e.preventDefault()
@@ -34,12 +35,12 @@ const Login = ({ changeAuth }) => {
     <div className="flex flex-col items-center space-y-6 p-14">
       <p className="text-3xl capitalize">Login</p>
       
-      <form className={`form ${formError ?  formError : ''}`}>
-        <input className="btn email form-input" 
+      <form className={`auth-form ${formError && formError}`}>
+        <input className="btn email" 
                type="text" name='email' placeholder='Email' 
                onChange={(e) => setEmail(e.target.value)} />
           
-        <input className="btn password form-input" 
+        <input className="btn password" 
                type="password" name='password' placeholder='Password' 
                onChange={(e) => setPassword(e.target.value)} />
           

@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { useUserStore } from '../store'
-import { useAuthModal } from '../hooks'
+import { useAuthModal, useEditUser } from '../hooks'
 import { authService, userService } from '../services'
 import AddImage from './addImage'
 import { validate } from '../utils'
@@ -8,24 +7,27 @@ import { validate } from '../utils'
 
 const Register = ({ changeAuth }) => {
 
-  const user = useUserStore(state => state.user)
-  const setUser = useUserStore(state => state.setUser)
-  const [name, setName] = useState()
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [formError, setFormError] = useState()
-  const [description, setDescription] = useState()
-  const [image, setImage] = useState()
+  const { user, 
+          setUser,
+          name, 
+          setName,
+          email, 
+          setEmail,
+          password, 
+          setPassword,
+          formError, 
+          setFormError,
+          toggleAuthModal } = useAuthModal()
   const [profile, setProfile] = useState('reg-profile')
-  const { toggleAuthModal } = useAuthModal()
+  const { setDesc, setImage, updateUser } = useEditUser(toggleAuthModal)
 
-  const register = async () => {
+  const register = async (e) => {
     e.preventDefault()
     setFormError(null)
     
     const form = { name, email, password }
     const error = validate.register(form)
-
+    console.log(error, form)
     if (error) {
       setFormError(`form-err${error}`)
       return
@@ -40,12 +42,6 @@ const Register = ({ changeAuth }) => {
     toggleAuthModal(e)
   }
 
-  const updateUser = async (e) => {
-    const userPro = await userService.updateUser(user.token, user.id, {description, image})
-    setUser(userPro)
-    toggleAuthModal(e)
-  }
-
 
   return (
 
@@ -54,20 +50,20 @@ const Register = ({ changeAuth }) => {
       <div className="flex flex-col items-center space-y-6 p-14">
         <p className="text-3xl capitalize">Register</p>
 
-        <form className={`form ${formError &&  formError}`}>
-          <input className="btn name form-input" 
+        <form className={`auth-form ${formError && formError}`}>
+          <input className="btn name" 
                 type="text" name='name' placeholder='Full Name' 
                 onChange={(e) => setName(e.target.value)} />
 
-          <input className="btn email form-input" 
+          <input className="btn email" 
                 type="text" name='email' placeholder='Email' 
                 onChange={(e) => setEmail(e.target.value)} />
 
-          <input className="btn password form-input" 
+          <input className="btn password" 
                 type="password" name='password' placeholder='Password' 
                 onChange={(e) => setPassword(e.target.value)} />
 
-          <button className="btn green-btn" onClick={register}>Register</button>
+          <button className="btn green-btn" onClick={e => register(e)}>Register</button>
         </form>
 
         <div className="change-auth">
@@ -83,12 +79,12 @@ const Register = ({ changeAuth }) => {
         < AddImage setImageData={setImage} />
         <p className="text-2xl font-bold">{user.name}</p>
         <textarea className="resize-none w-full h-44 p-4 brd border bg-grey-light dark:bg-black"
-                  maxLength={200} onChange={(e) => setDescription(e.target.value)}
+                  maxLength={200} onChange={e => setDesc(e.target.value)}
                   placeholder="who why when etc are you, whatever ...">
         </textarea>
         <div className="w-full flex items-center justify-end space-x-6">
           <button className="btn neutral-btn" onClick={e => closeProfile(e)}>Skip</button>
-          <button className="btn green-btn" onClick={e => updateUser(e)}>Save</button>
+          <button className="btn green-btn" onClick={updateUser}>Save</button>
         </div>
       </div>
     }
