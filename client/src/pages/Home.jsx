@@ -2,9 +2,9 @@ import { Link } from 'wouter'
 import { useTopicsStore } from '../store'
 import { usePagination } from '../hooks'
 import { postService } from '../services'
-import { Pagination, PostCard, Loader, Latest } from '../componets'
+import { Pagination, Loader } from '../componets'
 
-// user feed (latest)
+// feed (latest, following)
 
 const Home = () => {
 
@@ -24,7 +24,7 @@ const Home = () => {
         {topics.map(topic => {
             return (
               <Link href={`/p/${topic}`} >
-                <a key={topic} className="p-2 brd border mb-4 hover:bg-blue-light dark:hover:text-black">{topic}</a>
+                <a key={`home-${topic}`} className="btn neutral-btn mb-4">{topic}</a>
               </Link>
             )
           })
@@ -33,14 +33,11 @@ const Home = () => {
       </section>
 
       <section className="container min-h-screen">
-        <Latest />
-
-        {loading ? <Loader /> :
-          <Pagination page={page} setPage={setPage} total={total} pages={pages}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10">
-              {posts &&  posts.map(post => <PostCard key={post._id} post={post} />) }
-            </div>
-          </Pagination>
+        {loading ? <Loader /> : <Pagination page={page} 
+                                            setPage={setPage} 
+                                            total={total} 
+                                            pages={pages} 
+                                            posts={posts} />
         }
       </section>
     </main>

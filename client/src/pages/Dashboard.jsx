@@ -3,7 +3,7 @@ import { useLocation } from 'wouter'
 import { useDelete, useAuthModal, useEditUser, usePagination } from '../hooks'
 import { useUserStore } from '../store'
 import { userService ,postService } from '../services'
-import { AddImage, Loader, PostCard, Pagination } from '../componets'
+import { AddImage, Loader, Pagination } from '../componets'
 import { FaUser, FaUsers } from 'react-icons/fa'
 import { BiCommentDetail, BiDetail } from 'react-icons/bi'
 
@@ -58,17 +58,15 @@ const Dashboard = ({ userId }) => {
     { loading ? <Loader /> :
       <main>
         <div className="container max-w-[1000px] min-h-screen">
-          <div className="w-full flex flex-col sm:flex-row items-center sm:space-x-8 space-y-8
-                          brd border p-8 mb-12 bg-white dark:bg-black-dark">
-          { edit ? <AddImage size={'small'}
-                             defaultImage={user.image?.url}
-                             setImageData={setImage} /> 
-                 : <> {!currentUser?.image ? <FaUser className="h-20 w-20 sm:h-40 sm:w-40"/>
-                                               : <img className="max-w-[350px]" src={currentUser?.image?.url}/> } </>
+          <div className="w-full flex flex-col items-center space-y-8 mb-20">
+          {edit ? <AddImage size={'small'} defaultImage={user.image?.url} setImageData={setImage} /> 
+                : <> {!currentUser?.image ? <FaUser className="h-20 w-20 sm:h-40 sm:w-40"/>
+                                          : <img className="h-[250px] w-[250px] object-cover rounded-full" 
+                                                 src={currentUser?.image?.url}/> } </>
           }
 
-            <div className="w-full sm:w-4/5 flex flex-col items-center justify-between space-y-8 sm:items-start">
-              <div className="w-full">
+            <div className="flex flex-col items-center justify-between space-y-8">
+              <div>
                 <h1 className="mb-4">{currentUser?.name}</h1>
                 { edit ? <textarea className="resize-none w-full h-44 sm:h-24 
                                               p-4 bg-grey-light dark:bg-black" 
@@ -76,7 +74,7 @@ const Dashboard = ({ userId }) => {
                                    placeholder={user.description ? user.description : 'No Description'}
                                    onChange={e => setDesc(e.target.value)} />
                        : <> {currentUser?.description ? <p>{currentUser?.description}</p> 
-                                                          : <p>No description</p>}</>
+                                                      : <p>No description</p>}</>
                 }
               </div>
 
@@ -105,7 +103,7 @@ const Dashboard = ({ userId }) => {
                             </>
                   }
                            </div>
-                         : <button className="btn dim-pink-btn" onClick={e => follow(e)}>Follow</button>
+                         : <button className="btn pink-btn" onClick={e => follow(e)}>Follow</button>
                 }
                 </div>
               </div>
@@ -117,15 +115,11 @@ const Dashboard = ({ userId }) => {
               <p className="text-2xl">wow such empty ...</p>
             </div>
             :
-            <Pagination page={page} setPage={setPage} total={total} pages={pages}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
-                {posts?.map(post => {
-                  return (
-                    <PostCard post={post} updateList={updatePostsList} />
-                  )
-                })}
-              </div>
-            </Pagination>
+            <Pagination page={page} 
+                        setPage={setPage} 
+                        total={total} 
+                        pages={pages} 
+                        posts={posts} />
           }
         </div>
       </main>
