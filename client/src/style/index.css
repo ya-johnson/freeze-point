@@ -24,7 +24,7 @@
   }
 
   main {
-    @apply min-h-[80vh] my-14;
+    @apply min-h-[80vh] my-20;
   }
 
   h1,
@@ -37,7 +37,7 @@
   }
 
   h1 {
-    @apply text-4xl sm:text-5xl;
+    @apply text-4xl sm:text-6xl;
   }
 
   h2 {
@@ -63,7 +63,7 @@
   }
 
   .brd {
-    @apply border-solid border-black dark:border-grey-dark;
+    @apply border-solid border-grey-dark dark:border-black;
   }
 
   .btn {
@@ -82,8 +82,8 @@
   /* Buttons */
 
   .neutral-btn {
-    @apply border-grey-dark bg-grey-light text-grey-dark
-           dark:border-grey-dark dark:bg-black
+    @apply border-grey-dark bg-white text-grey-dark
+           dark:border-grey-dark dark:bg-black-dark
            hover:text-black hover:bg-white hover:border-black
            dark:hover:text-grey-light dark:hover:border-grey-light;
   }
@@ -195,63 +195,48 @@
     @apply fill-red dark:fill-red;
   }
   
-  .form {
+  .auth-form {
     @apply w-full flex flex-col items-center space-y-6 mb-6;
   }
   
-  .form > input {
-    @apply bg-grey-light border-grey-dark focus:border-black
-           dark:bg-black dark:border-grey-dark dark:focus:border-grey;
-  }
-  
-  .form > .submit {
-    @apply cursor-pointer capitalize w-min
-           border-black bg-black text-grey-light 
-           dark:border-grey-dark dark:bg-black-dark
-           hover:text-black hover:bg-green
-           dark:hover:text-black dark:hover:bg-green dark:hover:border-black-dark;
-         
+  .auth-form > input {
+    @apply bg-white border-grey-dark focus:border-black-dark
+           dark:bg-black-dark dark:border-grey-dark dark:focus:border-grey-light;
   }
   
   .form-err-name > .name {
-    @apply border-red;
+    @apply border-red-light dark:border-red-light;
   }
   
   .form-err-email > .email {
-    @apply border-red;
+    @apply border-red-light dark:border-red-light;
   }
   
   .form-err-password > .password {
-    @apply border-red;
+    @apply border-red-light dark:border-red-light;
   }
   
   .form-err-name-email > .name,
   .form-err-name-email > .email {
-    @apply border-red;
+    @apply border-red-light dark:border-red-light;
   }
   
   .form-err-name-password > .name,
   .form-err-name-password > .password {
-    @apply border-red;
+    @apply border-red-light dark:border-red-light;
   }
   
   .form-err-email-password > .email, 
   .form-err-email-password > .password {
-    @apply border-red;
+    @apply border-red-light dark:border-red-light;
   }
   
   .form-err-name-email-password > .name,
   .form-err-name-email-password > .email,
   .form-err-name-email-password > .password {
-    @apply border-red;
+    @apply border-red-light dark:border-red-light;
   }
-
-  /* Post Card */
-
-  .post-card-img {
-    @apply w-52 min-h-[120px] h-full;
-  }
-
+  
 
   /* Post */
 
