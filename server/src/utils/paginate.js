@@ -11,7 +11,7 @@ const paginate = async (schema, pageNumber, find) => {
 
   return {
     page, 
-    pages: Math.floor(count / limit),
+    pages: Math.ceil(count / limit),
     docs,
     total: count 
   }

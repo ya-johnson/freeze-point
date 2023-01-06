@@ -11,8 +11,8 @@ const usePagination = (getItems, arg) => {
 
   const makePages = (pagesCount) => {
     const pages = []
-    for (let i=0; i <= pagesCount + 1; i++) {
-      pages.push(i)
+    for (let i=0; i < pagesCount; i++) {
+      pages.push(i + 1)
     }
     return pages
   }
