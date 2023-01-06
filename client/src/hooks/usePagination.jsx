@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 const usePagination = (getItems, arg) => {
 
-  const [page, setPage] = useState()
+  const [page, setPage] = useState(1)
   const [total, setTotal] = useState()
   const [pages, setPages] = useState()
   const [posts, setPosts] = useState()
@@ -20,7 +20,8 @@ const usePagination = (getItems, arg) => {
   const onPageChange = async () => {
     setLoading(true)
     const paginate = arg ? await getItems(arg, page) : await getItems(page)
-    setPage(paginate.page)
+    if (paginate.page && paginate.page !== page) setPage(paginate.page)
+    console.log(page)
     setPages(makePages(paginate.pages))
     setTotal(paginate.total)
     setPosts(paginate.docs)
@@ -29,7 +30,8 @@ const usePagination = (getItems, arg) => {
 
 
   useEffect(() => {
-    onPageChange()
+    if (page <= 1) onPageChange()
+    console.log('pagggggg')
   }, [page, arg])
 
 
