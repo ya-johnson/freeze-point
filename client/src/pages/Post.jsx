@@ -12,7 +12,6 @@ import { BiUpvote, BiCommentDetail } from 'react-icons/bi'
 const Post = ({ postId }) => {
 
   const user = useUserStore(state => state.user)
-  const [loading, setLoading] = useState(true)
   const [post, setPost] = useState()
   const [postContent, setPostContent] = useState()
   const [comment, setComment] = useState()
@@ -20,9 +19,12 @@ const Post = ({ postId }) => {
   const [comments, setComments] = useState()
   const [userPosts, setUserPosts] = useState()
   const [topicPosts, setTopicPosts] = useState()
+  const [loading, setLoading] = useState(true)
   const { toggleAuthModal } = useAuthModal()
   
   const initPage = async () => {
+    setLoading(true)
+    
     const post = await postService.getPost(postId)
     setPost(post)
     setPostContent(draft.createHtml(post.content))
@@ -30,15 +32,11 @@ const Post = ({ postId }) => {
     setComments(post.comments)
 
     const userPostsData = await postService.getUserPosts(post.userId)
-    const userPosts = userPostsData
-                        .filter(userPost => userPost._id !== post._id)
-                        .slice(0,2)
+    const userPosts = userPostsData.docs.filter(userPost => userPost._id !== post._id).slice(0,2)
     setUserPosts(userPosts)
 
     const topicPostsData = await postService.getTopicPosts(post.topic)
-    const topicPosts = topicPostsData
-                        .filter(topicPost => topicPost._id !== post._id && topicPost.userId !== post.userId)
-                        .slice(0,2)
+    const topicPosts = topicPostsData.docs.filter(toP => toP._id !== post._id && toP.userId !== post.userId).slice(0,2)
     setTopicPosts(topicPosts)
 
     setLoading(false)
@@ -71,7 +69,6 @@ const Post = ({ postId }) => {
 
 
   useEffect(() => {
-    setLoading(true)
     initPage()
     window.scrollTo({top: 0})
   }, [postId])
@@ -81,11 +78,11 @@ const Post = ({ postId }) => {
     <> 
     { loading ? <Loader /> :
     <main>
-      <div className="container max-w-[1000px]">
-        <div className="mx-auto">
+      <div className="container">
+        <div className="mx-auto max-w-[800px]">
 
-          <div className="space-y-2">
-            <div className="space-y-2 pb-1">
+          <div className="space-y-1 sm:space-y-2">
+            <div className="space-y-1 sm:space-y-2">
               <Link href={`/topics/${post.topic}`}>
                 <a className="text-blue">{post.topic}</a>
               </Link>
@@ -93,28 +90,29 @@ const Post = ({ postId }) => {
             </div>
             <div className="flex items-end justify-between pb-4">
               <Link href={`/users/${post.userId}`}>
-                  <a className="capitalize text-lg">{post.username}</a>
+                  <a className="capitalize text-lg hover:text-pink">{post.username}</a>
               </Link>
               <span>{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
 
-          { post.image && <img className="w-full rounded-xl" src={post.image.url}></img> }
+          { post.image && <img className="w-full" src={post.image.url}></img> }
           </div>
 
           <div className="flex items-center justify-center mb-28 pt-6">
             <div className="post-content" dangerouslySetInnerHTML={postContent}></div>
           </div>
 
-          <div className="flex items-center space-x-10">
-            <textarea className="resize-none h-24 w-full p-4 bg-white dark:bg-black-dark" 
+          <div className="flex flex-col items-center sm:flex-row sm:space-x-10">
+            <textarea className="resize-none w-full h-44 sm:h-24 
+                                 p-4 bg-white dark:bg-black-dark brd border" 
                       maxLength="200" 
-                      onChange={(e => setComment(e.target.value))}
+                      onChange={e => setComment(e.target.value)}
                       placeholder="Your comment goes here ...">
             </textarea>
 
-            <div className="h-24 flex flex-col justify-between bg-white dark:bg-black-dark">
-              <div className="h-full w-full flex items-center justify-center 
-                              space-x-2">
+            <div className="w-full sm:w-auto sm:h-24 flex sm:flex-col 
+                            justify-between brd border">
+              <div className="h-full sm:w-full flex items-center justify-center space-x-2 py-1 px-4 brd border-b">
                 <div className="flex items-center space-x-1 text-grey-dark">
                   <span>{ comments.length }</span>
                   <BiCommentDetail className="icon" />
@@ -152,16 +150,16 @@ const Post = ({ postId }) => {
         <div className="mt-20">
           { userPosts.length > 0 &&
           <div>
-            <h3>{`More posts from ${post.username}`}</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 my-10">
+            <h3>{`More from ${post.username}`}</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10 my-5">
               { userPosts.map(post => <PostCard post={post} />)}
             </div>
           </div>}
           
           { topicPosts.length > 0 &&
           <div>
-            <h3>{`More posts from ${post.topic}`}</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 my-10">
+            <h3>{`More from ${post.topic}`}</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-10 my-5">
               {  topicPosts.map(post => <PostCard post={post} />)}
             </div>
           </div>}
