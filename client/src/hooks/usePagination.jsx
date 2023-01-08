@@ -20,8 +20,7 @@ const usePagination = (getItems, arg) => {
   const onPageChange = async () => {
     setLoading(true)
     const paginate = arg ? await getItems(arg, page) : await getItems(page)
-    if (paginate.page && paginate.page !== page) setPage(paginate.page)
-    console.log(page)
+    if (paginate.page !== page) setPage(paginate.page)
     setPages(makePages(paginate.pages))
     setTotal(paginate.total)
     setPosts(paginate.docs)
@@ -31,7 +30,6 @@ const usePagination = (getItems, arg) => {
 
   useEffect(() => {
     if (page <= 1) onPageChange()
-    console.log('pagggggg')
   }, [page, arg])
 
 

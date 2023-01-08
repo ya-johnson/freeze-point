@@ -13,8 +13,8 @@ const Pagination = ({ page, setPage, total, pages, posts }) => {
       
       <div className="w-full absolute bottom-2">
         <div className="absolute top-0 right-0 flex brd border">
-          <p className="py-2 px-4 brd border-r">{'Pages ' + pages}</p>
           <p className="py-2 px-4">{'Posts ' + total}</p>
+          <p className="py-2 px-4 brd border-l">{'Pages ' + pages}</p>
         </div>
         <div className="absolute top-0 left-0 flex space-x-2">
           {pages.length >= 2 && <button className="btn neutral-btn py-0 px-1" onClick={() => setPage(page - 1)}>
@@ -23,7 +23,7 @@ const Pagination = ({ page, setPage, total, pages, posts }) => {
             
           {pages.map(num => {
             return (
-              <button className={`btn neutral-btn ${num === page + 1 && 'neutral-active-btn'}`} 
+              <button className={`btn neutral-btn ${num === page && 'neutral-active-btn'}`} 
                       onClick={() => setPage(num)} key={`page-${num}`}>{num} 
               </button>
             )
