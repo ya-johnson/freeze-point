@@ -19,7 +19,7 @@ const Dashboard = ({ userId }) => {
   const { edit, openEdit, closeEdit, setDesc, setImage, updateUser } = useEditUser()
   const { toggleAuthModal } = useAuthModal()
   const { page, setPage, total, pages, posts, setPosts, loading } = usePagination(postService.getUserPosts, userId)
-  const updatePostsList = postId => setPosts(posts.filter(post => post._id !== postId))
+  const updatePosts = postId => setPosts(posts.filter(post => post._id !== postId))
   
   const getUser = async () => {
     const currentUser = await userService.getUser(userId)
@@ -57,16 +57,16 @@ const Dashboard = ({ userId }) => {
     <>
     { loading ? <Loader /> :
       <main>
-        <div className="container max-w-[1000px] min-h-screen">
-          <div className="w-full flex flex-col items-center space-y-8 mb-20">
+        <div className="container">
+          <div className="flex flex-col items-center space-y-8 mb-20">
           {edit ? <AddImage size={'small'} defaultImage={user.image?.url} setImageData={setImage} /> 
                 : <> {!currentUser?.image ? <FaUser className="h-20 w-20 sm:h-40 sm:w-40"/>
                                           : <img className="h-[250px] w-[250px] object-cover rounded-full" 
                                                  src={currentUser?.image?.url}/> } </>
           }
 
-            <div className="flex flex-col items-center justify-between space-y-8">
-              <div>
+            <div className="w-1/2 flex flex-col items-center justify-between space-y-8">
+              <div className="w-full flex flex-col items-center justify-center">
                 <h1 className="mb-4">{currentUser?.name}</h1>
                 { edit ? <textarea className="resize-none w-full h-44 sm:h-24 
                                               p-4 bg-grey-light dark:bg-black" 
@@ -119,7 +119,8 @@ const Dashboard = ({ userId }) => {
                         setPage={setPage} 
                         total={total} 
                         pages={pages} 
-                        posts={posts} />
+                        posts={posts} 
+                        updatePosts={updatePosts}/>
           }
         </div>
       </main>
