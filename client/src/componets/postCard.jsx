@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'wouter'
+import { Link, useLocation, useRoute } from 'wouter'
 import { useUserStore } from '../store'
 import { postService } from '../services'
 import { useDelete } from '../hooks'
@@ -11,6 +11,7 @@ const PostCard = ({ post, updateList }) => {
   const user = useUserStore(state => state.user)
   const isUser = user !== null && user?.id === post.userId
   const content = draft.createMarkdown(post.content)
+  const [match, params] = useRoute('/users/:user')
   const [location, setLocation] = useLocation()
 
   const deletePost = () => {
@@ -23,7 +24,7 @@ const PostCard = ({ post, updateList }) => {
   return (
 
     <div className="relative w-full bg-white dark:bg-black-dark brd border">
-      { isUser && 
+      { match && isUser && 
       <div className="absolute top-0 right-0 flex space-x-2 p-2 bg-white dark:bg-black-dark">
         <BiEdit className="cursor-pointer h-5 w-5 text-grey-dark hover:text-black dark:hover:text-white"
                 onClick={() => setLocation(`posts/edit-post/${post._id}`)} />
@@ -36,7 +37,7 @@ const PostCard = ({ post, updateList }) => {
       </Link>
 
       <div className="w-full flex flex-col justify-between p-4 brd border-t">
-        <div className="h-[275px] flex flex-col">
+        <div className="h-[274px] flex flex-col mb-2">
           <Link href={`/p/${post.topic}`} >
             <a className="text-blue text-sm">{post.topic}</a>
           </Link>
