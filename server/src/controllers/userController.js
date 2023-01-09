@@ -21,7 +21,9 @@ const createUser = asyncHandler( async (req, res) => {
 })
 
 const updateUser = asyncHandler( async (req, res) => {
-  const user = await userService.updateUser(req.body)
+  const { userId } = req.params
+  if (userId !== req.userId) return
+  const user = await userService.updateUser(userId, req.body)
   res.status(200).json(user)
 })
 

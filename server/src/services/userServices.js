@@ -64,8 +64,8 @@ const createUser = async userBody => {
   return user
 }
 
-const updateUser = async (updateBody) => {
-  const user = await getUserById(updateBody.userId)
+const updateUser = async (userId, updateBody) => {
+  const user = await getUserById(userId)
 
   if (updateBody.email) {
     await checkDuplicateEmail(updateBody.email)

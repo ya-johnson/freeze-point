@@ -19,7 +19,7 @@ const getUser = asyncHandler( async args => {
 const updateUser = asyncHandler( async args => {
   const [authToken, userId, data] = args
   const header = authService.setAuthHeader(authToken)
-  const response = await axios.put(`${BASE_URL}/users/${userId}`, {userId, ...data}, header)
+  const response = await axios.put(`${BASE_URL}/users/${userId}`, data, header)
   const user = await response.data
   toast(`Your profile updated successfully`, toastify.autoClose)
   return authService.setUserObj(authToken, user)
