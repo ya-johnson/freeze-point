@@ -4,6 +4,9 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 
 const Pagination = ({ page, setPage, total, pages, posts, updatePosts }) => {
 
+  const nextPage = () => (page < pages.length) ? setPage(page + 1) : setPage(page)
+  const previousPage = () => (page > 1) ? setPage(page - 1) : setPage(page)
+
   return (
     <div className="relative w-full py-14">
       <Latest />
@@ -17,7 +20,7 @@ const Pagination = ({ page, setPage, total, pages, posts, updatePosts }) => {
           <p className="py-2 px-4 brd border-l">{'Pages ' + pages.length}</p>
         </div>
         <div className="absolute top-0 left-0 flex space-x-2">
-          {pages.length >= 2 && <button className="btn neutral-btn py-0 px-1" onClick={() => setPage(page - 1)}>
+          {pages.length >= 2 && <button className="btn neutral-btn py-0 px-1" onClick={previousPage}>
                                   <MdChevronLeft className="h-8 w-8" />
                                 </button>}
             
@@ -29,7 +32,7 @@ const Pagination = ({ page, setPage, total, pages, posts, updatePosts }) => {
             )
           })}
             
-          {pages.length >= 2 && <button className="btn neutral-btn py-0 px-1" onClick={() => setPage(page + 1)}>
+          {pages.length >= 2 && <button className="btn neutral-btn py-0 px-1" onClick={nextPage}>
                                   <MdChevronRight className="h-8 w-8" />
                                 </button>}        
         </div>
