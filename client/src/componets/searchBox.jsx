@@ -1,25 +1,23 @@
-import { useRef } from 'react'
-import { useLocation } from 'wouter'
+import { useState, useEffect } from 'react'
+import { Link } from 'wouter'
 import { useShow } from '../hooks'
-import { toast } from 'react-toastify'
-import { toastify } from '../utils'
+import { searchService } from '../services'
+import { FaUser } from 'react-icons/fa'
 import { RiSearchLine, RiCloseLine, RiArrowLeftLine } from 'react-icons/ri'
 
 
 const SearchBox = () => {
 
-  const searchInput = useRef()
+  const [value, setValue] = useState()
+  const [results, setResults] = useState()
   const { show, doShow, unShow } = useShow()
-  const [location, setLocation] = useLocation()
 
-  const goSearch = () => {
-    let value = searchInput.current.value
-
-    if (!value || value.length < 3) {
-      toast.error('search value must be at least 3 charecthers', toastify.autoClose)
-    } else {
-      setLocation(`/search/${value}`)
-      value = '' // fix
+  const goSearch = async () => {
+    if (value.trim()) {
+      const data = await searchService.getSearchResults(value)
+      const results = await data.data
+      console.log(value.trim(), results)
+      setResults(results)
     }
   }
 
@@ -28,25 +26,80 @@ const SearchBox = () => {
     show === 'hidden' ? doShow() : goSearch()
   }
 
+  const clearSearch = () => {
+    setResults(null)
+    setValue('')
+  }
+
+  const closeSearch = () => {
+    clearSearch()
+    unShow()
+  }
+
+
+  useEffect(() => {
+    goSearch()
+  }, [value])
+
 
   return (
-    <form className={`w-6 bg-white dark:bg-black-dark text-grey-dark
-                      ${!show ? 'absolute top-0 left-0 w-screen py-4 sm:relative sm:w-auto sm:py-0' : 'relative'}`}>
+    <div className="relative bg-white dark:bg-black-dark sm:min-w-[500px]">
+      <form className={`w-full  text-grey-dark
+                        ${!show ? 'absolute top-0 left-0 w-screen py-4 sm:relative sm:w-auto sm:py-0' : 'relative'}`}>
 
-      {!show && <RiArrowLeftLine className="icon absolute top-1/2 -translate-y-1/2 left-1" 
-                                 onClick={unShow}/>}
+        {!show && <RiArrowLeftLine className="icon absolute top-1/2 -translate-y-1/2 left-1" 
+                                   onClick={closeSearch}/>}
 
-      <input className={`pl-8 pr-14 py-2 bg-white dark:bg-black-dark brd border ${show}`}
-             type="text" placeholder="search ..." ref={searchInput} />
+        <input className={`w-full pl-8 pr-14 py-2 bg-white dark:bg-black-dark brd border ${show}`}
+               type="text" placeholder="search ..." value={value} onChange={e => setValue(e.target.value)} />
 
-      <button type="submit" onClick={e => handleSearch(e)}>
-        <RiSearchLine className={`icon absolute top-1/2 -translate-y-1/2 ${show ? 'right-0' : 'right-2'}`}/>
-      </button>
+        <button type="submit" onClick={e => handleSearch(e)}>
+          <RiSearchLine className={`icon absolute top-1/2 -translate-y-1/2 ${show ? 'right-0' : 'right-2'}`}/>
+        </button>
 
-      {!show && <RiCloseLine className="absolute top-1/2 -translate-y-1/2 right-8 
-                                          cursor-pointer h-6 w-6 hover:text-red-light"
-                             onClick={() => searchInput.current.value = ''} />}
-    </form>
+        {!show && <RiCloseLine className="absolute top-1/2 -translate-y-1/2 right-8 
+                                            cursor-pointer h-6 w-6 hover:text-red-light"
+                              onClick={clearSearch} />}
+      </form>
+      {(results?.posts.length || results?.users.length) && 
+      <div className="absolute top-[calc(100%+10px)] left-0 w-full bg-white dark:bg-black-dark brd border-x border-t">
+        {results.users?.map(user => {
+          return (
+            <Link href={`/users/${user._id}`}>
+              <a>
+                <div className="flex items-center space-x-4 p-4 brd border-b">
+                  {user.image ? <img className="h-8 w-8 rounded-full object-center" src={user.image.url} /> 
+                              : <FaUser className="icon" />}
+                  <p>{user.name}</p>
+                </div>
+              </a>
+            </Link>
+          )
+        })}
+
+        {results.posts?.map(post => {
+          return (
+            <Link href={`/posts/${post._id}`}>
+              <a>
+                <div className="flex items-center space-x-4 p-4 brd border-b">
+                  {post.image && <img className="h-16 w-20 object-center" src={post.image.url} /> }
+                  <div>
+                    <p className="text-sm text-blue-light">{post.topic}</p>
+                    <p className="font-bold">{post.title}</p>
+                    <div className="w-full flex items-center justify-between mt-1 text-sm">
+                      <p>{post.username}</p>
+                      <p className=" text-grey-dark">{new Date(post.createdAt).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </Link>
+          )
+        })}
+        </div>
+      }
+    </div>
+
   )
 }
 
