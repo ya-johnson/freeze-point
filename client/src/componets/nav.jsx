@@ -3,7 +3,8 @@ import { Link, useLocation, useRoute } from 'wouter'
 import { useUserStore, useSettingsStore } from '../store'
 import { useAuthModal } from '../hooks'
 import { Dropdown, MenuBox, SearchBox } from './index'
-import { BsSun, BsMoon, BsPlusSquare} from 'react-icons/bs'
+import { BsSun, BsMoon, BsPlusSquare } from 'react-icons/bs'
+import { GiFrozenArrow } from 'react-icons/gi'
 
 
 const Nav = () => {
@@ -67,21 +68,23 @@ const Nav = () => {
   return (
     <nav className="sticky top-0 w-screen bg-white dark:bg-black-dark brd border-b z-30">
       <div className="container flex justify-between items-center py-4">
-        <div className="flex items-end font-covered">
+        <div className="hidden md:flex items-end font-covered">
           <Link href='/'>
             <a className="text-5xl hover:text-pink">{`freeze point${!match ? '.' : ''}`}</a>
           </Link>
           {match && <p className="text-2xl text-grey-dark">{'/p/' + params.topic}</p>}
         </div>
+        <Link href='/'><a className="md:hidden"><GiFrozenArrow className="h-8 w-8 hover:text-pink-light"/></a></Link>
 
         <div className="flex items-center space-x-4 sm:space-x-6">
-          <MenuBox />
           <SearchBox />
           <button onClick={e => createPost(e)}><BsPlusSquare className="icon"/></button>
           
           { theme === 'dark' ? <BsSun className="icon" onClick={toggleTheme} />
                              : <BsMoon className="icon" onClick={toggleTheme} /> }
-            
+          
+          <MenuBox />
+
           { !user ? <button className="btn green-btn" onClick={toggleAuthModal}>Login</button> 
                   : <Dropdown type={'action'} title={{ type: 'image', src: user.image?.url }} list={userCtrl} /> }
         </div>

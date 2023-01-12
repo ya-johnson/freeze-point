@@ -43,14 +43,14 @@ const SearchBox = () => {
 
 
   return (
-    <div className="relative bg-white dark:bg-black-dark sm:min-w-[500px]">
-      <form className={`w-full  text-grey-dark
-                        ${!show ? 'absolute top-0 left-0 w-screen py-4 sm:relative sm:w-auto sm:py-0' : 'relative'}`}>
+    <div className={`bg-white dark:bg-black-dark lg:min-w-[500px]
+                     ${!show ? 'fixed top-0 left-0 w-screen lg:relative lg:w-auto lg:py-0 z-50' : 'relative'}`}>
+      <form className={`w-full text-grey-dark ${show && 'relative'}`}>
 
         {!show && <RiArrowLeftLine className="icon absolute top-1/2 -translate-y-1/2 left-1" 
                                    onClick={closeSearch}/>}
 
-        <input className={`w-full pl-8 pr-14 py-2 bg-white dark:bg-black-dark brd border ${show}`}
+        <input className={`w-full pl-8 pr-14 py-5 sm:py-7 lg:py-2 bg-white dark:bg-black-dark brd border ${show}`}
                type="text" placeholder="search ..." value={value} onChange={e => setValue(e.target.value)} />
 
         <button type="submit" onClick={e => handleSearch(e)}>
@@ -62,7 +62,8 @@ const SearchBox = () => {
                               onClick={clearSearch} />}
       </form>
       {(results?.posts.length || results?.users.length) && 
-      <div className="absolute top-[calc(100%+10px)] left-0 w-full bg-white dark:bg-black-dark brd border-x border-t">
+      <div className="overflow-scroll absolute top-full lg:top-[calc(100%+10px)] left-0 
+                      w-full max-h-[500px] bg-white dark:bg-black-dark brd border">
         {results.users?.map(user => {
           return (
             <Link href={`/users/${user._id}`}>

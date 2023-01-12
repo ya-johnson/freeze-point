@@ -12,9 +12,9 @@ const MenuBox = () => {
 
   return (
     <div className="relative h-6 w-6">
-      {show ? <RiMenuFill className="absolute top-0 right-0 icon z-50" 
+      {show ? <RiMenuFill className="absolute top-0 right-0 icon z-40" 
                           onClick={toggleShow}/>
-            : <RiCloseCircleFill className="absolute top-0 right-0 icon z-50" 
+            : <RiCloseCircleFill className="absolute top-0 right-0 icon z-40" 
                                  onClick={toggleShow}/>
       }
  
