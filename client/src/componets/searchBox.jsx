@@ -38,7 +38,7 @@ const SearchBox = () => {
 
 
   useEffect(() => {
-    goSearch()
+    if (value) goSearch()
   }, [value])
 
 
