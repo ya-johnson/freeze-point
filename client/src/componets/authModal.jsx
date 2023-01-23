@@ -14,8 +14,7 @@ const AuthModal = () => {
         <div className="auth-close">
           <AiOutlineCloseCircle className="auth-close-icon" />
         </div>
-        {authType === 'login' ? <Login changeAuth={changeAuth} /> 
-                              : <Register changeAuth={changeAuth} />}
+        {authType === 'login' ? <Login /> : <Register />}
       </div>
     </div>
   )

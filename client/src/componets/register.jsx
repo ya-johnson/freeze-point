@@ -5,7 +5,7 @@ import AddImage from './addImage'
 import { validate } from '../utils'
 
 
-const Register = ({ changeAuth }) => {
+const Register = () => {
 
   const { user, 
           setUser,
@@ -17,6 +17,7 @@ const Register = ({ changeAuth }) => {
           setPassword,
           formError, 
           setFormError,
+          changeAuth,
           toggleAuthModal } = useAuthModal()
   const [profile, setProfile] = useState('reg-profile')
   const { setDesc, setImage, updateUser } = useEditUser(toggleAuthModal)

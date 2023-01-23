@@ -3,7 +3,7 @@ import { authService } from '../services'
 import { validate } from '../utils'
 
 
-const Login = ({ changeAuth }) => {
+const Login = () => {
 
   const { setUser,
           email,
@@ -12,6 +12,7 @@ const Login = ({ changeAuth }) => {
           setPassword,
           formError,
           setFormError,
+          changeAuth,
           toggleAuthModal } = useAuthModal()
 
   const login = async (e) => {

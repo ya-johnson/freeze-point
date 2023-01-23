@@ -1,19 +1,20 @@
 import { useState } from 'react'
-import { useUserStore } from '../store'
+import { useUserStore, useAuthModalStore } from '../store'
 
 
 const useAuthModal = () => {
 
   const user = useUserStore(state => state.user)
   const setUser = useUserStore(state => state.setUser)
+  const authType = useAuthModalStore(state => state.authType)
+  const setAuthType = useAuthModalStore(state => state.setAuthType)
   const [name, setName] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [formError, setFormError] = useState()
-  const [authType, setAuthType] = useState('login')
   const changeAuth = () => authType === 'login' ? setAuthType('register') : setAuthType('login')
 
-  const toggleAuthModal = (e) => {
+  const toggleAuthModal = (e, authType) => {
     const target = e.target.classList
     const auth = document.querySelector('.auth').classList
     const form = document.querySelector('.auth-form')
@@ -21,6 +22,7 @@ const useAuthModal = () => {
     const user = JSON.parse(localStorage.getItem('user')).state.user
     
     if (auth.contains('auth-modal-close')) {
+      if (authType) setAuthType(authType)
       auth.remove('auth-modal-close')
     } 
     else if (target.contains('auth-close-icon') || target.contains('auth')) {
@@ -44,8 +46,8 @@ const useAuthModal = () => {
     setPassword,
     formError,
     setFormError,
-    authType, 
-    changeAuth, 
+    authType,
+    changeAuth,
     toggleAuthModal 
   }
 }
