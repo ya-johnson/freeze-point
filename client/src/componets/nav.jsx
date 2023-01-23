@@ -85,8 +85,12 @@ const Nav = () => {
           
           <MenuBox />
 
-          { !user ? <button className="btn green-btn" onClick={toggleAuthModal}>Login</button> 
-                  : <Dropdown type={'action'} title={{ type: 'image', src: user.image?.url }} list={userCtrl} /> }
+          { user ? <Dropdown type={'action'} title={{ type: 'image', src: user.image?.url }} list={userCtrl} />
+                  : <div className="flex items-center space-x-6">
+                      <button className="btn green-btn" onClick={e => toggleAuthModal(e, 'login')}>Login</button>
+                      <button className="btn blue-btn" onClick={e => toggleAuthModal(e, 'register')}>Register</button>
+                    </div>  
+          }
         </div>
 
       </div>
