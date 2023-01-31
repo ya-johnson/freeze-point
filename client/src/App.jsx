@@ -1,7 +1,7 @@
 import { Router, Route } from 'wouter'
 import { useUserStore } from './store'
 import { Nav, AuthModal, Footer } from './componets'
-import { Home, Topic, Dashboard, Post, PostEditor, Search } from './pages'
+import { Home, Topic, Dashboard, Post, PostEditor } from './pages'
 import { ToastContainer, Slide } from 'react-toastify'
 import '../src/style/index.css'
 import 'react-toastify/dist/ReactToastify.css'
