@@ -4,10 +4,9 @@ import create from 'zustand'
 const topics = [
   'Animals',
   'Art',
-  'Books',
-  'Career',
   'Craft',
   'Design',
+  'Economics',
   'Education',
   'Enviroment',
   'Fashion',
@@ -15,17 +14,16 @@ const topics = [
   'Film',
   'Food',
   'History',
+  'Journalism',
   'Lifestyle',
+  'Literature',
   'Health',
   'Music',
   'Nature',
   'News',
   'Science',
   'Sports',
-  'Social',
-  'Tech',
-  'Travel',
-  'Work'
+  'Technology',
 ]
 
 const useTopicsStore = create( set => ({
