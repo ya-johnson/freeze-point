@@ -15,6 +15,7 @@ const setUserObj = (token, user) => {
     name: user.name,
     description: user.description || null,
     image: user.image || null,
+    following: user.following || null,
     token
   }
 }
