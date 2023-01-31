@@ -5,7 +5,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 const AuthModal = () => {
 
-  const { authType, changeAuth, toggleAuthModal } = useAuthModal()
+  const { authType, toggleAuthModal } = useAuthModal()
 
   return (
     <div className="auth auth-modal-close" 
