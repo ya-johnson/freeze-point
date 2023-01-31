@@ -40,14 +40,13 @@ const toolbarOptions = {
   },
 }
 
-const createHtml = (html) => {
-  const postContent = stateToHTML(convertFromRaw(JSON.parse(html)))
+const createHtml = (editorState) => {
+  const postContent = stateToHTML(convertFromRaw(JSON.parse(editorState)))
   return {  __html: DOMPurify.sanitize(postContent) }
 }
 
 const createMarkdown = (editorState) => {
   const markdown = stateToMarkdown(convertFromRaw(JSON.parse(editorState)))
-  console.log(markdown)
   return markdown
 }
 
