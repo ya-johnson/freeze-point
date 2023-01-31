@@ -3,7 +3,6 @@ import Topic from './Topic'
 import Post from './Post'
 import Dashboard from './Dashboard'
 import PostEditor from './PostEditor'
-import Search from './Search'
 
 
 export {
@@ -12,5 +11,4 @@ export {
   Post,
   Dashboard,
   PostEditor,
-  Search
 }
