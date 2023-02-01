@@ -18,7 +18,6 @@ const useAuthModal = () => {
     const target = e.target.classList
     const auth = document.querySelector('.auth').classList
     const form = document.querySelector('.auth-form')
-    const regProfile = document.querySelector('.reg-profile')
     const user = JSON.parse(localStorage.getItem('user')).state.user
     
     if (auth.contains('auth-modal-close')) {
@@ -29,9 +28,9 @@ const useAuthModal = () => {
       auth.add('auth-modal-close')
       form.reset()
     }
-    else if (!regProfile && user) {
-      if (form) form.reset()
+    else if (user) {
       auth.add('auth-modal-close')
+      form.reset()
     }
   }
 
