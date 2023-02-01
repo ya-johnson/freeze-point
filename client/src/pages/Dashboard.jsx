@@ -14,10 +14,10 @@ const Dashboard = ({ userId }) => {
   const setUser = useUserStore(state => state.setUser)
   const [currentUser, setCurrentUser] = useState()
   const [isUser, setIsUser] = useState()
-  const [following, setFollowing] = useState()
+  // const [following, setFollowing] = useState()
   const [location, setLocation] = useLocation()
+  // const { toggleAuthModal } = useAuthModal()
   const { edit, openEdit, closeEdit, setDesc, setImage, updateUser } = useEditUser()
-  const { toggleAuthModal } = useAuthModal()
   const { page, setPage, total, pages, posts, setPosts, loading } = usePagination(postService.getUserPosts, userId)
   const updatePosts = postId => setPosts(posts.filter(post => post._id !== postId))
   
@@ -25,23 +25,24 @@ const Dashboard = ({ userId }) => {
     const currentUser = await userService.getUser(userId)
     setCurrentUser(currentUser)
     setIsUser(user?.id === currentUser.id)
-    setFollowing(!isUser && user?.following.find(user => user === currentUser.id))
+    // setFollowing(!isUser && user?.following.find(user => user === currentUser.id))
   }
 
-  const follow = async (e) => {
-    if (!user) {
-      toggleAuthModal(e)
-      return
-    }
+  // const follow = async (e) => {
+  //   if (!user) {
+  //     toggleAuthModal(e)
+  //     return
+  //   }
 
-    const followingUser = await userService.follow(userId)
-    setUser(followingUser)
-  }
+  //   const followingUser = await userService.updateUser(user.token, user.id, {following: user.following.push(userId)})
+  //   setUser(followingUser)
+  //   console.log(followingUser)
+  // }
 
   const deleteUser = async () => {
-    // const user = await userService.deleteUser(user.id)
+    await userService.deleteUser(user.token, user.id)
+    setUser(null)
     setLocation('/')
-    console.log('delete')
   }
 
   const displayDelete = useDelete(user?.name, deleteUser)
@@ -78,23 +79,10 @@ const Dashboard = ({ userId }) => {
                 }
               </div>
 
-              <div className="w-full flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-1">
-                    <FaUsers className="h-5 w-5" />
-                    <p>{currentUser?.followers.length}</p>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <BiDetail className="h-5 w-5" />
-                    <p>{posts?.length}</p>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <BiCommentDetail className="h-5 w-5" />
-                    <p>{posts?.length}</p>
-                  </div>
-                </div>
+              <div className="w-full flex items-center justify-center">
                 <div>
-                { isUser ? <div className="flex space-x-6">
+                { isUser && 
+                  <div className="flex space-x-6">
                   { !edit ? <button className="btn dim-blue-btn" onClick={openEdit}>Edit</button> 
                           : <>
                               <button className="btn dim-red-btn" onClick={displayDelete}>Delete</button>
@@ -102,25 +90,22 @@ const Dashboard = ({ userId }) => {
                               <button className="btn dim-green-btn" onClick={updateUser}>Save</button>
                             </>
                   }
-                           </div>
-                         : <button className="btn pink-btn" onClick={e => follow(e)}>Follow</button>
+                  </div>
                 }
                 </div>
               </div>
             </div>
           </div>
           
-          { !posts?.length ?
-            <div className="w-full flex justify-center mt-20">
-              <p className="text-2xl">wow such empty ...</p>
-            </div>
-            :
-            <Pagination page={page} 
-                        setPage={setPage} 
-                        total={total} 
-                        pages={pages} 
-                        posts={posts} 
-                        updatePosts={updatePosts}/>
+          { !posts?.length ? <div className="w-full flex justify-center mt-20">
+                               <p className="text-2xl">wow such empty ...</p>
+                             </div>
+                           : <Pagination page={page} 
+                                         setPage={setPage} 
+                                         total={total} 
+                                         pages={pages} 
+                                         posts={posts} 
+                                         updatePosts={updatePosts}/>
           }
         </div>
       </main>

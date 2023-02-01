@@ -88,10 +88,9 @@ const updateUser = async (userId, updateBody) => {
 
 const deleteUser = async userId => {
   const user = await getUserById(userId)
-  await imageService.removeImg(user.image.id)
+  if (user.image?.id) await imageService.removeImg(user.image?.id)
   await postService.deleteAllUserPosts(userId)
   await user.remove()
-  return user
 }
 
 

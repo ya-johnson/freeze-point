@@ -59,9 +59,9 @@ const deletePost = async postId => {
 }
 
 const deleteAllUserPosts = async userId => {
-  const userPosts = await getUserPosts(userId)
-  const deletedPosts = await Promise.all(userPosts.forEach(async post => await deletePost(post._id)))
-  return deletedPosts
+  const userPosts = await getUserPosts({userId})
+  const { docs } = userPosts
+  if (docs.length) await Promise.all(docs.forEach(async post => await deletePost(post._id)))
 }
 
 const likePost = async (postId, userId) => {
