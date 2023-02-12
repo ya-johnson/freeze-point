@@ -1,14 +1,18 @@
+import useWindow from './useWindow'
+import useShow from './useShow'
 import useAuthModal from './useAuthModal'
 import useDelete from './useDelete'
 import useEditUser from './useEditUser'
 import usePagination from './usePagination'
-import useShow from './useShow'
+
+
 
 
 export {
+  useWindow,
+  useShow,
   useAuthModal,
   useDelete,
   useEditUser,
-  usePagination,
-  useShow
+  usePagination
 }
