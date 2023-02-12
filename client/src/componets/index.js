@@ -4,7 +4,6 @@ import Login from './login'
 import Register from './register'
 import Dropdown from './dropdown'
 import AddImage from './addImage'
-import MenuBox from './menuBox'
 import SearchBox from './searchBox'
 import Pagination from './pagination'
 import Loader from './loader'
@@ -20,7 +19,6 @@ export {
   Register,
   Dropdown,
   AddImage,
-  MenuBox,
   SearchBox,
   Pagination,
   Loader,
