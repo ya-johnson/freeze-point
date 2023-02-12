@@ -1,4 +1,4 @@
-import { useAuthModal } from '../hooks'
+import { useAuthModal, useWindow } from '../hooks'
 import { Login, Register } from './index'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 
@@ -6,11 +6,12 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 const AuthModal = () => {
 
   const { authType, toggleAuthModal } = useAuthModal()
+  const { width } = useWindow()
 
   return (
     <div className="auth auth-modal-close" 
          onClick={e => toggleAuthModal(e)}>
-      <div className="auth-modal sm:w-[450px]">
+      <div className={`auth-modal ${width >= 500 ? 'w-[450px]' : `w-[calc(${width}-16px)]`}`}>
         <div className="auth-close">
           <AiOutlineCloseCircle className="auth-close-icon" />
         </div>
