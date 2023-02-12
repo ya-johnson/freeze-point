@@ -10,7 +10,7 @@ const PostCard = ({ post, updateList }) => {
 
   const user = useUserStore(state => state.user)
   const isUser = user !== null && user?.id === post.userId
-  const content = draft.createMarkdown(post.content)
+  const content = draft.createHtml(post.content)
   const [match, params] = useRoute('/users/:user')
   const [location, setLocation] = useLocation()
 
@@ -37,35 +37,34 @@ const PostCard = ({ post, updateList }) => {
       </Link>
 
       <div className="w-full flex flex-col justify-between p-4 brd border-t">
-        <div className="h-[274px] flex flex-col mb-2">
+        <div className="flex flex-col mb-2">
           <Link href={`/p/${post.topic}`} >
             <a className="text-blue text-sm">{post.topic}</a>
           </Link>
           <Link href={`/posts/${post._id}`}>
             <a><h4>{post.title}</h4></a>
           </Link>
-          <textarea className="w-full h-full my-2 
-                               bg-white dark:bg-black-dark text-grey-dark 
-                               resize-none overflow-hidden" 
-                    disabled value={content} />
+          <p>{content.__html.substring(3,200).concat(' ...')}</p>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="space-x-2">
-            <Link href={`/users/${post.userId}`}>
-              <a className="hover:text-pink capitalize">{post.username}</a>
-            </Link>
-            <span className="text-sm text-grey-dark">{new Date(post.createdAt).toLocaleDateString()}</span>
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1 text-grey-dark">
-              <span>{post.comments.length}</span>
-              <BiCommentDetail className="post-card-icon"/>
+        <div className="mt-6">
+          <div className="absolute bottom-4 left-4 w-[calc(100%-30px)] flex items-center justify-between">
+            <div className="space-x-2">
+              <Link href={`/users/${post.userId}`}>
+                <a className="font-bold hover:text-pink capitalize">{post.username}</a>
+              </Link>
+              <span className="text-sm text-grey-dark">{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
-            <div className="flex items-center space-x-1 text-grey-dark">
-              <span>{post.likes.length}</span>
-              <BiUpvote className="post-card-icon"/>
+
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1 text-grey-dark">
+                <span>{post.comments.length}</span>
+                <BiCommentDetail className="post-card-icon"/>
+              </div>
+              <div className="flex items-center space-x-1 text-grey-dark">
+                <span>{post.likes.length}</span>
+                <BiUpvote className="post-card-icon"/>
+              </div>
             </div>
           </div>
         </div>
