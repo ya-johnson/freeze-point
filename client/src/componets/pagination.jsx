@@ -15,11 +15,11 @@ const Pagination = ({ page, setPage, total, pages, posts, updatePosts }) => {
       </div>
       
       <div className="w-full absolute bottom-2">
-        <div className="absolute top-0 right-0 flex brd border">
+        <div className="absolute top-0 right-0 brd border hidden md:flex">
           <p className="py-2 px-4">{'Posts ' + total}</p>
           <p className="py-2 px-4 brd border-l">{'Pages ' + pages.length}</p>
         </div>
-        <div className="absolute top-0 left-0 flex space-x-2">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 flex space-x-2">
           {pages.length >= 2 && <button className="btn neutral-btn py-0 px-1" onClick={previousPage}>
                                   <MdChevronLeft className="h-8 w-8" />
                                 </button>}
