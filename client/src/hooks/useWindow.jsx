@@ -23,6 +23,11 @@ const useWindow = () => {
       window.addEventListener('resize', getWindowSize)
       window.addEventListener('scroll', getWindowScroll)
     }
+
+    return () => {
+      window.removeEventListener('resize', getWindowSize)
+      window.removeEventListener('scroll', getWindowScroll)
+    }
   }, [])
 
   return { height, width, scrollY, scrollX }
