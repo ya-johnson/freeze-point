@@ -29,14 +29,14 @@ const Post = ({ postId }) => {
     setPost(post)
     setPostContent(draft.createHtml(post.content))
     setLikes(post.likes)
-    setComments(post.comments)
+    setComments(post.comments.reverse())
 
     const userPostsData = await postService.getUserPosts(post.userId)
-    const userPosts = userPostsData.docs.filter(userPost => userPost._id !== post._id).slice(0,2)
+    const userPosts = userPostsData.docs.filter(userPost => userPost._id !== post._id).slice(0,3)
     setUserPosts(userPosts)
 
     const topicPostsData = await postService.getTopicPosts(post.topic)
-    const topicPosts = topicPostsData.docs.filter(toP => toP._id !== post._id && toP.userId !== post.userId).slice(0,2)
+    const topicPosts = topicPostsData.docs.filter(toP => toP._id !== post._id && toP.userId !== post.userId).slice(0,3)
     setTopicPosts(topicPosts)
 
     setLoading(false)
@@ -83,7 +83,7 @@ const Post = ({ postId }) => {
 
           <div className="space-y-1 sm:space-y-2">
             <div className="space-y-1 sm:space-y-2">
-              <Link href={`/topics/${post.topic}`}>
+              <Link href={`/p/${post.topic}`}>
                 <a className="text-blue">{post.topic}</a>
               </Link>
               <h1>{post.title}</h1>
@@ -104,7 +104,7 @@ const Post = ({ postId }) => {
 
           <div className="flex flex-col items-center sm:flex-row sm:space-x-10">
             <textarea className="resize-none w-full h-44 sm:h-24 
-                                 p-4 bg-white dark:bg-black-dark brd border" 
+                                 p-4 bg-white dark:bg-black-dark brd border focus:border-grey-dark" 
                       maxLength="200" 
                       onChange={e => setComment(e.target.value)}
                       placeholder="Your comment goes here ...">
@@ -115,7 +115,7 @@ const Post = ({ postId }) => {
               <div className="h-full sm:w-full flex items-center justify-center space-x-2 py-1 px-4 brd border-b">
                 <div className="flex items-center space-x-1 text-grey-dark">
                   <span>{ comments.length }</span>
-                  <BiCommentDetail className="icon" />
+                  <BiCommentDetail className="icon hover:text-grey-dark" />
                 </div>
                 <div className="flex items-center space-x-1 text-grey-dark">
                   <span>{ likes.length }</span>
@@ -129,15 +129,15 @@ const Post = ({ postId }) => {
           </div>
 
             { comments.length > 0 && 
-            <div className="post-comments">
+            <div className="w-full my-8 space-y-2 brd border-t border-x">
               {comments.map(comment => {
                 return (
-                  <div className="post-comment-card">
+                  <div className="flex flex-col justify-between p-4 space-y-1 brd border-b">
                     <p>{comment.body}</p>
 
-                    <div className="post-comment-info">
+                    <div className="flex justify-between items-center space-x-8 capitalize">
                       <Link href={`/users/${comment.userId}`}>
-                        <a>{comment.username}</a>
+                        <a className="hover:text-pink-light dark:hover:text-pink-light">{comment.username}</a>
                       </Link>
                       <span>{new Date(comment.date).toLocaleDateString()}</span>
                     </div>
@@ -147,7 +147,7 @@ const Post = ({ postId }) => {
             </div>}
         </div> 
         
-        <div className="mt-20">
+        <div className="mt-20 space-y-20">
           { userPosts.length > 0 &&
           <div>
             <h3>{`More from ${post.username}`}</h3>
