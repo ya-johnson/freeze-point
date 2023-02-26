@@ -1,12 +1,12 @@
 
 services:
-  frontend:
+  client:
     build:
-      dockerfile: ./Dockerfile.prod
+      dockerfile: dockerfile.prod
     environment:
       NODE_ENV: production
 
-  backend:
+  server:
     build:
       dockerfile: dockerfile.prod
     environment:
