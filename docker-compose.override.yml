@@ -2,6 +2,9 @@ services:
   client:
     build:
       dockerfile: dockerfile.dev
+    volumes:
+      - ./client
+      - ./client/node_modules
     environment:
       - NODE_env=development
     ports:
@@ -10,5 +13,8 @@ services:
   server:
     build:
       dockerfile: dockerfile.dev
+    volumes:
+      - ./server
+      - ./server/node_modules
     environment:
       - NODE_env=development
