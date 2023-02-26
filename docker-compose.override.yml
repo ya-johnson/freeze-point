@@ -1,0 +1,14 @@
+services:
+  client:
+    build:
+      dockerfile: dockerfile.dev
+    environment:
+      - NODE_env=development
+    ports:
+      -'5173:5173'
+
+  server:
+    build:
+      dockerfile: dockerfile.dev
+    environment:
+      - NODE_env=development

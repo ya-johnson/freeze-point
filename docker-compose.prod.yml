@@ -1,0 +1,13 @@
+
+services:
+  frontend:
+    build:
+      dockerfile: ./Dockerfile.prod
+    environment:
+      NODE_ENV: production
+
+  backend:
+    build:
+      dockerfile: dockerfile.prod
+    environment:
+      NODE_ENV: production

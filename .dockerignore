@@ -1,0 +1,7 @@
+.git
+**/node-modules
+**/.env*
+README.md
+api.http
+info.txt
+post.txt
