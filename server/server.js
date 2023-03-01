@@ -4,12 +4,10 @@ const cors = require('cors')
 const config = require('./src/config')
 const routes = require('./src/routes')
 const { errorHandler } = require('./src/middlewares')
-const proxy = require('express-http-proxy')
 
 
 const app = express()
 
-app.use('/api', proxy('http://localhost:4173'))
 app.use(cors())
 app.use(express.json({ limit: '8000kb' }))
 
@@ -20,7 +18,6 @@ app.use(errorHandler)
 
 mongoose.connect(config.db)
   .then(() => {
-
     app.listen(config.port, () => {
       console.log(`connected to DB and listening on port ${config.port}`)
     })
