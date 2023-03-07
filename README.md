@@ -4,66 +4,81 @@
 
 Freeze Point is a Rich-text Blogging platform.
 
-#### Summery:
-* Users: 
-    * Create/Read/Update/Delete
-    * Follow Users and Topics
-* Posts: Create/Read/Update/Delete
-    * Like and Comment
-
-#### Build With
-
-* NodeJS 
-* Express
-* MongoDB 
-* Mongoose
-* JWT
-* Cloudinary
+### Features
+- Users: 
+   - Create / Read / Update / Delete
+- Posts: 
+   - Create / Read / Update / Delete
+   - Like/unlike and Comment
+- Responsive
+- Dark Mode
+- Text Editor for Posts - [React Draft Wysiwyg](https://github.com/jpuri/react-draft-wysiwyg)
+- Register/Login - JWT for Authentication
+- Pagination
+- Search for Users/Posts
 
 
-* Vite 
-* React 
-* Wouter
-* Zustand
-* Tailwind
+
+### Build With
+
+#### Backend
+- [Node](https://nodejs.org/en/) 
+- [Express](http://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/) 
+- [Mongoose](https://mongoosejs.com/docs/)
+- [JWT](https://jwt.io/)
+- [Cloudinary](https://cloudinary.com/)
+
+#### Frontend
+- [Vite](https://vitejs.dev/) 
+- [React](https://reactjs.org/) 
+- [Wouter](https://github.com/molefrog/wouter)
+- [Zustand](https://github.com/pmndrs/zustand)
+- [Tailwind](https://tailwindcss.com/)
+- [React Draft Wysiwyg](https://github.com/jpuri/react-draft-wysiwyg)
 
 
-### Getting started
+## Getting started
 
-#### Prerequisites
+### Prerequisites
+1. Docker 
+   For usage with docker you'll need Docker and Docker-Compose
+   Check if already installed on your machine
+   ```sh
+   $ docker --version && docker-compose --version
+   ```
+   If not then install
+   ```sh
+   $ sudo pacman -S docker docker-compose
+   ```
 
-NodeJs
-* Check if NodeJs already installed on your machine
-  ```sh
-  $ node -v
-  ```
-* If not then install
-  ```sh
-  $ sudo apt install node-js npm
-  $ sudo dnf install node-js
-  $ sudo pacman -S node-js
-  ```
+2. Without Docker
+   For usage without docker you'll need NodeJs
+   Check if NodeJs already installed on your machine
+   ```sh
+   $ node -v
+   ```
+   If not then install
+   ```sh
+   $ sudo apt install node-js npm
+   $ sudo dnf install node-js
+   $ sudo pacman -S node-js
+   ```
 
-#### Installation
-
+### Installation
 1. Clone the repo
    ```sh
    $ git clone https://github.com/ya-johnson/freeze-point.git
    ```
-2. Install NPM packages
+2. Create .env files
    ```sh
-   $ cd ~/path_to_project_folder/freeze-point
-   $ cd client
-   $ npm i
-   $ cd ../server
-   $ npm i
+   $ cd server && touch .env cd && cd ../client && touch .env
    ```
-3. Create .env file in the server directory
-   ```sh
-   $ cd ~/path_to_project_folder/freeze-point/server
-   $ touch .env
+3. Set Client env variables
    ```
-4. Set env variables
+   VITE_SERVER_URL=YOUR_SERVER_URL
+   ```
+4. Set Server env variables
    ```
    PORT=YOUR_PORT
    SECRET=YOUR_JWT_SECRET
@@ -75,46 +90,51 @@ NodeJs
    EMAIL_FROM_YOUT_EMAIL_DOMAIN
    ```
 
-##### Note:
-At the time of develpoment [Vite.js proxy didnt work](https://github.com/vitejs/vite/issues/6102). <br/>
-In order to work locally and avoiding CORS you'll need to setup a reversed proxy in Node js.
-      
-1. Install 'express-http-proxy' in the server directory
-   ```sh
-   $ cd ~/path_to_project_folder/freeze-point/server
-   $ npm i express-http-proxy
-   ```
-
-2. Setup proxy in server.js (make sure to put as first middleware)
-   ```
-   const proxy = require('express-http-proxy')
-
-   app.use('/api', proxy('http://localhost:5173'))
-   ```
-
 ### Run
 
-* server
+1. Docker - Run both server and client
+    ```sh
+    $ docker-compose -f docker-compose.yml -f docker-compose.override.yml up
+    ```  
+
+2. Withdout Docker
+    server
     ```sh
     $ cd ~/path_to_project_folder/freeze-point/server
     $ npm run dev
     ```   
-* client
-    ```sh
-    $ cd ~/path_to_project_folder/freeze-point/client
-    $ npm run dev
-    ```
+   client
+      ```sh
+      $ cd ~/path_to_project_folder/freeze-point/client
+      $ npm run dev
+      ```
 
 ---
 
 ## Todo
 
 - [ ] Migrate to TypeScript
-- [ ] Add User History - Posts, Likes, Comments
-- [ ] Add Pagination
-- [ ] Add Search
-- [ ] Add user Post collections
+- [ ] Migrate from MVC pattern to DDD pattern (server)
+- [ ] Fix DB design - User, Post, Like, Comment, Follow schemas (lookup)
+   - [ ] Add Following functionality
+   - [ ] Update User Profile - show Posts, Comments
+   - [ ] Add User Post collections
+- [ ] Fix REST params - to name/title instead of id's
 - [ ] Fix JWT - Coockie HTTP only
-- [ ] Add Email service
+- [X] Add Pagination
+   - [ ] Add option to get without pagination wrapper (mongo docs only)
+- [ ] Add Feed sorting options - latest, most popular, following
+- [X] Add Search
+- [X] Add Email service
   - [ ] Add Reset password to Auth services
-- [ ] Add Chat service - WebSoket
+- [ ] Add WebSoket
+   - [ ] Add chat
+   - [ ] Fix Likes/Comments - update simultaneously
+
+
+### UI/UX
+
+- [ ] Add Modal component
+   - [ ] Update AuthModal
+- [ ] Add info to Authentication - password restrictions, errors etc
+- [X] Fix PostCard - content fit (maxLength)
