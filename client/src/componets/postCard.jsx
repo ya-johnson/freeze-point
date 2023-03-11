@@ -33,7 +33,7 @@ const PostCard = ({ post, updateList }) => {
       </div> }
 
       <Link href={`/posts/${post._id}`}>
-        <a>{ post.image && <img className="w-full h-[250px]" src={post.image.url} /> }</a>
+        <a>{ post.image && <img className="w-full h-[250px] object-cover transform hover:scale-200" src={post.image.url} /> }</a>
       </Link>
 
       <div className="w-full flex flex-col justify-between p-4 brd border-t">
@@ -42,7 +42,7 @@ const PostCard = ({ post, updateList }) => {
             <a className="text-blue text-sm">{post.topic}</a>
           </Link>
           <Link href={`/posts/${post._id}`}>
-            <a><h4>{post.title}</h4></a>
+            <a><h4 className="mb-2 hover:text-[22px]">{post.title}</h4></a>
           </Link>
           <p>{content.__html.substring(3,200).concat(' ...')}</p>
         </div>
