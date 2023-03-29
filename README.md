@@ -86,6 +86,8 @@ Freeze Point is a Rich-text Blogging platform.
    CLOUDINARY_API_KEY=YOUR_CLOUDINARY_API_KEY
    CLOUDINARY_API_SECRET=YOUR_CLOUDINARY_API_SECRET
    CLOUDINARY_NAME=YOUR_CLOUDINARY_NAME
+
+   // not available yet
    EMAIL_SMTP=YOUR_EMAIL_SMTP_SERVER
    EMAIL_FROM_YOUT_EMAIL_DOMAIN
    ```
@@ -97,17 +99,19 @@ Freeze Point is a Rich-text Blogging platform.
     $ docker-compose -f docker-compose.yml -f docker-compose.override.yml up
     ```  
 
-2. Withdout Docker
+2. Withdout Docker </br>
+
     server
     ```sh
     $ cd ~/path_to_project_folder/freeze-point/server
     $ npm run dev
     ```   
+
    client
-      ```sh
-      $ cd ~/path_to_project_folder/freeze-point/client
-      $ npm run dev
-      ```
+   ```sh
+   $ cd ~/path_to_project_folder/freeze-point/client
+   $ npm run dev
+   ```
 
 ---
 
